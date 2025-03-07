@@ -1,4 +1,9 @@
 {
+    "title":"Crypto Architect",
     "read_more": "Read more",
-    "more_details": "More details"
+    "more_details": "More details",
+    "LocaleSwitcher": {
+        "label": "Change language",
+        "locale": "{locale, select, de {🇳🇱 NL} en {🇺🇸 English} other {🇳🇱 Dutch}}"
+    }
 }

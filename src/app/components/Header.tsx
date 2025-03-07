@@ -4,6 +4,7 @@ import Link from 'next/link';
 import MagicButton from '@/components/generated/MagicButton';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { navLinks } from '@/contants/NavLinks';
+import LocaleSwitcher from '../../components/ui/LocaleSwitcher';
 import Logo from './Logo';
 import TranslatedText from './TranslatedText';
 
@@ -29,7 +30,9 @@ export default function Header() {
             ))}
           </ul>
         </div>
-
+        <div>
+          <LocaleSwitcher />
+        </div>
         <div className="flex items-center gap-3 justify-center">
           {/* Magic button  */}
           <MagicButton
