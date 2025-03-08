@@ -22,5 +22,6 @@
     "canva_link": "Canva link",
     "product_description": "Product description",
     "file_uploader_text": "Click to upload or drag and drop",
-    "send_button": "Send"
+    "send_button": "Send",
+    "message_placeholder": "Type your message here."
 }

@@ -16,6 +16,30 @@ type ButtonProps = {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // Fix type
 };
 
+interface ButtonWrapperProps {
+  isLink?: boolean;
+  href?: string;
+  children: ReactNode;
+  // onClick: any;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // Fix type
+}
+
+function ButtonWrapper({ isLink = true, href = '/', onClick, children }: ButtonWrapperProps) {
+  return (
+    <>
+      {/* If this button is a link  */}
+      {isLink && <Link href={href}>{children}</Link>}
+
+      {/* If this button is a normall button  */}
+      {!isLink && (
+        <button onClick={onClick} className="flex items-center gap-1 ">
+          {children}
+        </button>
+      )}
+    </>
+  );
+}
+
 export default function MagicButton({
   isLink = true,
   href = '',
@@ -60,29 +84,5 @@ export default function MagicButton({
         </span>
       </div>
     </ButtonWrapper>
-  );
-}
-
-interface ButtonWrapperProps {
-  isLink?: boolean;
-  href?: string;
-  children: ReactNode;
-  // onClick: any;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void; // Fix type
-}
-
-function ButtonWrapper({ isLink = true, href = '/', onClick, children }: ButtonWrapperProps) {
-  return (
-    <>
-      {/* If this button is a link  */}
-      {isLink && <Link href={href}>{children}</Link>}
-
-      {/* If this button is a normall button  */}
-      {!isLink && (
-        <button onClick={onClick} className="flex items-center gap-1 ">
-          {children}
-        </button>
-      )}
-    </>
   );
 }

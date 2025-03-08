@@ -1,5 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 import MagicButton from '@/components/generated/MagicButton';
 
@@ -22,7 +22,7 @@ export default function Hero() {
           {/* Magic button  */}
           <MagicButton
             href="/"
-            text="Join the VIP community"
+            text={t('hero_cta_button')}
             icon={ArrowUpRight}
             className={'border-2 border-own-primary-4 bg-own-primary-4 px-2'}
             withAnimatedBorder={false}

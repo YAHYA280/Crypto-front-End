@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import { Marquee } from '@/components/magicUi/Marquee';
 
-const currentcies = [
+const currencies = [
   {
     title: 'Bitcoin icon',
     src: 'bitcoin.png',
@@ -42,23 +42,6 @@ const currentcies = [
   },
 ];
 
-export default function Currentcies() {
-  return (
-    <div>
-      <Marquee pauseOnHover className="[--duration:20s]">
-        {currentcies.map((currency, index) => (
-          <CurrencyBox key={index} src={currency.src} title={currency.title} />
-        ))}
-      </Marquee>
-    </div>
-  );
-}
-
-type CurrencyBoxTypes = {
-  src: string;
-  title: string;
-};
-
 function CurrencyBox({ src, title }: CurrencyBoxTypes) {
   return (
     <div>
@@ -72,3 +55,20 @@ function CurrencyBox({ src, title }: CurrencyBoxTypes) {
     </div>
   );
 }
+
+export default function Currencies() {
+  return (
+    <div>
+      <Marquee pauseOnHover className="[--duration:20s]">
+        {currencies.map((currency, index) => (
+          <CurrencyBox key={index} src={currency.src} title={currency.title} />
+        ))}
+      </Marquee>
+    </div>
+  );
+}
+
+type CurrencyBoxTypes = {
+  src: string;
+  title: string;
+};

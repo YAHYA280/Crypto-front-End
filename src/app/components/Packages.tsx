@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowUpRight, Check } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -12,181 +13,38 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
-// Define the type for individual package objects
+// Define the type for an individual package
 interface PackageItem {
   title: string;
   description: string;
-  icon: string;
   badge: string;
-  price: number;
+  price: string;
   priceDuration: string;
+  benefits: string[];
+  ctaButton: string;
   isBestSeller: boolean;
-  benifits: string[];
+  icon: string;
 }
 
-const packages: PackageItem[] = [
-  {
-    title: 'Beginner',
-    description: 'Unlock the World of Crypto: A 30-Minute Session to Learn, Secure, and Invest Smartly',
-    icon: 'carbon_user-data.png',
-    badge: 'Essential',
-    price: 27,
-    priceDuration: 'one-time 30 min session',
-    isBestSeller: false,
-    benifits: [
-      '1 on 1 meeting with Crypto Architect',
-      'Tryout the VIP community (one month)',
-      'What is crypto?',
-      'How to start investing in crypto',
-      'The community (guidelines)',
-      'Important points to pay attention to',
-    ],
-  },
-  {
-    title: 'Premium',
-    description: 'Join the community and gain expert insights from Crypto Architect and other members.',
-    icon: 'radix-icons_rocket.png',
-    badge: 'Best seller',
-    price: 37,
-    priceDuration: 'Per month',
-    isBestSeller: true,
-    benifits: [
-      'Choose your subscription duration',
-      'Join an active crypto community',
-      'Daily video analysis',
-      'Receive Important news and events',
-      'Follow my suggestions / portfolio',
-    ],
-  },
-  {
-    title: 'Advance',
-    description: "Enjoy lifetime access to Crypto Architect's expert guidance to thrive and profit in crypto.",
-    icon: 'ep_data-line.png',
-    badge: 'Exclusive',
-    price: 747,
-    priceDuration: 'Lifetime',
-    isBestSeller: false,
-    benifits: [
-      'LIFETIME access!',
-      'Join an active crypto community',
-      'Lifetime access to educational videos',
-      'Receive important news and events',
-      'Follow my suggestions / portfolio',
-    ],
-  },
-];
-
-export default function Packages() {
-  const [selectedPackage, setSelectedPackage] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="flex flex-col gap-10 max-width" id="packages">
-      <SectionTitle
-        title="Choose your package"
-        description="Explore our crypto packages and find the perfect fit to start your investment journey with confidence and expert guidance."
-        isCentered={true}
-      />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {packages.map((packageData, index) => (
-          <PackageBox
-            setState={setSelectedPackage}
-            setOpenState={setIsOpen}
-            key={index}
-            index={index}
-            packageData={packageData}
-          />
-        ))}
-      </div>
-
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="text-center text-3xl">Selected Package</DialogTitle>
-            <DialogDescription></DialogDescription>
-          </DialogHeader>
-
-          <div className="flex flex-col w-full gap-7">
-            <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="name" className="text-lg">
-                Telegram Tag Name:
-              </Label>
-              <Input
-                className="bg-white text-black h-[50px] rounded-lg"
-                type="text"
-                id="name"
-                placeholder="Telegram Tag Name"
-              />
-            </div>
-
-            <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="name" className="text-lg">
-                Email:
-              </Label>
-              <Input
-                className="bg-white text-black h-[50px] rounded-lg"
-                type="text"
-                id="name"
-                placeholder="john@doe.com"
-              />
-            </div>
-
-            <div className="grid w-full items-center gap-1.5">
-              <Label htmlFor="name" className="text-lg">
-                Package:
-              </Label>
-              <Input
-                className="bg-white text-black h-[50px] rounded-lg"
-                type="text"
-                id="name"
-                value={selectedPackage}
-                placeholder="Name"
-              />
-            </div>
-
-            {/* Action button  */}
-            <MagicButton
-              isLink={false}
-              text="Proceed to Payment"
-              icon={ArrowUpRight}
-              className={cn('border-2  w-full border-own-primary-3 bg-own-primary-3 mt-7')}
-              withAnimatedBorder={false}
-              buttonHasEffect={false}
-              // onClick={() => {
-              //     setState(title)
-              //     setOpenState(true)
-              // }}
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-}
-
-type PackageBoxTypes = {
+// Define the props for PackageBox
+interface PackageBoxProps {
   packageData: PackageItem;
-  index: number;
-  setState: any;
-  setOpenState: any;
-};
+  setState: (value: string) => void;
+  setOpenState: (value: boolean) => void;
+}
 
-function PackageBox({ packageData, index, setState, setOpenState }: PackageBoxTypes) {
-  //   The package details
-  const { title, description, icon, badge, price, priceDuration, isBestSeller, benifits } = packageData;
+function PackageBox({ packageData, setState, setOpenState }: PackageBoxProps) {
+  const { title, description, badge, price, priceDuration, benefits, ctaButton, isBestSeller, icon } = packageData;
 
   return (
     <AnimatedBorderWrapper showAnimation={isBestSeller}>
       <div
         className={cn(
           'bg-own-primary-5 h-full border-2 p-8 border-own-primary-1 rounded-xl flex flex-col gap-8 w-full',
-          {
-            'border-own-primary-3': isBestSeller,
-          }
+          { 'border-own-primary-3': isBestSeller }
         )}
       >
-        {/* Header section  */}
+        {/* Header Section */}
         <div className="flex justify-between">
           <div className="flex flex-col gap-3">
             <Image
@@ -202,37 +60,30 @@ function PackageBox({ packageData, index, setState, setOpenState }: PackageBoxTy
           <p
             className={cn(
               'bg-own-primary-1 h-fit font-medium shadow-lg p-1 px-4 border border-own-primary-1 rounded-xl',
-              {
-                'bg-own-primary-3': isBestSeller,
-              }
+              { 'bg-own-primary-3': isBestSeller }
             )}
           >
             {badge}
           </p>
         </div>
 
-        {/* Price and description  */}
+        {/* Price and Description */}
         <div className="flex flex-col gap-6">
           <div className="flex gap-2 items-end">
-            <span className="flex items-center text-[50px] font-medium">${price}</span>
-
+            <span className="flex items-center text-[50px] font-medium">{price}</span>
             <p className="pb-2">/{priceDuration}</p>
           </div>
-
           <p>{description}</p>
         </div>
 
-        {/* Action button  */}
+        {/* Action Button */}
         <MagicButton
-          // href="/"
           isLink={false}
-          text="Get started"
+          text={ctaButton}
           icon={ArrowUpRight}
           className={cn(
             'border-2 border-own-primary-1 w-full hover:bg-own-primary-3 transition-all hover:border-own-primary-3',
-            {
-              'border-own-primary-3 bg-own-primary-3': isBestSeller,
-            }
+            { 'border-own-primary-3 bg-own-primary-3': isBestSeller }
           )}
           withAnimatedBorder={false}
           buttonHasEffect={false}
@@ -242,25 +93,145 @@ function PackageBox({ packageData, index, setState, setOpenState }: PackageBoxTy
           }}
         />
 
-        {/* Benifits of this package  */}
+        {/* Benefits */}
         <div className="flex flex-col gap-5">
-          {benifits.map((benifit, index2) => (
-            <div key={index2} className="flex items-center gap-4">
+          {benefits.map((benefit, index) => (
+            <div key={index} className="flex items-center gap-4">
               <Check />
-
-              {/* index */}
               <p
                 className={cn('font-medium', {
-                  // If this is the last package, and the first phrase in benifits
-                  'text-own-primary-3': index == packages.length - 1 && index2 == 0,
+                  'text-own-primary-3': isBestSeller && index === 0,
                 })}
               >
-                {benifit}
+                {benefit}
               </p>
             </div>
           ))}
         </div>
       </div>
     </AnimatedBorderWrapper>
+  );
+}
+
+export default function Packages() {
+  const t = useTranslations('home');
+  const [selectedPackage, setSelectedPackage] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="flex flex-col gap-10 max-width" id="packages">
+      <SectionTitle title={t('packages_title')} description={t('packages_description')} isCentered={true} />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Beginner Package */}
+        <PackageBox
+          setState={setSelectedPackage}
+          setOpenState={setIsOpen}
+          packageData={{
+            title: t('packages_beginnerPackage.title'),
+            description: t('packages_beginnerPackage.description'),
+            badge: t('packages_beginnerPackage.badge'),
+            price: t('packages_beginnerPackage.price'),
+            priceDuration: t('packages_beginnerPackage.priceDuration'),
+            benefits: t.raw('packages_beginnerPackage.benefits'),
+            ctaButton: t('packages_cta_button'),
+            isBestSeller: false,
+            icon: 'carbon_user-data.png',
+          }}
+        />
+
+        {/* Premium Package */}
+        <PackageBox
+          setState={setSelectedPackage}
+          setOpenState={setIsOpen}
+          packageData={{
+            title: t('packages_premiumPackage.title'),
+            description: t('packages_premiumPackage.description'),
+            badge: t('packages_premiumPackage.badge'),
+            price: t('packages_premiumPackage.price'),
+            priceDuration: t('packages_premiumPackage.priceDuration'),
+            benefits: t.raw('packages_premiumPackage.benefits'),
+            ctaButton: t('packages_cta_button'),
+            isBestSeller: true, // Premium is the best seller
+            icon: 'radix-icons_rocket.png',
+          }}
+        />
+
+        {/* Advance Package */}
+        <PackageBox
+          setState={setSelectedPackage}
+          setOpenState={setIsOpen}
+          packageData={{
+            title: t('packages_advancePackage.title'),
+            description: t('packages_advancePackage.description'),
+            badge: t('packages_advancePackage.badge'),
+            price: t('packages_advancePackage.price'),
+            priceDuration: t('packages_advancePackage.priceDuration'),
+            benefits: t.raw('packages_advancePackage.benefits'),
+            ctaButton: t('packages_cta_button'),
+            isBestSeller: false,
+            icon: 'ep_data-line.png',
+          }}
+        />
+      </div>
+
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-center text-3xl">{t('packages_selectedPackage')}</DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+
+          <div className="flex flex-col w-full gap-7">
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="name" className="text-lg">
+                {t('packages_telegramTagName')}
+              </Label>
+              <Input
+                className="bg-white text-black h-[50px] rounded-lg"
+                type="text"
+                id="name"
+                placeholder="Telegram Tag Name"
+              />
+            </div>
+
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="email" className="text-lg">
+                E-mail:
+              </Label>
+              <Input
+                className="bg-white text-black h-[50px] rounded-lg"
+                type="text"
+                id="email"
+                placeholder="john@doe.com"
+              />
+            </div>
+
+            <div className="grid w-full items-center gap-1.5">
+              <Label htmlFor="package" className="text-lg">
+                {t('packages_package')}:
+              </Label>
+              <Input
+                className="bg-white text-black h-[50px] rounded-lg"
+                type="text"
+                id="package"
+                value={selectedPackage}
+                readOnly
+              />
+            </div>
+
+            {/* Actieknop */}
+            <MagicButton
+              isLink={false}
+              text={t('packages_payment_btn')}
+              icon={ArrowUpRight}
+              className={cn('border-2 w-full border-own-primary-3 bg-own-primary-3 mt-7')}
+              withAnimatedBorder={false}
+              buttonHasEffect={false}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

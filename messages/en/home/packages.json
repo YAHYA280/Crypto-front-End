@@ -11,7 +11,8 @@
         "How to start investing in crypto",
         "The community (guidelines)",
         "Important points to pay attention to"
-      ]
+      ],
+    "price": "€27"
     },
     "packages_premiumPackage": {
       "badge": "Best seller",
@@ -24,7 +25,9 @@
         "Daily video analysis",
         "Receive Important news and events",
         "Follow my suggestions / portfolio"
-      ]
+      ],
+    "price": "€37"
+
     },
     "packages_advancePackage": {
       "badge": "Exclusive",
@@ -37,9 +40,16 @@
         "Lifetime access to educational videos",
         "Receive important news and events",
         "Follow my suggestions / portfolio"
-      ]
+      ],
+    "price": "€747"
+
     },
+    "packages_cta_button":"Get started",
     "packages_description": "Explore our crypto packages and find the perfect fit to start your investment journey with confidence and expert guidance.",
-    "packages_title": "Choose your package"
+    "packages_title": "Choose your package",
+    "packages_selectedPackage" : "Selected Package",
+    "packages_telegramTagName" : "Telegram Tag Name",
+    "packages_payment_btn" : "Proceed to Payment",
+    "packages_package" : "Package"
   }
   

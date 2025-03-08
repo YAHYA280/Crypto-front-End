@@ -52,10 +52,10 @@ export default getRequestConfig(async ({ requestLocale }) => {
       ...homeHeroTranslation,
       ...homeFaqsTranslation,
       ...homeWhyChooseUsTranslation,
-      ...homePackagesTranslation, 
-      ...homeTestimonialsTranslation, 
-      ...homeLockInTranslation, 
-      ...homePortfolioTranslation, 
+      ...homePackagesTranslation,
+      ...homeTestimonialsTranslation,
+      ...homeLockInTranslation,
+      ...homePortfolioTranslation,
     },
   };
   // console.log(messages)

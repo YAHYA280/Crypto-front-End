@@ -3,6 +3,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Star } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
@@ -134,6 +135,8 @@ const reviews: Review[] = [
 ];
 
 export default function Reviews() {
+  const t = useTranslations('home');
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -158,6 +161,15 @@ export default function Reviews() {
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
+  function BluredBox() {
+    return (
+      <div className="absolute right-0 top-0 overflow-hidden h-full w-full pointer-events-none">
+        <div className="bg-own-primary-3 blur-3xl opacity-70 absolute top-2 right-2 h-[100px] w-[100px] z-[1]" />
+
+        <div className="bg-own-primary-1 blur-3xl opacity-90 absolute bottom-2 left-2 h-[100px] w-[100px] z-[1]" />
+      </div>
+    );
+  }
 
   const renderReviewRow = (startIndex: number, rowIndex: number) => (
     <div className={`review-row flex gap-3 ${rowIndex % 2 === 0 ? '' : 'flex-row-reverse'}`}>
@@ -206,8 +218,8 @@ export default function Reviews() {
   return (
     <div ref={containerRef} className=" bg-own-primary-5 pt-8 overflow-hidden">
       <SectionTitle
-        title="Voices from the community"
-        description="Hear from our members as they share how we helped them master crypto investing and achieve their financial goals"
+        title={t('testimonials_title')}
+        description={t('testimonials_description')}
         isCentered={true}
         className="mb-10"
       />
@@ -222,16 +234,6 @@ export default function Reviews() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function BluredBox() {
-  return (
-    <div className="absolute right-0 top-0 overflow-hidden h-full w-full pointer-events-none">
-      <div className="bg-own-primary-3 blur-3xl opacity-70 absolute top-2 right-2 h-[100px] w-[100px] z-[1]" />
-
-      <div className="bg-own-primary-1 blur-3xl opacity-90 absolute bottom-2 left-2 h-[100px] w-[100px] z-[1]" />
     </div>
   );
 }

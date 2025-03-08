@@ -1,6 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -63,24 +64,6 @@ type PartnerBoxProps = {
   index: number;
 };
 
-export default function Portfolio() {
-  return (
-    <div className="flex flex-col gap-10 max-width" id="portfolio">
-      <SectionTitle
-        title="Portfolio"
-        description="Learn to efficiently organize and track tasks for streamlined workflows. Discover how SAP simplifies task management processes for enhanced productivity."
-        isCentered={true}
-      />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {partnersLogos.map((partner, index) => (
-          <PartnerBox key={index} index={index} partner={partner} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function PartnerBox({ partner, index }: PartnerBoxProps) {
   // State for tracking the currently displayed logo
   const [currentLogo, setCurrentLogo] = useState(0);
@@ -127,6 +110,22 @@ function PartnerBox({ partner, index }: PartnerBoxProps) {
           ) : null
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+export default function Portfolio() {
+  const t = useTranslations('home');
+
+  return (
+    <div className="flex flex-col gap-10 max-width" id="portfolio">
+      <SectionTitle title={t('portfolio_title')} description={t('portfolio_description')} isCentered={true} />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {partnersLogos.map((partner, index) => (
+          <PartnerBox key={index} index={index} partner={partner} />
+        ))}
+      </div>
     </div>
   );
 }

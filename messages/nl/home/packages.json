@@ -1,45 +1,53 @@
 {
-    "packages_beginnerPackage": {
-      "badge": "Essential",
-      "title": "Beginner",  
-      "priceDuration": "one-time 30 min session",
-      "description": "Unlock the World of Crypto: A 30-Minute Session to Learn, Secure, and Invest Smartly",
-      "benefits": [
-        "1 on 1 meeting with Crypto Architect",
-        "Tryout the VIP community (one month)",
-        "What is crypto?",
-        "How to start investing in crypto",
-        "The community (guidelines)",
-        "Important points to pay attention to"
-      ]
-    },
-    "packages_premiumPackage": {
-      "badge": "Best seller",
-      "title": "Premium",
-      "priceDuration": "Per month",
-      "description": "Join the community and gain expert insights from Crypto Architect and other members.",
-      "benefits": [
-        "Choose your subscription duration",
-        "Join an active crypto community",
-        "Daily video analysis",
-        "Receive Important news and events",
-        "Follow my suggestions / portfolio"
-      ]
-    },
-    "packages_advancePackage": {
-      "badge": "Exclusive",
-      "title": "Advance",
-      "priceDuration": "Lifetime",
-      "description": "Enjoy lifetime access to Crypto Architect's expert guidance to thrive and profit in crypto.",
-      "benefits": [
-        "LIFETIME access!",
-        "Join an active crypto community",
-        "Lifetime access to educational videos",
-        "Receive important news and events",
-        "Follow my suggestions / portfolio"
-      ]
-    },
-    "packages_description": "Explore our crypto packages and find the perfect fit to start your investment journey with confidence and expert guidance.",
-    "packages_title": "Choose your package"
-  }
-  
+  "packages_beginnerPackage": {
+    "badge": "Essentieel",
+    "title": "Beginner",
+    "price": "€27",
+    "priceDuration": "eenmalige 30 min sessie",
+    "description": "Ontgrendel de wereld van crypto: Een sessie van 30 minuten om slim en veilig te investeren.",
+    "benefits": [
+      "1-op-1 vergaderingen met Crypto Architect",
+      "Probeer de VIP-Community uit (1 maand)",
+      "Introductie tot crypto",
+      "De eerste stappen bij crypto-investeringen",
+      "Uitleg over de community (guidelines)",
+      "Aandachtspunten bij crypto-investeringen"
+    ]
+  },
+  "packages_premiumPackage": {
+    "badge": "Bestseller",
+    "title": "Premium",
+    "price": "€37",
+    "priceDuration": "per maand",
+    "description": "Sluit je aan bij de gemeenschap en ontvang deskundige inzichten van Crypto Architect en andere leden.",
+    "subscription_duration": "Duur (maanden)",
+    "benefits": [
+      "Kies de duur van jouw abonnement",
+      "Word lid van een actieve crypto community",
+      "Dagelijkse video analyse",
+      "Ontvang belangrijk(e) nieuws/evenementen",
+      "Volg mijn tips / portfolio"
+    ]
+  },
+  "packages_advancePackage": {
+    "badge": "Exclusief",
+    "title": "Gevorderd",
+    "price": "€747",
+    "priceDuration": "levenslang",
+    "description": "Geniet van levenslange toegang en deskundige begeleiding van Crypto Architect om succesvol te worden in crypto.",
+    "benefits": [
+      "LEVENSLANG toegang!",
+      "Word lid van een actieve crypto community",
+      "Levenslang toegang tot educatieve video's",
+      "Ontvang belangrijk(e) nieuws/evenementen",
+      "Volg mijn tips / portfolio"
+    ]
+  },
+  "packages_cta_button":"Begin nu",
+  "packages_description": "Ontdek onze cryptopakketten en vind de perfecte optie om met vertrouwen en deskundige begeleiding te investeren.",
+  "packages_title": "Kies jouw pakket",
+  "packages_selectedPackage" : "Geselecteerd pakket",
+  "packages_telegramTagName" : "Telegram Tag Naam",
+  "packages_payment_btn" : "Ga door naar betaling",
+  "packages_package" : "Pakket"
+}

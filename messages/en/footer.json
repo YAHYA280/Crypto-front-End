@@ -1,35 +1,20 @@
 {
-    "footer": {
-      "brand": "Crypto Architect",
-      "menu": {
-        "title": "MENU",
-        "items": [
-          "Home",
-          "Why Us",
-          "Portfolio",
-          "Packages",
-          "Testimonials",
-          "FAQs",
-          "Contact"
-        ]
-      },
-      "policies": {
-        "title": "POLICIES",
-        "items": [
-          "Terms & conditions",
-          "Privacy policy",
-          "Cookie Policy"
-        ]
-      },
-      "follow_us": {
-        "title": "FOLLOW US",
-        "socials": {
-          "tiktok": "@CryptoArchitect",
-          "instagram": "@CryptoArchitect",
-          "youtube": "CryptoArchitect"
-        }
-      },
-      "copyright": "CryptoArchitect.nl is ontwikkeld door Achieve.nl © 2025."
+  "brand": "Crypto Architect",
+  "copyright": "CryptoArchitect.nl is ontwikkeld door Achieve.nl © 2025.",
+  "follow_us": {
+    "title": "FOLLOW US",
+    "socials": {
+      "tiktok": "@CryptoArchitect",
+      "instagram": "@CryptoArchitect",
+      "youtube": "CryptoArchitect"
     }
+  },
+  "menu": {
+    "title": "MENU",
+    "items": ["Home", "Why Us", "Portfolio", "Packages", "Testimonials", "FAQs", "Contact"]
+  },
+  "policies": {
+    "title": "POLICIES",
+    "items": ["Terms & conditions", "Privacy policy", "Cookie Policy"]
   }
-  
+}

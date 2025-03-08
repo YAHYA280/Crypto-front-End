@@ -4,6 +4,6 @@
     "more_details": "More details",
     "LocaleSwitcher": {
         "label": "Change language",
-        "locale": "{locale, select, de {🇳🇱 NL} en {🇺🇸 English} other {🇳🇱 Dutch}}"
+        "locale": "{locale, select, de {🇳🇱 NL} en {🇬🇧 EN} other {🇳🇱 NL}}"
     }
 }
