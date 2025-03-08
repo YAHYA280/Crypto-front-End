@@ -2,12 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
+/* Performance optimization: Make scrolling smoother */
+html {
   scroll-behavior: smooth;
+  text-size-adjust: 100%; /* Prevents text size adjustment after orientation changes */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  text-rendering: optimizeSpeed; /* Optimize for speed over precision */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+}
 
+/* Container utility */
 .max-width {
   max-width: 1500px;
   width: 100%;
@@ -17,6 +25,98 @@ body {
   margin-right: auto;
 }
 
+/* Optimized animation handling */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hardware acceleration for performance-critical elements */
+.hw-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+  perspective: 1000px;
+  isolation: isolate;
+}
+
+.content-visibility-auto {
+  content-visibility: auto; /* Modern browsers: delay rendering off-screen content */
+  contain: layout paint; /* Contain paint and layout changes */
+}
+
+/* Stacking context optimization for GPU acceleration */
+.gpu-container {
+  transform: translate3d(0, 0, 0);
+  z-index: 1;
+  contain: layout style paint;
+}
+
+/* Apply hardware acceleration to specific animations */
+.review-row,
+.animate-marquee,
+.animate-marquee-vertical,
+.lottie-container {
+  @apply hw-accelerated;
+}
+
+/* Optimize elements that change opacity or have transforms */
+.review-card {
+  opacity: 0.999; /* Forces GPU rendering without visual difference */
+  transform: translate3d(0, 0, 0);
+}
+
+/* Optimize blur effects by reducing quality on mobile */
+.blur-3xl {
+  filter: blur(32px);
+}
+
+@media (max-width: 768px) {
+  .blur-3xl {
+    filter: blur(16px); /* Reduced blur radius for better performance */
+  }
+
+  .blur-2xl {
+    filter: blur(12px);
+  }
+}
+
+/* Reduce transform impact on mobile */
+@media (max-width: 768px) {
+  .review-row {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  .-rotate-6,
+  .-rotate-4,
+  .-rotate-3 {
+    transform: rotate(-2deg) translateZ(0);
+  }
+
+  /* Limit animations on mobile */
+  .mobile-minimal-animation {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Performance optimizations for image rendering */
+img {
+  image-rendering: auto; /* Use the browser's default algorithm */
+}
+
+/* Theme definitions */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -43,7 +143,7 @@ body {
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
 
   .dark {
@@ -70,21 +170,9 @@ body {
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-
 
 @layer base {
   * {
@@ -94,4 +182,50 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Performance optimization for shadows */
+@layer utilities {
+  .optimized-shadow {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .optimized-shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Optimize animations */
+  .optimized-transition {
+    transition-property: transform, opacity;
+    transition-duration: 0.3s;
+  }
+}
+
+/* Optimize Lottie animations */
+.lottie-optimize {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Lazy loading optimization */
+.lazy-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px; /* Approximate space reservation */
+}
+
+/* Prevent layout shifts */
+.prevent-shift {
+  contain: layout;
+}
+
+/* Debounced animations for scroll events */
+.scroll-animate {
+  transition: transform 0.2s ease-out;
+}
+
+/* Optimize fixed elements */
+.fixed-optimize {
+  will-change: transform;
+  transform: translateZ(0);
 }

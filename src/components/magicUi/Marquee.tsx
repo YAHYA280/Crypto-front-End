@@ -33,20 +33,22 @@ interface MarqueeProps extends ComponentPropsWithoutRef<'div'> {
   repeat?: number;
 }
 
+// Improved Marquee component
 export function Marquee({
   className,
   reverse = false,
   pauseOnHover = false,
   children,
   vertical = false,
-  repeat = 4,
+  repeat = 2, // Reduced from 4 to 2
   ...props
 }: MarqueeProps) {
+  // Use fewer iterations to reduce DOM elements
   return (
     <div
       {...props}
       className={cn(
-        'group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)] relative',
+        'group flex overflow-hidden p-2 [--duration:80s] [--gap:1rem] [gap:var(--gap)] relative',
         {
           'flex-row': !vertical,
           'flex-col': vertical,

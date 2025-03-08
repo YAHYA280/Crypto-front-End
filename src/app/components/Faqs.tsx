@@ -1,9 +1,10 @@
-"use client"
+'use client';
+
+import { useState } from 'react';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
 
 const faqs = [
   {
@@ -135,10 +136,8 @@ const faqs = [
 ];
 
 export default function Faqs() {
-
   const [showAll, setShowAll] = useState(false);
   const visibleFaqs = showAll ? faqs : faqs.slice(0, 3);
-
 
   return (
     <div className="max-width flex flex-col gap-5" id="faqs">
@@ -168,17 +167,14 @@ export default function Faqs() {
         ))}
       </Accordion>
 
-
-      {
-        !showAll &&
+      {!showAll && (
         <Button
           onClick={() => setShowAll(!showAll)}
-          className='bg-transparent border text-lg text-foreground mx-auto h-[40px] rounded-xl hover:bg-gray-50/70'
+          className="bg-transparent border text-lg text-foreground mx-auto h-[40px] rounded-xl hover:bg-gray-50/70"
         >
           See More
         </Button>
-      }
-
+      )}
     </div>
   );
 }

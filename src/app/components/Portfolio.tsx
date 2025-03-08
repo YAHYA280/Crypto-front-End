@@ -7,13 +7,13 @@ import { useEffect, useState } from 'react';
 import SectionTitle from '@/components/generated/SectionTitle';
 import { cn } from '@/lib/utils';
 
-// Define the type for individual logo objects
+// Define the type for a logo item
 interface LogoItem {
   logo: string;
   position: { x?: string; y?: string; opacity: number };
 }
 
-// Array of partner logos with positions
+// Array of partner logos with animation start positions
 const partnersLogos: LogoItem[][] = [
   [
     { logo: 'PF.Item.BITCOIN.svg', position: { y: '-100%', opacity: 0 } },
@@ -57,10 +57,16 @@ const partnersLogos: LogoItem[][] = [
   ],
 ];
 
-// Type definition for the `PartnerBox` component
+// Define animation variants for the logos
+const logoVariants = {
+  initial: (custom: LogoItem['position']) => ({ ...custom }),
+  animate: { x: 0, y: 0, opacity: 1 },
+  exit: (custom: LogoItem['position']) => ({ ...custom }),
+};
+
 type PartnerBoxProps = {
-  partner: LogoItem[];
-  index: number;
+  logos: LogoItem[];
+  boxIndex: number;
 };
 
 export default function Portfolio() {
@@ -69,58 +75,58 @@ export default function Portfolio() {
       <SectionTitle
         title="Portfolio"
         description="Learn to efficiently organize and track tasks for streamlined workflows. Discover how SAP simplifies task management processes for enhanced productivity."
-        isCentered={true}
+        isCentered
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {partnersLogos.map((partner, index) => (
-          <PartnerBox key={index} index={index} partner={partner} />
+        {partnersLogos.map((logos, index) => (
+          <PartnerBox key={index} boxIndex={index} logos={logos} />
         ))}
       </div>
     </div>
   );
 }
 
-function PartnerBox({ partner, index }: PartnerBoxProps) {
-  // State for tracking the currently displayed logo
-  const [currentLogo, setCurrentLogo] = useState(0);
+function PartnerBox({ logos, boxIndex }: PartnerBoxProps) {
+  // Track which logo is currently displayed
+  const [currentLogoIndex, setCurrentLogoIndex] = useState(0);
 
-  // Cycle through the logos at intervals
+  // Cycle through logos every 3 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentLogo((prev) => (prev + 1) % partner.length);
+    const intervalId = setInterval(() => {
+      setCurrentLogoIndex((prevIndex) => (prevIndex + 1) % logos.length);
     }, 3000);
-
-    return () => clearInterval(interval);
-  }, [partner.length]);
+    return () => clearInterval(intervalId);
+  }, [logos.length]);
 
   return (
     <div className="bg-background rounded-xl shadow-xl border aspect-square relative overflow-hidden">
+      {/* Background blur effect */}
       <span
         className={cn(
           'bg-own-primary-1/60 h-2/3 w-2/3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-[60px]',
-          {
-            'bg-own-primary-3/40': index % 2 != 0,
-          }
+          { 'bg-own-primary-3/40': boxIndex % 2 !== 0 }
         )}
       />
 
       <AnimatePresence mode="popLayout">
-        {partner.map(({ logo, position }, index) =>
-          index === currentLogo ? (
+        {logos.map((item, idx) =>
+          idx === currentLogoIndex ? (
             <motion.div
-              key={index}
-              initial={position}
-              animate={{ x: 0, y: 0, opacity: 1 }}
-              exit={position}
+              key={idx}
+              custom={item.position}
+              variants={logoVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               transition={{ duration: 1, ease: 'backOut' }}
               className="absolute inset-0 flex items-center justify-center"
             >
               <Image
-                src={`/portfolio/${logo}`} // Make sure to update the path
+                src={`/portfolio/${item.logo}`}
                 height={200}
                 width={200}
-                className="h-[2_0px] w-auto"
+                className="h-[200px] w-auto"
                 alt="Partner logo"
               />
             </motion.div>

@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import SectionTitle from '@/components/generated/SectionTitle';
 
@@ -135,76 +135,158 @@ const reviews: Review[] = [
 
 export default function Reviews() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [devicePerformance, setDevicePerformance] = useState('high');
 
+  // Measure device performance once component mounts
   useEffect(() => {
-    const rows = gsap.utils.toArray<HTMLDivElement>('.review-row');
+    const checkDeviceCapabilities = () => {
+      const isMobile = /Android|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
+      const hasLowCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    rows.forEach((row, index) => {
-      const direction = index % 2 === 0 ? 1 : -1;
+      if (prefersReducedMotion) {
+        setDevicePerformance('minimal');
+      } else if (isMobile || hasLowCores) {
+        setDevicePerformance('low');
+      } else {
+        setDevicePerformance('high');
+      }
 
-      gsap.to(row, {
-        x: `-${direction * 10}%`,
-        ease: 'none',
+      setIsLoaded(true);
+    };
+
+    checkDeviceCapabilities();
+  }, []);
+
+  // Apply performance-optimized animations
+  useEffect(() => {
+    if (!isLoaded || !containerRef.current) return;
+
+    // For minimal animation devices, skip animations completely
+    if (devicePerformance === 'minimal') return;
+
+    const ctx = gsap.context(() => {
+      const rows = gsap.utils.toArray<HTMLDivElement>('.review-row');
+
+      // Create a more efficient timeline with appropriate settings based on device performance
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1,
+          scrub: devicePerformance === 'low' ? 1 : 0.6,
+          invalidateOnRefresh: true,
         },
+      });
+
+      // Apply optimized animation to each row
+      rows.forEach((row, index) => {
+        const direction = index % 2 === 0 ? 1 : -1;
+        const moveAmount = devicePerformance === 'low' ? 3 : 5; // Less movement on low-end devices
+
+        tl.to(
+          row,
+          {
+            xPercent: direction * -moveAmount,
+            ease: 'power1.out',
+            overwrite: 'auto',
+            force3D: true,
+            clearProps: 'transform', // Clean up after animation
+          },
+          0
+        );
       });
     });
 
+    // Proper cleanup on unmount
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      ctx.revert();
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, []);
+  }, [isLoaded, devicePerformance]);
 
+  // Get appropriate number of reviews per row based on device performance
+  const getReviewsPerRow = () => {
+    switch (devicePerformance) {
+      case 'minimal':
+        return 3;
+      case 'low':
+        return 4;
+      default:
+        return 5;
+    }
+  };
+
+  // Truncate comment text based on device performance
+  const truncateComment = (comment: string) => {
+    const maxLength = devicePerformance === 'high' ? 160 : 100;
+    return comment.length > maxLength ? `${comment.substring(0, maxLength)}...` : comment;
+  };
+
+  // Render a row of reviews with optimized performance
   const renderReviewRow = (startIndex: number, rowIndex: number) => (
-    <div className={`review-row flex gap-3 ${rowIndex % 2 === 0 ? '' : 'flex-row-reverse'}`}>
-      {reviews.slice(startIndex, startIndex + 10).map((review, index) => (
-        <div key={index} className="bg-black border w-full p-6 shadow-lg transition-all duration-300 relative ">
-          <BluredBox />
+    <div
+      className={`review-row flex gap-3 ${rowIndex % 2 === 0 ? '' : 'flex-row-reverse'}`}
+      style={{
+        willChange: 'transform',
+        backfaceVisibility: 'hidden',
+        transform: 'translateZ(0)',
+      }}
+    >
+      {reviews.slice(startIndex, startIndex + getReviewsPerRow()).map((review, index) => (
+        <div
+          key={index}
+          className="bg-black border w-full p-6 shadow-lg transition-all duration-300 relative"
+          style={{
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+          }}
+        >
+          <OptimizedBlurBox performance={devicePerformance} />
 
-          <div className="flex flex-col gap-2 w-[200px] sm:w-[500px] relative z-10">
-            {/* Stars  */}
+          <div className="flex flex-col gap-2 w-[200px] sm:w-[350px] relative z-10">
+            {/* Stars with performance optimization */}
             <div className="flex items-center gap-2">
-              <div className="flex gap-2">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="fill-white h-5 w-5" />
-                ))}
-              </div>
-
-              <p className="">{review.rating}</p>
+              {devicePerformance === 'minimal' ? (
+                <p className="text-amber-400">{review.rating}/5 ★</p>
+              ) : (
+                <div className="flex gap-2">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className={`h-5 w-5 ${i < review.rating ? 'fill-amber-400' : 'fill-gray-600'}`} />
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* Description  */}
-            <p className=" text-white/80 mb-4">{review.comment.substring(0, 350)}...</p>
+            {/* Description with truncation based on device */}
+            <p className="text-white/80 mb-4">{truncateComment(review.comment)}</p>
 
-            {/* Name and date  */}
+            {/* User info */}
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <Image
                   src={`/reviews-profiles/${review.image}`}
-                  height={400}
-                  width={400}
-                  alt="Image"
+                  height={40}
+                  width={40}
+                  alt={review.name}
                   className="h-10 w-10 rounded-full"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <h3 className="text-base font-medium text-white mb-2">{review.name}</h3>
               </div>
-
-              <p>Jan 12</p>
+              <p className="text-gray-400">Jan 12</p>
             </div>
           </div>
-
-          <BluredBox />
         </div>
       ))}
     </div>
   );
 
+  // Render optimized component
   return (
-    <div ref={containerRef} className=" bg-own-primary-5 pt-8 overflow-hidden">
+    <div ref={containerRef} className="bg-own-primary-5 pt-8 overflow-hidden">
       <SectionTitle
         title="Voices from the community"
         description="Hear from our members as they share how we helped them master crypto investing and achieve their financial goals"
@@ -212,8 +294,17 @@ export default function Reviews() {
         className="mb-10"
       />
 
-      <div className=" overflow-hidden h-[800px]">
-        <div className="-rotate-6 relative -top-[164px]">
+      <div className="overflow-hidden h-[800px]">
+        <div
+          className={devicePerformance === 'minimal' ? '-rotate-2' : '-rotate-4'}
+          style={{
+            position: 'relative',
+            top: '-164px',
+            transform: `translateZ(0) rotate(${devicePerformance === 'minimal' ? '-2deg' : '-4deg'})`,
+            willChange: 'transform',
+            backfaceVisibility: 'hidden',
+          }}
+        >
           <div className="space-y-3">
             {renderReviewRow(0, 0)}
             {renderReviewRow(4, 1)}
@@ -226,12 +317,28 @@ export default function Reviews() {
   );
 }
 
-function BluredBox() {
+// Optimized blur effect with performance tiers
+function OptimizedBlurBox({ performance }: { performance: string }) {
+  // No blur effects for minimal performance
+  if (performance === 'minimal') {
+    return null;
+  }
+
+  // Simplified blur for low performance
+  if (performance === 'low') {
+    return (
+      <div className="absolute right-0 top-0 overflow-hidden h-full w-full pointer-events-none">
+        <div className="bg-own-primary-3 opacity-20 absolute top-2 right-2 h-[60px] w-[60px] z-[1]" />
+        <div className="bg-own-primary-1 opacity-20 absolute bottom-2 left-2 h-[60px] w-[60px] z-[1]" />
+      </div>
+    );
+  }
+
+  // Full quality blur for high performance devices
   return (
     <div className="absolute right-0 top-0 overflow-hidden h-full w-full pointer-events-none">
-      <div className="bg-own-primary-3 blur-3xl opacity-70 absolute top-2 right-2 h-[100px] w-[100px] z-[1]" />
-
-      <div className="bg-own-primary-1 blur-3xl opacity-90 absolute bottom-2 left-2 h-[100px] w-[100px] z-[1]" />
+      <div className="bg-own-primary-3 blur-xl opacity-40 absolute top-2 right-2 h-[100px] w-[100px] z-[1]" />
+      <div className="bg-own-primary-1 blur-xl opacity-50 absolute bottom-2 left-2 h-[100px] w-[100px] z-[1]" />
     </div>
   );
 }
