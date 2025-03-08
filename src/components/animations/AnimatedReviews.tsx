@@ -31,7 +31,7 @@ function ReviewBox({ review }: ReviewBoxProps) {
       <BluredBox />
 
       <div className="flex flex-col gap-2 w-[200px] sm:w-[500px] relative z-10">
-        {/* Stars  */}
+        {/* Stars */}
         <div className="flex items-center gap-2">
           <div className="flex gap-2">
             {Array.from({ length: 5 }).map((_, i) => (
@@ -42,10 +42,10 @@ function ReviewBox({ review }: ReviewBoxProps) {
           <p className="">{review.rating}</p>
         </div>
 
-        {/* Description  */}
+        {/* Description */}
         <p className="text-white/80 mb-4 line-clamp-4">{review.comment.substring(0, 250)}</p>
 
-        {/* Name and date  */}
+        {/* Name and date */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Image
@@ -57,8 +57,6 @@ function ReviewBox({ review }: ReviewBoxProps) {
             />
             <h3 className="text-base font-medium text-white mb-2">{review.name}</h3>
           </div>
-
-          <p>Jan 12</p>
         </div>
       </div>
     </div>
@@ -67,6 +65,7 @@ function ReviewBox({ review }: ReviewBoxProps) {
 
 export default function AnimatedReviews() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const rowsContainerRef = useRef<HTMLDivElement>(null);
   const rowsRef = useRef<HTMLDivElement[]>([]);
   // Use state to control rendering for better performance
   const [isVisible, setIsVisible] = useState(false);
@@ -98,18 +97,25 @@ export default function AnimatedReviews() {
   useEffect(() => {
     if (!isVisible || !rowsRef.current.length) return;
 
+    // First, ensure each row has a different starting position
+    rowsRef.current.forEach((row, index) => {
+      // Alternating starting positions for each row
+      const initialOffset = index % 2 === 0 ? '5%' : '-5%';
+      gsap.set(row, { x: initialOffset });
+    });
+
     // Create optimized animations for each row
     const animations = rowsRef.current.map((row, index) => {
       const direction = index % 2 === 0 ? 1 : -1;
 
       return gsap.to(row, {
-        x: `-${direction * 10}%`,
+        x: `-=${direction * 15}%`, // Use relative value with -= or += to ensure proper movement
         ease: 'none',
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1,
+          scrub: 0.5, // Smoother scrubbing
           fastScrollEnd: true,
           preventOverlaps: true,
         },
@@ -150,7 +156,8 @@ export default function AnimatedReviews() {
     <div ref={containerRef} className="bg-own-primary-5 pt-8 overflow-hidden">
       {isVisible && (
         <div className="overflow-hidden h-[800px]">
-          <div className="-rotate-6 relative -top-[164px] transform-gpu">
+          {/* Apply transform-gpu for GPU acceleration and rotate-[-6deg] for the tilt to the left */}
+          <div ref={rowsContainerRef} className="rotate-[-6deg] relative -top-[164px] transform-gpu">
             <div className="space-y-3">
               {renderReviewRow(0, 0)}
               {renderReviewRow(5, 1)}
