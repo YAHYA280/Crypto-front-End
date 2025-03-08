@@ -7,5 +7,14 @@
     "join_us": "Join us",
     "dropshipping": "Drop shipping",
     "categories": "Categories",
-    "products": "Products"
+    "products": "Products",
+    "nav": {
+      "why_us": "Why Us",
+      "portfolio": "Portfolio",
+      "testimonials": "Testimonials",
+      "packages": "Packages",
+      "faqs": "FAQs",
+      "contact": "Contact"
+    },
+    "cta_button": "Join Now"
 }

@@ -1,11 +1,16 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { companyLinks, navLinks, socialMediaLinks } from '@/contants/NavLinks';
+import { socialMediaLinks } from '@/contants/NavLinks';
 import CryptoCoinsBar from './CryptoCoinsBar';
 import Logo from './Logo';
 
 export default function Footer() {
+  const t = useTranslations('footer');
+
   return (
     <footer className="flex flex-col bg-own-primary-5">
       <CryptoCoinsBar fromColor="from-own-primary-5" />
@@ -14,45 +19,42 @@ export default function Footer() {
         <div className="flex flex-col justify-center items-center md:flex-row md:justify-between md:items-start gap-5 flex-wrap">
           <Logo />
 
+          {/* Menu Section */}
           <div>
             <h2 className="mb-6 font-semibold text-gray-900 uppercase dark:text-white text-center md:text-start">
-              Menu
+              {t('menu.title')}
             </h2>
             <ul className="flex flex-col gap-2 justify-center items-center md:justify-start md:items-start">
-              <li>
-                <Link href={'/'} className="hover:text-own-primary-3">
-                  Home
-                </Link>
-              </li>
-
-              {navLinks.map((link) => (
-                <li key={link.key}>
-                  <Link href={link.href} className="hover:text-own-primary-3">
-                    {link.name}
+              {t.raw('menu.items').map((item: string, index: number) => (
+                <li key={index}>
+                  <Link href={'/'} className="hover:text-own-primary-3">
+                    {item}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
+          {/* Policies Section */}
           <div>
             <h2 className="mb-6 font-semibold text-gray-900 uppercase dark:text-white text-center md:text-start">
-              Policies
+              {t('policies.title')}
             </h2>
             <ul className="flex flex-col gap-2 justify-center items-center md:justify-start md:items-start">
-              {companyLinks.map((link) => (
-                <li key={link.key}>
-                  <Link href={link.href} className="hover:text-own-primary-3">
-                    {link.name}
+              {t.raw('policies.items').map((policy: string, index: number) => (
+                <li key={index}>
+                  <Link href={'/'} className="hover:text-own-primary-3">
+                    {policy}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
+          {/* Follow Us Section */}
           <div>
             <h2 className="text-center md:text-start mb-6 font-semibold text-gray-900 uppercase dark:text-white">
-              Follow us
+              {t('follow_us.title')}
             </h2>
             <ul className="flex flex-col gap-2 justify-center items-center md:justify-start md:items-start">
               {socialMediaLinks.map((link) => (
@@ -65,8 +67,7 @@ export default function Footer() {
                       alt="Social media icon"
                       className="h-[20px] w-auto"
                     />
-
-                    <p className="font-medium flex-1 hover:text-own-primary-3">{link.name}</p>
+                    <p className="font-medium flex-1 hover:text-own-primary-3">{t(`follow_us.socials.${link.key}`)}</p>
                   </Link>
                 </li>
               ))}
@@ -76,13 +77,8 @@ export default function Footer() {
 
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
 
-        <div className="w-full  text-end text-own-primary-3">
-          CryptoArchitect.nl is ontwikkeld door{' '}
-          <Link href={process.env.NEXT_PUBLIC_ACHIEVE_WEBSITE_URL as string} className="hover:text-own-primary-1">
-            Achieve.nl
-          </Link>{' '}
-          © 2025.
-        </div>
+        {/* Copyright Section */}
+        <div className="w-full text-end text-own-primary-3">{t('copyright')}</div>
       </div>
     </footer>
   );

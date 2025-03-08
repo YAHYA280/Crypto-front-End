@@ -7,5 +7,15 @@
     "join_us": "Join us",
     "dropshipping": "Drop shipping",
     "categories": "Categories",
-    "products": "Products"
+    "products": "Products",
+    "nav": {
+      "why_us": "Waarom wij",
+      "portfolio": "Portfolio",
+      "testimonials": "Recensies",
+      "packages": "Abonnementen",
+      "faqs": "FAQs",
+      "contact": "Contact"
+    },
+ 
+    "cta_button": "Word lid"
 }

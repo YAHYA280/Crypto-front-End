@@ -25,9 +25,12 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   // Home page components
   const homeHeroTranslation = (await import(`../../messages/${locale}/home/hero.json`)).default;
-  const homeHowItWorksTranslation = (await import(`../../messages/${locale}/home/howItWorks.json`)).default;
   const homeWhyChooseUsTranslation = (await import(`../../messages/${locale}/home/whyChooseUs.json`)).default;
-  const homeCategoriesTranslation = (await import(`../../messages/${locale}/home/categories.json`)).default;
+  const homeFaqsTranslation = (await import(`../../messages/${locale}/home/faqs.json`)).default;
+  const homePackagesTranslation = (await import(`../../messages/${locale}/home/packages.json`)).default;
+  const homeTestimonialsTranslation = (await import(`../../messages/${locale}/home/testimonials.json`)).default;
+  const homeLockInTranslation = (await import(`../../messages/${locale}/home/lockIn.json`)).default;
+  const homePortfolioTranslation = (await import(`../../messages/${locale}/home/portfolio.json`)).default;
 
   // The object that will hold all the translations
   const messages = {
@@ -47,12 +50,15 @@ export default getRequestConfig(async ({ requestLocale }) => {
     // Root Pages
     home: {
       ...homeHeroTranslation,
-      ...homeHowItWorksTranslation,
+      ...homeFaqsTranslation,
       ...homeWhyChooseUsTranslation,
-      ...homeCategoriesTranslation,
+      ...homePackagesTranslation,
+      ...homeTestimonialsTranslation,
+      ...homeLockInTranslation,
+      ...homePortfolioTranslation,
     },
   };
-
+  // console.log(messages)
   return {
     locale,
     messages,
