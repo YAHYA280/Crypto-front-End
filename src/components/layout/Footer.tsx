@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { socialMediaLinks } from '@/contants/NavLinks';
+import { socialMediaLinks } from '@/constants/NavLinks';
 import CryptoCoinsBar from './CryptoCoinsBar';
 import Logo from './Logo';
 
