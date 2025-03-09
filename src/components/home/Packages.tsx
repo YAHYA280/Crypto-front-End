@@ -138,7 +138,7 @@ function PackageBox({ packageData, setState, setOpenState, setDuration, duration
             { 'bg-gradient-to-r from-[#DDA909] to-[#B28700] border-[#DDA909]': isBestSeller }
           )}
           withAnimatedBorder={false}
-          buttonHasEffect={false}
+          withAnimatedBackground={true}
           onClick={() => {
             setState(title);
             setOpenState(true);
@@ -305,9 +305,9 @@ export default function Packages() {
               isLink={false}
               text={t('packages_payment_btn')}
               icon={ArrowUpRight}
-              className={cn('border-2 w-full mt-7 bg-gradient-to-r from-[#DDA909] to-[#B28700] border-[#DDA909]')}
+              className={cn('border-1 w-full mt-7 ')}
               withAnimatedBorder={false}
-              buttonHasEffect={false}
+              withAnimatedBackground={true}
             />
           </div>
         </DialogContent>
