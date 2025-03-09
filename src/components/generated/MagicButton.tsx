@@ -65,7 +65,7 @@ export default function MagicButton({
         )}
       >
         {(withAnimatedBorder || buttonHasEffect || withAnimatedBackground) && (
-          <span className="absolute inset-[-1000%] animate-spin-slow bg-[conic-gradient(from_90deg_at_50%_50%,var(--own-primary-3)_0%,var(--own-primary-2)_50%,var(--own-primary-3)_100%)]"></span>
+          <span className="absolute inset-[-1000%] animate-spin-slow bg-[conic-gradient(from_90deg_at_50%_50%,var(--own-primary-3)_0%,var(--own-primary-4)_50%,var(--own-primary-3)_100%)]"></span>
         )}
 
         <span

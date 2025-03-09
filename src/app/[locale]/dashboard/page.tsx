@@ -204,16 +204,16 @@ export default function Dashboard() {
             <div className="hidden md:block">
               <Table>
                 <TableHeader>
-                  {/* <TableRow> */}
-                  <TableHead className="p-3">Date</TableHead>
-                  <TableHead className="p-3">Tag Name</TableHead>
-                  <TableHead className="p-3">Type</TableHead>
-                  <TableHead className="p-3">Email</TableHead>
-                  <TableHead className="p-3">Expiration</TableHead>
-                  <TableHead className="p-3">Amount</TableHead>
-                  <TableHead className="p-3">Status</TableHead>
-                  <TableHead className="p-3">Action</TableHead>
-                  {/* </TableRow> */}
+                  <tr>
+                    <TableHead className="p-3">Date</TableHead>
+                    <TableHead className="p-3">Tag Name</TableHead>
+                    <TableHead className="p-3">Type</TableHead>
+                    <TableHead className="p-3">Email</TableHead>
+                    <TableHead className="p-3">Expiration</TableHead>
+                    <TableHead className="p-3">Amount</TableHead>
+                    <TableHead className="p-3">Status</TableHead>
+                    <TableHead className="p-3">Action</TableHead>
+                  </tr>
                 </TableHeader>
 
                 <TableBody className="text-gray-300">

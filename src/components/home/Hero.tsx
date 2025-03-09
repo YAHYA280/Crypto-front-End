@@ -27,9 +27,8 @@ export default function Hero() {
             href="/"
             text={t('hero_cta_button')}
             icon={ArrowUpRight}
-            className={'border-2 border-own-primary-4 bg-own-primary-4 px-2'}
             withAnimatedBorder={false}
-            buttonHasEffect={false}
+            withAnimatedBackground={true}
           />
         </div>
       </div>

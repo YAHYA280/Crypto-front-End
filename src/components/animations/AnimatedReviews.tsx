@@ -155,9 +155,9 @@ export default function AnimatedReviews() {
   return (
     <div ref={containerRef} className="bg-own-primary-5 pt-8 overflow-hidden">
       {isVisible && (
-        <div className="overflow-hidden h-[800px] rotate-[-6deg]">
+        <div className="overflow-hidden h-[800px] rotate-[-5deg]">
           {/* Apply transform-gpu for GPU acceleration and rotate-[-6deg] for the tilt to the left */}
-          <div ref={rowsContainerRef} className="rotate-[-6deg] relative -top-[164px] transform-gpu">
+          <div ref={rowsContainerRef} className="rotate-[-5deg] relative -top-[164px] transform-gpu">
             <div className="space-y-3">
               {renderReviewRow(0, 0)}
               {renderReviewRow(5, 1)}
