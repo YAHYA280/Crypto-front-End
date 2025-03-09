@@ -2,7 +2,7 @@
 
 import Lottie from 'lottie-react';
 
-import animationData from '@/public/lottieFiles/matrix.json'; // Update the path based on your project
+import animationData from '@/public/lottieFiles/matrix-D9zYF.json';
 
 export default function HeroLottieFile() {
   return (
