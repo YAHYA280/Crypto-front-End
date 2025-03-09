@@ -1,6 +1,6 @@
 'use client';
 
-import { Download, MoreHorizontal, MoreVertical, RefreshCw, Trash2 } from 'lucide-react';
+import { Download, MoreHorizontal, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
@@ -56,7 +56,7 @@ const transactionsData = [
 ];
 
 export default function Dashboard() {
-  const [transactions, setTransactions] = useState(transactionsData);
+  const [transactions] = useState(transactionsData);
   const [currentPage, setCurrentPage] = useState(1);
   const transactionsPerPage = 5;
 
