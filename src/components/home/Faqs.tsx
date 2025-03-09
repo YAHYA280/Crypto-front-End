@@ -41,8 +41,7 @@ export default function Faqs() {
           onClick={() => setShowAll(true)}
           className="bg-transparent border text-lg text-foreground mx-auto h-[40px] rounded-xl hover:bg-gray-50/70"
         >
-          Meer bekijken
-          {t('faqs_cta')}
+          {t('faqs_cta_button')}
         </Button>
       )}
     </div>

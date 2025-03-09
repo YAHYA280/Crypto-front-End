@@ -5,12 +5,12 @@ import { Inter } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
 
+import CryptoCoinsBar from '@/components/layout/CryptoCoinsBar';
+import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
+import UseThemeFromCookie from '@/components/shared/ChangeTheme';
 import { routing } from '@/i18n/routing';
 import { ThemeProvider } from '@/providers/theme-provider';
-import UseThemeFromCookie from '../components/ChangeTheme';
-import CryptoCoinsBar from '../components/CryptoCoinsBar';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
 
 type Props = {
   children: ReactNode;

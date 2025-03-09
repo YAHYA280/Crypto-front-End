@@ -2,12 +2,16 @@ import { ArrowUpRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import MagicButton from '@/components/generated/MagicButton';
+import HeroLottieFile from '../shared/HeroBackground';
 
 export default function Hero() {
   const t = useTranslations('home');
 
   return (
-    <div className="py-[100px] relative overflow-hidden bg-[url(/backgrounds/matrix-bg.png)] bg-cover">
+    <div className="py-[100px] relative overflow-hidden bg-[#011406]">
+      {' '}
+      <HeroLottieFile />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent z-[2]"></div>
       <div className="flex flex-col  max-width relative z-10">
         <div className="flex flex-col gap-5 ">
           <h1 className="text-3xl sm:text-[50px] md:text-[60px] lg:text-[70px] leading-normal font-semibold ">
@@ -17,7 +21,6 @@ export default function Hero() {
           <p className="font-medium text-xs sm:text-sm md:text-base w-full lg:w-3/4">{t('hero_description')}</p>
         </div>
 
-        {/* Action links  */}
         <div className="flex items-center flex-col md:flex-row gap-2 mt-14">
           {/* Magic button  */}
           <MagicButton

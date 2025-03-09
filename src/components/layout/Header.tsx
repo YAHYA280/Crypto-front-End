@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import MagicButton from '@/components/generated/MagicButton';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import LocaleSwitcher from '../../components/ui/LocaleSwitcher';
+import LocaleSwitcher from '../ui/LocaleSwitcher';
 import Logo from './Logo';
 
 function MobileNav() {
