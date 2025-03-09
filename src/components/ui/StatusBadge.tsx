@@ -1,14 +1,14 @@
 const statusColors: Record<string, string> = {
-  Active: 'bg-green-300 text-black',
-  Pending: 'bg-yellow-300 text-black',
-  Cancelled: 'bg-red-500 text-white',
+  Active: 'bg-[#D3F3E1] text-[#00883D]  border-[#00883D]',
+  Pending: 'bg-[#FDE38F] text-[#B28700]  border-[#B28700]',
+  Cancelled: 'bg-[#E8AEAE] text-[#D92037]  border-[#D92037]',
   Default: 'bg-gray-500 text-white',
 };
 
 export default function StatusBadge({ status }: { status: string }) {
   return (
     <span
-      className={`px-4 py-1.5 rounded text-sm font-semibold min-w-32 max-w-xs text-center ${
+      className={`px-4 py-1.5 rounded-[8px] text-sm border font-semibold w-[113px] text-center  ${
         statusColors[status as keyof typeof statusColors] || statusColors.Default
       }`}
     >

@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils';
 
 // Table Root
 export const Table = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
-  <div className="w-full overflow-hidden rounded-lg border ">
-    <table className={cn('w-full text-center border-collapse', className)} {...props}>
+  <div className="w-full overflow-hidden   ">
+    <table className={cn('w-full text-center', className)} {...props}>
       {children}
     </table>
   </div>
@@ -15,35 +15,39 @@ export const Table = ({ children, className, ...props }: React.HTMLAttributes<HT
 
 // Table Header
 export const TableHeader = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) => (
-  <thead className={cn('bg-[#4B6547] text-white', className)} {...props}>
+  <thead className={cn('bg-[#193B18] text-white  ', className)} style={{ height: '45px' }} {...props}>
     {children}
   </thead>
 );
 
 // Table Head (Column Headers)
 export const TableHead = ({ children, className, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) => (
-  <th className={cn('p-3 text-center text-sm font-medium uppercase tracking-wide', className)} {...props}>
+  <th className={cn('text-center text-sm border-b-[4px] border-transparent tracking-wide ', className)} {...props}>
     {children}
   </th>
 );
 
 // Table Body
 export const TableBody = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) => (
-  <tbody className={cn('bg-green-1000 text-gray-300', className)} {...props}>
+  <tbody className={cn('bg-[#091E06] text-gray-300', className)} {...props}>
     {children}
   </tbody>
 );
 
 // Table Row
 export const TableRow = ({ children, className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
-  <tr className={cn('border-b border-black border-2 hover:bg-gray-900 transition-all', className)} {...props}>
+  <tr
+    className={cn('bg-[#182915] hover:bg-[#131E11] transition-all border-b-[3px] border-transparent', className)}
+    style={{ height: '48px' }}
+    {...props}
+  >
     {children}
   </tr>
 );
 
 // Table Cell (Data Cells)
 export const TableCell = ({ children, className, ...props }: React.TdHTMLAttributes<HTMLTableCellElement>) => (
-  <td className={cn('p-3 text-sm text-gray-300', className)} {...props}>
+  <td className={cn(' text-sm text-gray-100', className)} {...props}>
     {children}
   </td>
 );
