@@ -1,6 +1,6 @@
 'use client';
 
-import { Download, MoreHorizontal, MoreVertical, RefreshCw, Trash2 } from 'lucide-react';
+import { Download, MoreHorizontal, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 import DashboardHeader from '@/components/dashboard/DashboardHeader';

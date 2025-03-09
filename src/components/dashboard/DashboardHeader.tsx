@@ -1,8 +1,5 @@
 'use client';
 
-import { RefreshCw } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-
 import LocaleSwitcher from '@/components/ui/LocaleSwitcher';
 
 interface DashboardHeaderProps {
