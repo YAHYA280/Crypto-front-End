@@ -12,15 +12,26 @@ import { Input } from '@/components/ui/input';
 import StatusBadge from '@/components/ui/StatusBadge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/Table';
 
+interface Transaction {
+  id: number;
+  date: string;
+  tagName: string;
+  type: string;
+  email: string;
+  expiration: string;
+  amount: string;
+  status: string;
+}
+
 const transactionsData = [
   {
     id: 1,
     date: '18/01/25',
-    tagName: '#John Smith',
-    type: 'Beginner',
-    email: 'John.smith02@gmail.com',
+    tagName: '#EL MAHDANI Souhail',
+    type: 'Premium',
+    email: 'elmahdanisouhail@gmail.com',
     expiration: '31/01/25',
-    amount: '€20.00',
+    amount: '€50.00',
     status: 'Active',
   },
   {
@@ -31,7 +42,7 @@ const transactionsData = [
     email: 'Joe.Wale@gmail.com',
     expiration: '31/01/25',
     amount: '€20.00',
-    status: 'Pending',
+    status: 'Active',
   },
   {
     id: 3,
@@ -41,10 +52,90 @@ const transactionsData = [
     email: 'Rhodes.123@gmail.com',
     expiration: '31/01/25',
     amount: '€50.00',
-    status: 'Cancelled',
+    status: 'Active',
   },
   {
     id: 4,
+    date: '18/01/25',
+    tagName: '#John Smith',
+    type: 'Beginner',
+    email: 'John.smith02@gmail.com',
+    expiration: '31/01/25',
+    amount: '€20.00',
+    status: 'Active',
+  },
+  {
+    id: 5,
+    date: '18/01/25',
+    tagName: '#John Smith',
+    type: 'Beginner',
+    email: 'John.smith02@gmail.com',
+    expiration: '31/01/25',
+    amount: '€20.00',
+    status: 'Active',
+  },
+  {
+    id: 6,
+    date: '18/01/25',
+    tagName: '#Joe Wale',
+    type: 'Beginner',
+    email: 'Joe.Wale@gmail.com',
+    expiration: '31/01/25',
+    amount: '€20.00',
+    status: 'Active',
+  },
+  {
+    id: 7,
+    date: '18/01/25',
+    tagName: '#Alan Rhodes',
+    type: 'Premium',
+    email: 'Rhodes.123@gmail.com',
+    expiration: '31/01/25',
+    amount: '€50.00',
+    status: 'Active',
+  },
+  {
+    id: 8,
+    date: '18/01/25',
+    tagName: '#John Smith',
+    type: 'Beginner',
+    email: 'John.smith02@gmail.com',
+    expiration: '31/01/25',
+    amount: '€20.00',
+    status: 'Pending',
+  },
+  {
+    id: 9,
+    date: '18/01/25',
+    tagName: '#John Smith',
+    type: 'Beginner',
+    email: 'John.smith02@gmail.com',
+    expiration: '31/01/25',
+    amount: '€20.00',
+    status: 'Active',
+  },
+  {
+    id: 10,
+    date: '18/01/25',
+    tagName: '#Joe Wale',
+    type: 'Beginner',
+    email: 'Joe.Wale@gmail.com',
+    expiration: '31/01/25',
+    amount: '€20.00',
+    status: 'Pending',
+  },
+  {
+    id: 11,
+    date: '18/01/25',
+    tagName: '#Alan Rhodes',
+    type: 'Premium',
+    email: 'Rhodes.123@gmail.com',
+    expiration: '31/01/25',
+    amount: '€50.00',
+    status: 'Cancelled',
+  },
+  {
+    id: 12,
     date: '18/01/25',
     tagName: '#John Smith',
     type: 'Beginner',
@@ -56,28 +147,44 @@ const transactionsData = [
 ];
 
 export default function Dashboard() {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+
   const [transactions, setTransactions] = useState(transactionsData);
   const [currentPage, setCurrentPage] = useState(1);
-  const transactionsPerPage = 5;
+  const transactionsPerPage = 8;
 
   const indexOfLastTransaction = currentPage * transactionsPerPage;
   const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
   const currentTransactions = transactions.slice(indexOfFirstTransaction, indexOfLastTransaction);
 
   // Function to fetch transactions (replace with real API call)
-  // const fetchTransactions = async () => {
-  //   const response = await fetch('/api/transactions');
-  //   const data = await response.json();
-  //   setTransactions(data);
-  // };
+  const fetchTransactions = async () => {
+    const response = await fetch('/api/transactions');
+    const data = await response.json();
+    setTransactions(data);
+  };
+
+  const handleClickTransaction = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
+    console.log(selectedTransaction);
+  };
 
   return (
-    <div className="flex h-screen bg-dark">
-      <Sidebar />
-      <div className="flex flex-col flex-grow p-6">
-        <DashboardHeader title="Transaction History" />
+    <div className="flex h-screen bg-dark ">
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} />
+      <div className="flex flex-col flex-grow p-6 mt-5">
+        <DashboardHeader title="Transaction History" onToggleSidebar={() => setSidebarOpen((prev) => !prev)} />
 
         <div className="bg-own-primary-5 border border-gray-700 rounded-lg p-6">
+          {selectedTransaction && (
+            <div className="bg-own-primary-5  rounded-lg p-6">
+              <button className="flex items-center gap-1 mb-4 text-white" onClick={() => setSelectedTransaction(null)}>
+                ← Back
+              </button>
+            </div>
+          )}
           {/* Filters */}
           <div className="flex justify-end items-center mb-4 gap-8">
             <div className="flex gap-2">
@@ -94,9 +201,10 @@ export default function Dashboard() {
 
           {/* Transaction Table */}
           <div className="overflow-hidden rounded-lg  ">
-            <Table>
-              <TableHeader className="bg-green-900 text-white">
-                <TableRow>
+            <div className="hidden md:block">
+              <Table>
+                <TableHeader>
+                  {/* <TableRow> */}
                   <TableHead className="p-3">Date</TableHead>
                   <TableHead className="p-3">Tag Name</TableHead>
                   <TableHead className="p-3">Type</TableHead>
@@ -105,55 +213,150 @@ export default function Dashboard() {
                   <TableHead className="p-3">Amount</TableHead>
                   <TableHead className="p-3">Status</TableHead>
                   <TableHead className="p-3">Action</TableHead>
-                </TableRow>
-              </TableHeader>
+                  {/* </TableRow> */}
+                </TableHeader>
 
-              <TableBody className="bg-green-1000 text-gray-300">
-                {currentTransactions.map((transaction) => (
-                  <TableRow key={transaction.id} className="border-b border-black">
-                    <TableCell className="p-3">{transaction.date}</TableCell>
-                    <TableCell className="p-3">{transaction.tagName}</TableCell>
-                    <TableCell className="p-3">{transaction.type}</TableCell>
-                    <TableCell className="p-3">{transaction.email}</TableCell>
-                    <TableCell className="p-3">{transaction.expiration}</TableCell>
-                    <TableCell className="p-3">{transaction.amount}</TableCell>
-                    <TableCell className="p-3">
-                      <StatusBadge status={transaction.status} />
-                    </TableCell>
+                <TableBody className="text-gray-300">
+                  {currentTransactions.map((transaction) => (
+                    <TableRow key={transaction.id} className="">
+                      <TableCell className="p-3 relative">{transaction.date}</TableCell>
+                      <TableCell className="p-3 relative">{transaction.tagName}</TableCell>
+                      <TableCell className="p-3 relative">{transaction.type}</TableCell>
+                      <TableCell className="p-3 relative">{transaction.email}</TableCell>
+                      <TableCell className="p-3 relative">{transaction.expiration}</TableCell>
+                      <TableCell className="p-3 relative">{transaction.amount}</TableCell>
+                      <TableCell className="p-3 relative">
+                        <StatusBadge status={transaction.status} />
+                      </TableCell>
 
-                    <TableCell className="p-3 relative">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            className="p-0.5 rounded bg-green-1000 border border-gray-300 hover:bg-gray-600 h-6 w-6"
-                          >
-                            <MoreHorizontal size={12} />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-gray-800 border  rounded-md shadow-lg text-xs">
-                          <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 cursor-pointer px-2 py-2  ">
-                            <Download size={16} className="text-gray-300" /> Download PDF
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 text-red-500 cursor-pointer px-2 py-2">
-                            <Trash2 size={16} /> Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                      <TableCell className="p-3 relative">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              className="p-0.5 rounded bg-green-1000 border border-gray-300 hover:bg-gray-600 h-6 w-6"
+                            >
+                              <MoreHorizontal size={12} />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="bg-gray-800 border  rounded-md shadow-lg text-xs">
+                            <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 cursor-pointer px-2 py-2  ">
+                              <Download size={16} className="text-gray-300" /> Download PDF
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 text-red-500 cursor-pointer px-2 py-2">
+                              <Trash2 size={16} /> Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+
+            <div className="md:hidden">
+              {selectedTransaction ? (
+                // Detailed View (Mobile)
+                <div className="bg-own-primary-5 p-4 rounded-lg">
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Date:</span>
+                      <span>{selectedTransaction.date}</span>
+                    </div>
+                    <hr className="border-gray-700" />
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Tag Name:</span>
+                      <span>{selectedTransaction.tagName}</span>
+                    </div>
+                    <hr className="border-gray-700" />
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Type:</span>
+                      <span>{selectedTransaction.type}</span>
+                    </div>
+                    <hr className="border-gray-700" />
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Email:</span>
+                      <span>{selectedTransaction.email}</span>
+                    </div>
+                    <hr className="border-gray-700" />
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Expiration:</span>
+                      <span>{selectedTransaction.expiration}</span>
+                    </div>
+                    <hr className="border-gray-700" />
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Amount:</span>
+                      <span>{selectedTransaction.amount}</span>
+                    </div>
+                    <hr className="border-gray-700" />
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Status:</span>
+                      <StatusBadge status={selectedTransaction.status} />
+                    </div>
+                    <hr className="border-gray-700" />
+
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Actions:</span>
+
+                      <>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              className="p-0.5 rounded bg-green-1000 border border-gray-300 hover:bg-gray-600 h-6 w-6"
+                            >
+                              <MoreHorizontal size={12} />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="bg-gray-800 border  rounded-md shadow-lg text-xs">
+                            <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 cursor-pointer px-2 py-2  ">
+                              <Download size={16} className="text-gray-300" /> Download PDF
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 text-red-500 cursor-pointer px-2 py-2">
+                              <Trash2 size={16} /> Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </>
+                    </div>
+                    <hr className="border-gray-700" />
+                  </div>
+                </div>
+              ) : (
+                // Simplified rows (Mobile)
+                <div className="space-y-2">
+                  {currentTransactions.map((transaction) => (
+                    <div
+                      key={transaction.id}
+                      className="bg-[#182915] rounded-md p-3 cursor-pointer"
+                      onClick={() => handleClickTransaction(transaction)}
+                    >
+                      <div className="flex justify-between">
+                        <div>
+                          <div className="text-sm font-semibold">{transaction.tagName}</div>
+                          <div className="text-xs text-gray-400">{transaction.type}</div>
+                        </div>
+                        <div className="text-xs text-gray-400">{transaction.date}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Pagination */}
-          <Pagination
-            totalTransactions={transactions.length}
-            transactionsPerPage={transactionsPerPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+          {!selectedTransaction && (
+            <>
+              {/* Pagination */}
+              <Pagination
+                totalTransactions={transactions.length}
+                transactionsPerPage={transactionsPerPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>

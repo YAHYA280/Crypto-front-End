@@ -18,39 +18,43 @@ export default function Pagination({
   const totalPages = Math.ceil(totalTransactions / transactionsPerPage);
 
   return (
-    <div className="flex justify-center items-center gap-2 mt-4">
+    <div className="flex justify-between items-center gap-2 mt-4">
       {/* Back Button */}
       <button
-        className="px-3 py-1 border rounded-md hover:bg-gray-700 transition"
+        className="px-3 py-2 border rounded-md hover:bg-gray-900 transition flex items-center"
         disabled={currentPage === 1}
         onClick={() => setCurrentPage(currentPage - 1)}
       >
-        <ChevronLeft />
+        <ChevronLeft size={15} />
+        <span className="ml-1">Back</span>
       </button>
 
-      {/* Page Numbers */}
-      {Array.from({ length: totalPages }, (_, index) => {
-        const page = index + 1;
-        return (
-          <button
-            key={page}
-            onClick={() => setCurrentPage(page)}
-            className={`px-3 py-1 rounded-md ${
-              currentPage === page ? 'bg-own-primary-3 text-white' : 'border border-gray-600 hover:bg-gray-700'
-            } transition`}
-          >
-            {page}
-          </button>
-        );
-      })}
+      <div className="flex gap-2">
+        {/* Page Numbers */}
+        {Array.from({ length: totalPages }, (_, index) => {
+          const page = index + 1;
+          return (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`px-4 py-1 rounded-md ${
+                currentPage === page ? 'bg-own-primary-3 text-white' : 'border border-gray-600 hover:bg-gray-700'
+              } transition`}
+            >
+              {page}
+            </button>
+          );
+        })}
+      </div>
 
       {/* Next Button */}
       <button
-        className="px-3 py-1 border rounded-md hover:bg-gray-700 transition"
+        className="px-3 py-2 border rounded-md hover:bg-gray-900 transition flex items-center"
         disabled={currentPage === totalPages}
         onClick={() => setCurrentPage(currentPage + 1)}
       >
-        <ChevronRight />
+        <span className="ml-1">Next</span>
+        <ChevronRight size={15} />
       </button>
     </div>
   );
