@@ -50,7 +50,7 @@ export default function Footer() {
                         ? '/privacy_policy'
                         : policy === 'Terms & conditions' || policy === 'Algemene voorwaarden'
                           ? '/terms_and_conditions'
-                          : '#'
+                          : '/'
                     }
                     className="hover:text-own-primary-3"
                   >
