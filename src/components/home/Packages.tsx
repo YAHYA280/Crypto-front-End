@@ -191,7 +191,7 @@ export default function Packages() {
                 className="bg-white text-black h-[50px] rounded-lg"
                 type="text"
                 id="name"
-                placeholder="Telegram Tag Name"
+                placeholder={t('packages_telegramTagName')}
               />
             </div>
 

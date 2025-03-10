@@ -48,7 +48,7 @@
     "packages_description": "Explore our crypto packages and find the perfect fit to start your investment journey with confidence and expert guidance.",
     "packages_title": "Choose your package",
     "packages_selectedPackage" : "Selected Package",
-    "packages_telegramTagName" : "Telegram Tag Name",
+    "packages_telegramTagName" : "Telegram username",
     "packages_payment_btn" : "Proceed to Payment",
     "packages_package" : "Package"
   }
