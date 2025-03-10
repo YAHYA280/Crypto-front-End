@@ -50,7 +50,7 @@ function ReviewBox({ review }: ReviewBoxProps) {
   };
 
   return (
-    <div className="bg-black border w-[600px] h-[280px] p-6 shadow-lg transition-all duration-300 relative will-change-transform rounded-xl">
+    <div className="bg-black border min-w-[560px] h-[280px] p-6 shadow-lg transition-all duration-300 relative will-change-transform rounded-xl overflow-hidden">
       <BluredBox />
 
       <div className="flex flex-col gap-2 w-[200px] sm:w-[500px] relative z-10">
