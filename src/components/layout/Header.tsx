@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import MagicButton from '@/components/generated/MagicButton';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import TranslatedText from '../shared/TranslatedText';
 import LocaleSwitcher from '../ui/LocaleSwitcher';
 import Logo from './Logo';
 
@@ -55,7 +56,7 @@ export default function Header() {
             {Object.keys(t.raw('nav')).map((key, index, arr) => (
               <li key={key} className="flex items-center gap-2">
                 <Link className="block py-2 px-3 text-foreground hover:text-own-primary-3" href={`#${key}`}>
-                  {t(`nav.${key}`)}
+                  <TranslatedText originalText={t(`nav.${key}`)} translatedText={t(`nav.${key}`)} />
                 </Link>
 
                 {index !== arr.length - 1 && <span className="h-5 w-[2px] bg-gray-400" />}

@@ -107,14 +107,15 @@ export default function WhyChooseUs() {
               </div>
             </div>
 
-            {/* Magic button  */}
-            <MagicButton
-              href="/"
-              text={t('whyUs_cta_button')}
-              icon={ArrowUpRight}
-              withAnimatedBorder={false}
-              withAnimatedBackground={true}
-            />
+            <div className="w-full flex justify-center">
+              <MagicButton
+                href="/"
+                text={t('whyUs_cta_button')}
+                icon={ArrowUpRight}
+                withAnimatedBorder={false}
+                withAnimatedBackground={true}
+              />
+            </div>
           </div>
         </div>
       </div>
