@@ -255,7 +255,7 @@ export default function Packages() {
                 className="bg-[#ffffff] text-black h-[55px] rounded-lg border-[#2A5738] focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909] transition-all duration-300 px-4 text-base"
                 type="text"
                 id="name"
-                placeholder="Telegram Tag Name"
+                placeholder={t('packages_telegramTagName')}
               />
             </div>
 

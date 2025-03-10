@@ -45,7 +45,13 @@ export default function Footer() {
               {t.raw('policies.items').map((policy: string, index: number) => (
                 <li key={index}>
                   <Link
-                    href={policy === 'Privacy policy' || policy === 'Privacybeleid' ? '/privacy_policy' : '#'}
+                    href={
+                      policy === 'Privacy policy' || policy === 'Privacybeleid'
+                        ? '/privacy_policy'
+                        : policy === 'Terms & conditions' || policy === 'Algemene voorwaarden'
+                          ? '/terms_and_conditions'
+                          : '#'
+                    }
                     className="hover:text-own-primary-3"
                   >
                     {policy}

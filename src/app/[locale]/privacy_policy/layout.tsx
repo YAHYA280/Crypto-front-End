@@ -1,10 +1,10 @@
 import React from 'react';
 
-interface LoginLayoutProps {
+interface PrivacyPolicyLayoutProps {
   children: React.ReactNode;
 }
 
-const LoginLayout: React.FC<LoginLayoutProps> = ({ children }) => {
+const PrivacyPolicyLayout: React.FC<PrivacyPolicyLayoutProps> = ({ children }) => {
   return (
     <html lang="en">
       <head>
@@ -19,4 +19,4 @@ const LoginLayout: React.FC<LoginLayoutProps> = ({ children }) => {
   );
 };
 
-export default LoginLayout;
+export default PrivacyPolicyLayout;

@@ -24,6 +24,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const footerTranslation = (await import(`../../messages/${locale}/footer.json`)).default;
 
   const privacyPolicyTranslation = (await import(`../../messages/${locale}/privacy_policy.json`)).default;
+  const termsAndConditionsTranslation = (await import(`../../messages/${locale}/terms_and_conditions.json`)).default;
 
   // Home page components
   const homeHeroTranslation = (await import(`../../messages/${locale}/home/hero.json`)).default;
@@ -50,6 +51,9 @@ export default getRequestConfig(async ({ requestLocale }) => {
     },
     privacyPolicyTranslation: {
       ...privacyPolicyTranslation,
+    },
+    termsAndConditionsTranslation: {
+      ...termsAndConditionsTranslation,
     },
 
     // Root Pages
