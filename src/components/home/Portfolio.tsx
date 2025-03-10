@@ -18,42 +18,42 @@ interface LogoItem {
 const partnersLogos: LogoItem[][] = [
   [
     { logo: 'PF.Item.BITCOIN.svg', position: { y: '-100%', opacity: 0 } },
-    { logo: 'PF.Item.CREDEFI.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.BINANCE.svg', position: { y: '100%', opacity: 0 } },
     { logo: 'PF.Item.GOLDFINCH.svg', position: { x: '-100%', opacity: 0 } },
   ],
   [
     { logo: 'PF.Item.PHOENIX.svg', position: { y: '100%', opacity: 0 } },
-    { logo: 'PF.Item.POLKADOT.svg', position: { y: '-100%', opacity: 0 } },
-    { logo: 'PF.Item.RENDER.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.RIPPLE.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.BITCOIN.svg', position: { x: '-100%', opacity: 0 } },
   ],
   [
     { logo: 'PF.Item.SMOOTH_LOVE_POTION.svg', position: { y: '-100%', opacity: 0 } },
     { logo: 'PF.Item.TRAVALA.svg', position: { x: '-100%', opacity: 0 } },
-    { logo: 'PF.BG.BrownRadial.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.LITECOIN.svg', position: { y: '100%', opacity: 0 } },
   ],
   [
-    { logo: 'PF.Item.PHOENIX.svg', position: { y: '100%', opacity: 0 } },
-    { logo: 'PF.Item.POLKADOT.svg', position: { y: '-100%', opacity: 0 } },
-    { logo: 'PF.Item.RENDER.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.RENDER.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.OASIS(ROSE).svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.ETHEREUM.svg', position: { x: '-100%', opacity: 0 } },
   ],
   [
-    { logo: 'PF.Item.BITCOIN.svg', position: { y: '-100%', opacity: 0 } },
-    { logo: 'PF.Item.CREDEFI.svg', position: { y: '100%', opacity: 0 } },
-    { logo: 'PF.Item.GOLDFINCH.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.LOSSLESS.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.ETHEREUM.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.CREDEFI.svg', position: { x: '-100%', opacity: 0 } },
   ],
   [
-    { logo: 'PF.Item.SMOOTH_LOVE_POTION.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.ETHEREUM.svg', position: { y: '-100%', opacity: 0 } },
     { logo: 'PF.Item.TRAVALA.svg', position: { x: '-100%', opacity: 0 } },
-    { logo: 'PF.BG.BrownRadial.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.LOSSLESS.svg', position: { y: '100%', opacity: 0 } },
   ],
   [
-    { logo: 'PF.Item.PHOENIX.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.QUANT.svg', position: { y: '100%', opacity: 0 } },
     { logo: 'PF.Item.POLKADOT.svg', position: { y: '-100%', opacity: 0 } },
-    { logo: 'PF.Item.RENDER.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.SOLANA.svg', position: { x: '-100%', opacity: 0 } },
   ],
   [
-    { logo: 'PF.Item.PHOENIX.svg', position: { y: '100%', opacity: 0 } },
-    { logo: 'PF.Item.POLKADOT.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.LOSSLESS.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.SOLANA.svg', position: { y: '-100%', opacity: 0 } },
     { logo: 'PF.Item.RENDER.svg', position: { x: '-100%', opacity: 0 } },
   ],
 ];

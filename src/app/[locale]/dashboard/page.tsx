@@ -171,11 +171,19 @@ export default function Dashboard() {
     console.log(selectedTransaction);
   };
 
+  const handleRefresh = () => {
+    console.log('Handle refresh transactions clicked');
+  };
+
   return (
     <div className="flex h-screen bg-dark ">
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} />
       <div className="flex flex-col flex-grow p-6 mt-5">
-        <DashboardHeader title="Transaction History" onToggleSidebar={() => setSidebarOpen((prev) => !prev)} />
+        <DashboardHeader
+          title="Transaction History"
+          onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
+          onRefresh={handleRefresh}
+        />
 
         <div className="bg-own-primary-5 border border-gray-700 rounded-lg p-6">
           {selectedTransaction && (
