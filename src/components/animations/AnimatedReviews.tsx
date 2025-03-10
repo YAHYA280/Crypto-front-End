@@ -35,14 +35,14 @@ function ReviewBox({ review }: ReviewBoxProps) {
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         // Full star
-        stars.push(<Star key={i} className="fill-[#DDA909] h-5 w-5" />);
+        stars.push(<Star key={i} stroke="none" fill="#DDA909" className="h-5 w-5" />);
       } else if (i === fullStars && hasHalfStar) {
         // Half star
-        stars.push(<StarHalf key={i} className="fill-[#DDA909] h-5 w-5" />);
+        stars.push(<StarHalf key={i} stroke="none" fill="#DDA909" className=" h-5 w-5" />);
       }
-      // else {
+      //  else {
       //   // Empty or inactive star
-      //   stars.push(<Star key={i} className="fill-white h-5 w-5 opacity-30" />);
+      //   stars.push(<Star key={i} stroke="none" fill="#FFFF" className="h-5 w-5" />);
       // }
     }
 
