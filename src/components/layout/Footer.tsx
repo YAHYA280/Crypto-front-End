@@ -88,7 +88,7 @@ export default function Footer() {
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
 
         {/* Copyright Section */}
-        <div className="w-full text-end text-own-primary-3">{t('copyright')}</div>
+        <div className="w-full  text-center text-own-primary-3">{t('copyright')}</div>
       </div>
     </footer>
   );

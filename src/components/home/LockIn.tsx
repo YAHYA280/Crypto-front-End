@@ -23,13 +23,15 @@ export default function LockIn() {
               </div>
             </div>
 
-            <MagicButton
-              href="/"
-              text={t('hero_cta_button')}
-              icon={ArrowUpRight}
-              withAnimatedBorder={false}
-              withAnimatedBackground={true}
-            />
+            <div className="w-full flex justify-center">
+              <MagicButton
+                href="/"
+                text={t('hero_cta_button')}
+                icon={ArrowUpRight}
+                withAnimatedBorder={false}
+                withAnimatedBackground={true}
+              />
+            </div>
           </div>
 
           {/* Right column: image (centered vertically) */}
