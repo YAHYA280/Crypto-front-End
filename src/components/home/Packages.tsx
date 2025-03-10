@@ -57,10 +57,10 @@ function PackageBox({ packageData, setState, setOpenState, setDuration, duration
   const totalPrice = hasSlider && basePrice && duration ? `€${(basePrice * duration).toFixed(2)}` : price;
 
   return (
-    <AnimatedBorderWrapper showAnimation={isBestSeller}>
+    <AnimatedBorderWrapper showAnimation={false}>
       <div
         className={cn(
-          'bg-own-primary-5 h-full border-2 p-8 border-own-primary-1 rounded-xl flex flex-col gap-8 w-full hover:border-[#DDA909] transition-all duration-300 group ',
+          'bg-own-primary-5 h-full border-2 p-8  rounded-xl flex flex-col gap-8 w-full hover:border-[#DDA909] transition-all duration-300 group ',
           { 'border-[#DDA909]': isBestSeller }
         )}
       >

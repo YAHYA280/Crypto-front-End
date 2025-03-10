@@ -39,7 +39,7 @@ export default function Faqs() {
       {!showAll && (
         <Button
           onClick={() => setShowAll(true)}
-          className="bg-transparent border text-lg text-foreground mx-auto h-[40px] rounded-xl hover:bg-gray-50/70"
+          className="bg-transparent border text-lg text-foreground mx-auto h-[40px] rounded-xl hover:bg-gradient-to-r hover:from-[#DDA909] hover:to-[#B28700] hover:border-[#DDA909]"
         >
           {t('faqs_cta_button')}
         </Button>
