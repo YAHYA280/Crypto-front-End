@@ -2,7 +2,7 @@
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Star } from 'lucide-react';
+import { Star, StarHalf } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
@@ -26,33 +26,51 @@ function BluredBox() {
 }
 
 function ReviewBox({ review }: ReviewBoxProps) {
+  // Helper function to render stars based on rating
+  const renderStars = (rating: number) => {
+    const fullStars = Math.floor(rating); // number of full stars
+    const hasHalfStar = rating - fullStars >= 0.5; // check if there's a half star
+    const stars = [];
+
+    for (let i = 0; i < 5; i++) {
+      if (i < fullStars) {
+        // Full star
+        stars.push(<Star key={i} className="fill-[#DDA909] h-5 w-5" />);
+      } else if (i === fullStars && hasHalfStar) {
+        // Half star
+        stars.push(<StarHalf key={i} className="fill-[#DDA909] h-5 w-5" />);
+      }
+      // else {
+      //   // Empty or inactive star
+      //   stars.push(<Star key={i} className="fill-white h-5 w-5 opacity-30" />);
+      // }
+    }
+
+    return stars;
+  };
+
   return (
-    <div className="bg-black border w-full p-6 shadow-lg transition-all duration-300 relative will-change-transform">
+    <div className="bg-black border min-w-[560px] h-[280px] p-6 shadow-lg transition-all duration-300 relative will-change-transform rounded-xl overflow-hidden">
       <BluredBox />
 
       <div className="flex flex-col gap-2 w-[200px] sm:w-[500px] relative z-10">
-        {/* Stars */}
+        {/* Stars and numeric rating */}
         <div className="flex items-center gap-2">
-          <div className="flex gap-2">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} className="fill-white h-5 w-5" />
-            ))}
-          </div>
-
-          <p className="">{review.rating}</p>
+          <div className="flex gap-2">{renderStars(review.rating)}</div>
+          <p className="text-white">{review.rating}</p>
         </div>
 
-        {/* Description */}
+        {/* Comment text */}
         <p className="text-white/80 mb-4 line-clamp-4">{review.comment.substring(0, 250)}</p>
 
-        {/* Name and date */}
+        {/* Name and profile image */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Image
               src={`/reviews-profiles/${review.image}`}
               height={40}
               width={40}
-              alt="Image"
+              alt="Profile Image"
               className="h-10 w-10 rounded-full"
             />
             <h3 className="text-base font-medium text-white mb-2">{review.name}</h3>
@@ -153,11 +171,11 @@ export default function AnimatedReviews() {
   );
 
   return (
-    <div ref={containerRef} className="bg-own-primary-5 pt-8 overflow-hidden">
+    <div ref={containerRef} className="bg-own-primary-5  overflow-hidden">
       {isVisible && (
-        <div className="overflow-hidden h-[800px]">
+        <div className=" h-[800px] rotate-[-5deg]">
           {/* Apply transform-gpu for GPU acceleration and rotate-[-6deg] for the tilt to the left */}
-          <div ref={rowsContainerRef} className="rotate-[-6deg] relative -top-[164px] transform-gpu">
+          <div ref={rowsContainerRef} className="rotate-[-5deg] relative  transform-gpu -mt-20">
             <div className="space-y-3">
               {renderReviewRow(0, 0)}
               {renderReviewRow(5, 1)}

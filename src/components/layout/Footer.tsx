@@ -2,14 +2,15 @@
 
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
 
 import { socialMediaLinks } from '@/constants/NavLinks';
+import { Link } from '@/i18n/routing';
 import CryptoCoinsBar from './CryptoCoinsBar';
 import Logo from './Logo';
 
 export default function Footer() {
   const t = useTranslations('footer');
+  const headerT = useTranslations('header');
 
   return (
     <footer className="flex flex-col bg-own-primary-5">
@@ -25,10 +26,10 @@ export default function Footer() {
               {t('menu.title')}
             </h2>
             <ul className="flex flex-col gap-2 justify-center items-center md:justify-start md:items-start">
-              {t.raw('menu.items').map((item: string, index: number) => (
-                <li key={index}>
-                  <Link href={'/'} className="hover:text-own-primary-3">
-                    {item}
+              {Object.keys(headerT.raw('nav')).map((key) => (
+                <li key={key}>
+                  <Link href={`#${key}`} className="hover:text-own-primary-3">
+                    {headerT(`nav.${key}`)}
                   </Link>
                 </li>
               ))}
@@ -43,7 +44,16 @@ export default function Footer() {
             <ul className="flex flex-col gap-2 justify-center items-center md:justify-start md:items-start">
               {t.raw('policies.items').map((policy: string, index: number) => (
                 <li key={index}>
-                  <Link href={'/'} className="hover:text-own-primary-3">
+                  <Link
+                    href={
+                      policy === 'Privacy policy' || policy === 'Privacybeleid'
+                        ? '/privacy_policy'
+                        : policy === 'Terms & conditions' || policy === 'Algemene voorwaarden'
+                          ? '/terms_and_conditions'
+                          : '/'
+                    }
+                    className="hover:text-own-primary-3"
+                  >
                     {policy}
                   </Link>
                 </li>

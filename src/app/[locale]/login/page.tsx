@@ -1,16 +1,15 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 
 export default function LoginPage() {
   const router = useRouter();
 
   function handleLogin() {
-    // Simulate authentication (Replace with actual logic)
     localStorage.setItem('isAuthenticated', 'true');
-    router.push('/nl/dashboard'); // Redirect to Dashboard
-  }
 
+    router.push('/dashboard');
+  }
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-2xl font-bold">Login</h1>

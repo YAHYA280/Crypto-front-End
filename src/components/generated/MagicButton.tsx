@@ -59,13 +59,13 @@ export default function MagicButton({
           'relative inline-flex h-12 overflow-hidden rounded-lg p-[2px]  focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 transition-transform',
           className,
           {
-            'bg-[conic-gradient(from_90deg_at_50%_50%,var(--own-primary-3)_0%,var(--own-primary-1)_50%,var(--own-primary-3)_100%)]':
+            'bg-[conic-gradient(from_90deg_at_50%_50%,var(--own-primary-3)_0%,var(--own-primary-4)_50%,var(--own-primary-3)_100%)]':
               withAnimatedBackground,
           }
         )}
       >
         {(withAnimatedBorder || buttonHasEffect || withAnimatedBackground) && (
-          <span className="absolute inset-[-1000%] animate-spin-slow bg-[conic-gradient(from_90deg_at_50%_50%,var(--own-primary-3)_0%,var(--own-primary-2)_50%,var(--own-primary-3)_100%)]"></span>
+          <span className="absolute inset-[-1000%] animate-spin-slow bg-[conic-gradient(from_90deg_at_50%_50%,var(--own-primary-3)_0%,var(--own-primary-4)_50%,var(--own-primary-3)_100%)]"></span>
         )}
 
         <span

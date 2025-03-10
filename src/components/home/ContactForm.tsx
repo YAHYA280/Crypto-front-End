@@ -42,9 +42,9 @@ export default function ContactForm() {
           href="/"
           text={t('send_button')}
           icon={ArrowUpRight}
-          className={cn('border border-own-primary-3 bg-own-primary-3 w-full mt-6')}
+          className={cn('border border-own-primary-3 bg-gradient-to-r from-[#DDA909] to-[#332B00] w-full mt-6')}
           withAnimatedBorder={false}
-          buttonHasEffect={false}
+          withAnimatedBackground={true}
         />
       </form>
     </div>

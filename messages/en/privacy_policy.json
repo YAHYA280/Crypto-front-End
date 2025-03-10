@@ -1,0 +1,65 @@
+{
+    "title": "Privacy Policy",
+    "description": "Crypto Architect attaches great importance to the privacy of its users. In this privacy policy, we explain how we handle your personal data.",
+    "sections": [
+      {
+        "title": "1. Collection of Personal Data:",
+        "content": [
+          "We collect personal data that you provide to us when you register on our website, such as your name, email address, and contact details.",
+          "We also collect information about your use of our website and services, such as IP addresses, browser data, and pages you visit."
+        ]
+      },
+      {
+        "title": "2. Use of Personal Data:",
+        "description": "Your personal data is used for the following purposes:",
+        "content": [
+          "Providing our services and managing your account.",
+          "Improving our website and services.",
+          "Sending newsletters and marketing communications (if you have given your consent).",
+          "Compliance with legal obligations.",
+          "Sharing of Personal Data."
+        ]
+      },
+      {
+        "title": "3. Sharing of Personal Data:",
+        "content": [
+          "We share your personal data with third parties to create a broker account.",
+          "We do not share your personal data with third parties unless necessary for providing our services or when legally required to do so.",
+          "In some cases, we may share your data with service providers who assist us with our operations, such as hosting providers and email services. These third parties are obligated to protect your data and may not use it for other purposes."
+        ]
+      },
+      {
+        "title": "4. Security of Personal Data:",
+        "content": [
+          "We take appropriate technical and organizational measures to protect your personal data against loss, theft, and unauthorized access."
+        ]
+      },
+      {
+        "title": "5. Retention Period:",
+        "content": [
+          "We do not retain your personal data longer than necessary for the purposes for which it was collected, unless legally required to do so."
+        ]
+      },
+      {
+        "title": "6. Your Rights:",
+        "content": [
+          "You have the right to access, correct, delete, or restrict the processing of your personal data. You can make a request by contacting us through our website.",
+          "You also have the right to object to the processing of your data and to transfer your data to another service provider."
+        ]
+      },
+      {
+        "title": "7. Cookies:",
+        "content": [
+          "Our website uses cookies to enhance your user experience. Please refer to our cookie policy for more information on how we use cookies."
+        ]
+      },
+      {
+        "title": "8. Changes to this Privacy Policy:",
+        "content": [
+          "Crypto Architect reserves the right to change this privacy policy at any time. We recommend checking this policy regularly for updates."
+        ]
+      }
+    ],
+    "back_button": "Back to Home"
+  }
+  
