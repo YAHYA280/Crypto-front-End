@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface PaginationProps {
   totalTransactions: number;
@@ -16,7 +17,7 @@ export default function Pagination({
   setCurrentPage,
 }: PaginationProps) {
   const totalPages = Math.ceil(totalTransactions / transactionsPerPage);
-
+  const t = useTranslations('global');
   return (
     <div className="flex justify-between items-center gap-2 mt-4">
       {/* Back Button */}
@@ -26,7 +27,7 @@ export default function Pagination({
         onClick={() => setCurrentPage(currentPage - 1)}
       >
         <ChevronLeft size={15} />
-        <span className="ml-1">Back</span>
+        <span className="ml-1">{t('back')}</span>
       </button>
 
       <div className="flex gap-2">
@@ -53,7 +54,7 @@ export default function Pagination({
         disabled={currentPage === totalPages}
         onClick={() => setCurrentPage(currentPage + 1)}
       >
-        <span className="ml-1">Next</span>
+        <span className="ml-1">{t('next')}</span>
         <ChevronRight size={15} />
       </button>
     </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { Download, MoreHorizontal, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
@@ -147,6 +148,8 @@ const transactionsData = [
 ];
 
 export default function Dashboard() {
+  const t = useTranslations('dashboardTranslation');
+
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
@@ -180,7 +183,7 @@ export default function Dashboard() {
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} />
       <div className="flex flex-col flex-grow p-6 mt-5">
         <DashboardHeader
-          title="Transaction History"
+          title={t('dashboard_transactionHistory')}
           onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
           onRefresh={handleRefresh}
         />
@@ -189,7 +192,7 @@ export default function Dashboard() {
           {selectedTransaction && (
             <div className="bg-own-primary-5  rounded-lg p-6">
               <button className="flex items-center gap-1 mb-4 text-white" onClick={() => setSelectedTransaction(null)}>
-                ← Back
+                ← {t('dashboard_back')}
               </button>
             </div>
           )}
@@ -213,14 +216,14 @@ export default function Dashboard() {
               <Table>
                 <TableHeader>
                   <tr>
-                    <TableHead className="p-3">Date</TableHead>
-                    <TableHead className="p-3">Tag Name</TableHead>
-                    <TableHead className="p-3">Type</TableHead>
-                    <TableHead className="p-3">Email</TableHead>
-                    <TableHead className="p-3">Expiration</TableHead>
-                    <TableHead className="p-3">Amount</TableHead>
-                    <TableHead className="p-3">Status</TableHead>
-                    <TableHead className="p-3">Action</TableHead>
+                    <TableHead className="p-3">{t('dashboard_date')}</TableHead>
+                    <TableHead className="p-3">{t('dashboard_tagName')}</TableHead>
+                    <TableHead className="p-3">{t('dashboard_type')}</TableHead>
+                    <TableHead className="p-3">{t('dashboard_email')}</TableHead>
+                    <TableHead className="p-3">{t('dashboard_expirationDate')}</TableHead>
+                    <TableHead className="p-3">{t('dashboard_amount')}</TableHead>
+                    <TableHead className="p-3">{t('dashboard_status')}</TableHead>
+                    <TableHead className="p-3">{t('dashboard_action')}</TableHead>
                   </tr>
                 </TableHeader>
 
@@ -249,10 +252,10 @@ export default function Dashboard() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="bg-gray-800 border  rounded-md shadow-lg text-xs">
                             <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 cursor-pointer px-2 py-2  ">
-                              <Download size={16} className="text-gray-300" /> Download PDF
+                              <Download size={16} className="text-gray-300" /> {t('dashboard_downloadPdf')}
                             </DropdownMenuItem>
                             <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 text-red-500 cursor-pointer px-2 py-2">
-                              <Trash2 size={16} /> Delete
+                              <Trash2 size={16} /> {t('dashboard_delete')}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -265,47 +268,46 @@ export default function Dashboard() {
 
             <div className="md:hidden">
               {selectedTransaction ? (
-                // Detailed View (Mobile)
                 <div className="bg-own-primary-5 p-4 rounded-lg">
                   <div className="space-y-3">
                     <div className="flex justify-between">
-                      <span className="font-semibold">Date:</span>
+                      <span className="font-semibold">{t('dashboard_date')}:</span>
                       <span>{selectedTransaction.date}</span>
                     </div>
                     <hr className="border-gray-700" />
                     <div className="flex justify-between">
-                      <span className="font-semibold">Tag Name:</span>
+                      <span className="font-semibold">{t('dashboard_tagName')}:</span>
                       <span>{selectedTransaction.tagName}</span>
                     </div>
                     <hr className="border-gray-700" />
                     <div className="flex justify-between">
-                      <span className="font-semibold">Type:</span>
+                      <span className="font-semibold">{t('dashboard_type')}:</span>
                       <span>{selectedTransaction.type}</span>
                     </div>
                     <hr className="border-gray-700" />
                     <div className="flex justify-between">
-                      <span className="font-semibold">Email:</span>
+                      <span className="font-semibold">{t('dashboard_email')}:</span>
                       <span>{selectedTransaction.email}</span>
                     </div>
                     <hr className="border-gray-700" />
                     <div className="flex justify-between">
-                      <span className="font-semibold">Expiration:</span>
+                      <span className="font-semibold">{t('dashboard_expirationDate')}:</span>
                       <span>{selectedTransaction.expiration}</span>
                     </div>
                     <hr className="border-gray-700" />
                     <div className="flex justify-between">
-                      <span className="font-semibold">Amount:</span>
+                      <span className="font-semibold">{t('dashboard_amount')}:</span>
                       <span>{selectedTransaction.amount}</span>
                     </div>
                     <hr className="border-gray-700" />
                     <div className="flex justify-between">
-                      <span className="font-semibold">Status:</span>
+                      <span className="font-semibold">{t('dashboard_status')}:</span>
                       <StatusBadge status={selectedTransaction.status} />
                     </div>
                     <hr className="border-gray-700" />
 
                     <div className="flex justify-between">
-                      <span className="font-semibold">Actions:</span>
+                      <span className="font-semibold">{t('dashboard_action')}:</span>
 
                       <>
                         <DropdownMenu>
@@ -319,10 +321,10 @@ export default function Dashboard() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="bg-gray-800 border  rounded-md shadow-lg text-xs">
                             <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 cursor-pointer px-2 py-2  ">
-                              <Download size={16} className="text-gray-300" /> Download PDF
+                              <Download size={16} className="text-gray-300" /> {t('dashboard_downloadPdf')}
                             </DropdownMenuItem>
                             <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 text-red-500 cursor-pointer px-2 py-2">
-                              <Trash2 size={16} /> Delete
+                              <Trash2 size={16} /> {t('dashboard_delete')}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>

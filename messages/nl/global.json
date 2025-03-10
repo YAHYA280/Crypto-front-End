@@ -2,6 +2,9 @@
     "title":"Crypto Architect",
     "read_more": "Read more",
     "more_details": "More details",
+    "next": "Volgende",
+    "back": "Terug",
+    "logout": "Uitloggen",
     "LocaleSwitcher": {
         "label": "Change language",
         "locale": "{locale, select, de {🇳🇱 NL} en {🇬🇧 EN} other {🇳🇱 NL}}"
