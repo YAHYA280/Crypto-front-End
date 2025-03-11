@@ -1,9 +1,9 @@
 'use client';
 
-import { LayoutDashboard, LogOut, X } from 'lucide-react';
-import Link from 'next/link';
+import { Clock10, LayoutDashboard, LogOut, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
-import { useRouter } from '@/i18n/routing';
+import { Link, useRouter } from '@/i18n/routing';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -12,7 +12,7 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const router = useRouter();
-
+  const t = useTranslations('global');
   function handleLogout() {
     router.push('/login');
   }
@@ -47,8 +47,11 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
           <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 bg-[#DDA909] text-white rounded-md">
             <LayoutDashboard size={20} /> Dashboard
           </Link>
-          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 bg-[#4B6547] text-white rounded-md">
-            <LayoutDashboard size={20} /> Dashboard
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-3 px-4 py-3 bg-[#4B6547] text-white rounded-md hover:bg-[#DDA909] transition"
+          >
+            <Clock10 size={20} /> Coming soon
           </Link>
         </nav>
 
@@ -56,7 +59,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
           onClick={handleLogout}
           className="mt-auto flex items-center gap-3 px-4 py-3 bg-red-600 hover:bg-red-500 transition rounded-md"
         >
-          <LogOut size={20} /> Log out
+          <LogOut size={20} /> {t('logout')}
         </button>
       </aside>
     </>

@@ -1,13 +1,13 @@
 'use client';
 
-import { Menu } from 'lucide-react';
+import { Menu, RefreshCw } from 'lucide-react';
 
 import LocaleSwitcher from '@/components/ui/LocaleSwitcher';
 
 interface DashboardHeaderProps {
   title: string;
   onRefresh?: () => void;
-  onToggleSidebar?: () => void; // 👈 Add this prop
+  onToggleSidebar?: () => void;
 }
 
 export default function DashboardHeader({ title, onRefresh, onToggleSidebar }: DashboardHeaderProps) {
@@ -22,19 +22,17 @@ export default function DashboardHeader({ title, onRefresh, onToggleSidebar }: D
 
         {/* Title */}
         <h1 className="text-2xl font-bold text-white">{title}</h1>
+        <button
+          onClick={onRefresh}
+          className="p-1  hover:bg-gray-600 rounded-md flex items-center justify-center"
+          aria-label="Refresh"
+        >
+          <RefreshCw size={18} />
+        </button>
       </div>
 
       {/* Right side: Refresh & Locale Switcher */}
       <div className="flex items-center gap-4">
-        {onRefresh && (
-          <button
-            onClick={onRefresh}
-            className="p-2 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center"
-            aria-label="Refresh"
-          >
-            🔄 Refresh
-          </button>
-        )}
         <LocaleSwitcher />
       </div>
     </div>

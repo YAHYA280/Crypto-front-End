@@ -1,0 +1,17 @@
+{
+    "dashboard_title": "Dashboard",
+    "dashboard_transactionHistory": "Transactiegeschiedenis",
+    "dashboard_transactionHistoryEmpty": "Geen transacties gevonden",
+    "dashboard_date": "Datum",
+    "dashboard_tagName": "Tagnaam",
+    "dashboard_type": "Type",
+    "dashboard_email": "E-mail",
+    "dashboard_expirationDate": "Vervaldatum",
+    "dashboard_amount": "Bedrag",
+    "dashboard_status": "Status",
+    "dashboard_action": "Actie",
+    "dashboard_next": "Volgende",
+    "dashboard_back": "Terug",
+    "dashboard_downloadPdf": "Download PDF",
+    "dashboard_delete": "Verwijderen"
+}

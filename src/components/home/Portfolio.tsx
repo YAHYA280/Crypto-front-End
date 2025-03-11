@@ -20,6 +20,7 @@ const partnersLogos: LogoItem[][] = [
   [
     { logo: 'PF.Item.BITCOIN.svg', position: { y: '-100%', opacity: 0 } },
     { logo: 'PF.Item.CREDEFI.svg', position: { x: '100%', opacity: 0 } },
+    { logo: 'PF.Item.BINANCE.svg', position: { y: '100%', opacity: 0 } },
     { logo: 'PF.Item.GOLDFINCH.svg', position: { x: '-100%', opacity: 0 } },
     { logo: 'PF.Item.BINANCE.svg', position: { y: '100%', opacity: 0 } },
     { logo: 'PF.Item.QUANT.svg', position: { x: '100%', opacity: 0 } },
@@ -30,12 +31,17 @@ const partnersLogos: LogoItem[][] = [
     { logo: 'PF.Item.POLKADOT.svg', position: { x: '100%', opacity: 0 } },
     { logo: 'PF.Item.RENDER.svg', position: { x: '-100%', opacity: 0 } },
     { logo: 'PF.Item.BITCOINCASH(BCH).svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.RIPPLE.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.BITCOIN.svg', position: { x: '-100%', opacity: 0 } },
   ],
   // Row 3
   [
     { logo: 'PF.Item.SMOOTH_LOVE_POTION.svg', position: { x: '100%', opacity: 0 } },
     { logo: 'PF.Item.TRAVALA.svg', position: { y: '-100%', opacity: 0 } },
     { logo: 'PF.Item.CARDANO.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.SMOOTH_LOVE_POTION.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.TRAVALA.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.LITECOIN.svg', position: { y: '100%', opacity: 0 } },
   ],
   // Row 4
   [
@@ -44,6 +50,9 @@ const partnersLogos: LogoItem[][] = [
     { logo: 'PF.Item.RENDER.svg', position: { x: '100%', opacity: 0 } },
     { logo: 'PF.Item.ETHEREUM.svg', position: { y: '100%', opacity: 0 } },
     { logo: 'PF.Item.RIPPLE.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.RENDER.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.OASIS(ROSE).svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.ETHEREUM.svg', position: { x: '-100%', opacity: 0 } },
   ],
   // Row 5
   [
@@ -51,20 +60,27 @@ const partnersLogos: LogoItem[][] = [
     { logo: 'PF.Item.CREDEFI.svg', position: { y: '100%', opacity: 0 } },
     { logo: 'PF.Item.GOLDFINCH.svg', position: { y: '-100%', opacity: 0 } },
     { logo: 'PF.Item.LITECOIN.svg', position: { x: '100%', opacity: 0 } },
+    { logo: 'PF.Item.LOSSLESS.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.ETHEREUM.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.CREDEFI.svg', position: { x: '-100%', opacity: 0 } },
   ],
   // Row 6
   [
     { logo: 'PF.Item.SMOOTH_LOVE_POTION.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.ETHEREUM.svg', position: { y: '-100%', opacity: 0 } },
     { logo: 'PF.Item.TRAVALA.svg', position: { x: '-100%', opacity: 0 } },
     { logo: 'PF.Item.LOSSLESS.svg', position: { y: '-100%', opacity: 0 } },
     { logo: 'PF.Item.SOLANA.svg', position: { x: '100%', opacity: 0 } },
+    { logo: 'PF.Item.LOSSLESS.svg', position: { y: '100%', opacity: 0 } },
   ],
   // Row 7
   [
     { logo: 'PF.Item.PHOENIX.svg', position: { x: '100%', opacity: 0 } },
+    { logo: 'PF.Item.QUANT.svg', position: { y: '100%', opacity: 0 } },
     { logo: 'PF.Item.POLKADOT.svg', position: { y: '-100%', opacity: 0 } },
     { logo: 'PF.Item.RENDER.svg', position: { y: '100%', opacity: 0 } },
     { logo: 'PF.Item.OASIS(ROSE).svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.SOLANA.svg', position: { x: '-100%', opacity: 0 } },
   ],
   // Row 8
   [
@@ -72,6 +88,9 @@ const partnersLogos: LogoItem[][] = [
     { logo: 'PF.Item.POLKADOT.svg', position: { x: '-100%', opacity: 0 } },
     { logo: 'PF.Item.RENDER.svg', position: { x: '100%', opacity: 0 } },
     { logo: 'PF.Item.POLKADOT(1).svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.LOSSLESS.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.SOLANA.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.RENDER.svg', position: { x: '-100%', opacity: 0 } },
   ],
 ];
 
