@@ -16,45 +16,62 @@ interface LogoItem {
 
 // Array of partner logos with positions
 const partnersLogos: LogoItem[][] = [
+  // Row 1
   [
     { logo: 'PF.Item.BITCOIN.svg', position: { y: '-100%', opacity: 0 } },
-    { logo: 'PF.Item.CREDEFI.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.CREDEFI.svg', position: { x: '100%', opacity: 0 } },
     { logo: 'PF.Item.GOLDFINCH.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.BINANCE.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.QUANT.svg', position: { x: '100%', opacity: 0 } },
   ],
+  // Row 2
   [
     { logo: 'PF.Item.PHOENIX.svg', position: { y: '100%', opacity: 0 } },
-    { logo: 'PF.Item.POLKADOT.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.POLKADOT.svg', position: { x: '100%', opacity: 0 } },
     { logo: 'PF.Item.RENDER.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.BITCOINCASH(BCH).svg', position: { y: '-100%', opacity: 0 } },
   ],
+  // Row 3
   [
-    { logo: 'PF.Item.SMOOTH_LOVE_POTION.svg', position: { y: '-100%', opacity: 0 } },
-    { logo: 'PF.Item.TRAVALA.svg', position: { x: '-100%', opacity: 0 } },
-    { logo: 'PF.BG.BrownRadial.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.SMOOTH_LOVE_POTION.svg', position: { x: '100%', opacity: 0 } },
+    { logo: 'PF.Item.TRAVALA.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.CARDANO.svg', position: { y: '100%', opacity: 0 } },
   ],
+  // Row 4
   [
-    { logo: 'PF.Item.PHOENIX.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.PHOENIX.svg', position: { x: '-100%', opacity: 0 } },
     { logo: 'PF.Item.POLKADOT.svg', position: { y: '-100%', opacity: 0 } },
-    { logo: 'PF.Item.RENDER.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.RENDER.svg', position: { x: '100%', opacity: 0 } },
+    { logo: 'PF.Item.ETHEREUM.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.RIPPLE.svg', position: { x: '-100%', opacity: 0 } },
   ],
+  // Row 5
   [
-    { logo: 'PF.Item.BITCOIN.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.BITCOIN.svg', position: { x: '-100%', opacity: 0 } },
     { logo: 'PF.Item.CREDEFI.svg', position: { y: '100%', opacity: 0 } },
-    { logo: 'PF.Item.GOLDFINCH.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.GOLDFINCH.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.LITECOIN.svg', position: { x: '100%', opacity: 0 } },
   ],
+  // Row 6
   [
-    { logo: 'PF.Item.SMOOTH_LOVE_POTION.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.SMOOTH_LOVE_POTION.svg', position: { y: '100%', opacity: 0 } },
     { logo: 'PF.Item.TRAVALA.svg', position: { x: '-100%', opacity: 0 } },
-    { logo: 'PF.BG.BrownRadial.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.LOSSLESS.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.SOLANA.svg', position: { x: '100%', opacity: 0 } },
   ],
+  // Row 7
+  [
+    { logo: 'PF.Item.PHOENIX.svg', position: { x: '100%', opacity: 0 } },
+    { logo: 'PF.Item.POLKADOT.svg', position: { y: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.RENDER.svg', position: { y: '100%', opacity: 0 } },
+    { logo: 'PF.Item.OASIS(ROSE).svg', position: { x: '-100%', opacity: 0 } },
+  ],
+  // Row 8
   [
     { logo: 'PF.Item.PHOENIX.svg', position: { y: '100%', opacity: 0 } },
-    { logo: 'PF.Item.POLKADOT.svg', position: { y: '-100%', opacity: 0 } },
-    { logo: 'PF.Item.RENDER.svg', position: { x: '-100%', opacity: 0 } },
-  ],
-  [
-    { logo: 'PF.Item.PHOENIX.svg', position: { y: '100%', opacity: 0 } },
-    { logo: 'PF.Item.POLKADOT.svg', position: { y: '-100%', opacity: 0 } },
-    { logo: 'PF.Item.RENDER.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.POLKADOT.svg', position: { x: '-100%', opacity: 0 } },
+    { logo: 'PF.Item.RENDER.svg', position: { x: '100%', opacity: 0 } },
+    { logo: 'PF.Item.POLKADOT(1).svg', position: { y: '-100%', opacity: 0 } },
   ],
 ];
 
@@ -72,7 +89,7 @@ function PartnerBox({ partner, index }: PartnerBoxProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentLogo((prev) => (prev + 1) % partner.length);
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [partner.length]);
