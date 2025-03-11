@@ -81,12 +81,24 @@ function ReviewBox({ review }: ReviewBoxProps) {
   );
 }
 
+// Fisher-Yates (Knuth) shuffle algorithm
+function shuffleArray<T>(array: T[]): T[] {
+  const newArray = [...array]; // Create a copy to avoid mutating the original
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Swap elements
+  }
+  return newArray;
+}
+
 export default function AnimatedReviews() {
   const containerRef = useRef<HTMLDivElement>(null);
   const rowsContainerRef = useRef<HTMLDivElement>(null);
   const rowsRef = useRef<HTMLDivElement[]>([]);
   // Use state to control rendering for better performance
   const [isVisible, setIsVisible] = useState(false);
+  // Randomize the reviews array once when the component mounts
+  const [randomizedReviews] = useState(() => shuffleArray(reviews));
 
   useEffect(() => {
     // Set up IntersectionObserver to detect when reviews are in view
@@ -164,18 +176,18 @@ export default function AnimatedReviews() {
       ref={(el) => addRowRef(el, rowIndex)}
       className={`review-row flex gap-3 will-change-transform ${rowIndex % 2 === 0 ? '' : 'flex-row-reverse'}`}
     >
-      {reviews.slice(startIndex, startIndex + 5).map((review, index) => (
+      {randomizedReviews.slice(startIndex, startIndex + 5).map((review, index) => (
         <ReviewBox key={index} review={review} />
       ))}
     </div>
   );
 
   return (
-    <div ref={containerRef} className="bg-own-primary-5  overflow-hidden">
+    <div ref={containerRef} className="bg-own-primary-5 overflow-hidden">
       {isVisible && (
-        <div className=" h-[800px] rotate-[-5deg]">
+        <div className="h-[800px] rotate-[-5deg]">
           {/* Apply transform-gpu for GPU acceleration and rotate-[-6deg] for the tilt to the left */}
-          <div ref={rowsContainerRef} className="rotate-[-5deg] relative  transform-gpu -mt-20">
+          <div ref={rowsContainerRef} className="rotate-[-5deg] relative transform-gpu -mt-20">
             <div className="space-y-3">
               {renderReviewRow(0, 0)}
               {renderReviewRow(5, 1)}
