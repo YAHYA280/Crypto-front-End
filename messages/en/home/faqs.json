@@ -57,5 +57,7 @@
       "answer": "We are very sorry that something was not satisfactory. You can file your complaints by mailing them to: Mrbtabusiness@gmail.com."
     }
   },
-  "faqs_cta_button":"See More"
+  "faqs_cta_button": "See More",
+  "faqs_description": "Find answers to commonly asked questions about membership, the community, pricing, and more.",
+  "faqs_title": "Frequently asked questions"
 }

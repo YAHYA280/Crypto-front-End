@@ -3,8 +3,9 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
+import MagicButton from '@/components/generated/MagicButton';
+import SectionTitle from '@/components/generated/SectionTitle';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
 
 export default function Faqs() {
   const t = useTranslations('home');
@@ -12,6 +13,7 @@ export default function Faqs() {
 
   return (
     <div className="max-width flex flex-col gap-5" id="faqs">
+      <SectionTitle title={t('faqs_title')} description={t('faqs_description')} isCentered={true} />
       <Accordion type="single" collapsible className="w-full">
         {/* Manually rendering each FAQ using translations */}
         {[...Array(showAll ? 14 : 3)].map((_, index) => {
@@ -37,12 +39,15 @@ export default function Faqs() {
 
       {/* "See More" Button */}
       {!showAll && (
-        <Button
-          onClick={() => setShowAll(true)}
-          className="bg-transparent border text-lg text-foreground mx-auto h-[40px] rounded-xl hover:bg-gradient-to-r hover:from-[#DDA909] hover:to-[#B28700] hover:border-[#DDA909]"
-        >
-          {t('faqs_cta_button')}
-        </Button>
+        <div className="flex justify-center mt-8">
+          <MagicButton
+            isLink={false}
+            onClick={() => setShowAll(true)}
+            text={t('faqs_cta_button')}
+            withAnimatedBorder={false}
+            withAnimatedBackground={true}
+          />
+        </div>
       )}
     </div>
   );
