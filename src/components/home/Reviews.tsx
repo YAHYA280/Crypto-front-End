@@ -9,7 +9,7 @@ export default function Reviews() {
   const t = useTranslations('home');
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" id="testimonials">
       <SectionTitle
         title={t('testimonials_title')}
         description={t('testimonials_description')}
