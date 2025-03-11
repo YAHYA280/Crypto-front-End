@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --navbar-height: 100px;
+}
+
 html,
 body {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--navbar-height);
 }
 
 .max-width {

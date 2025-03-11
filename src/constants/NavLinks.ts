@@ -17,7 +17,7 @@ export const navLinks = [
   {
     key: 'testimonials',
     name: 'Testimonials',
-    href: '#packages',
+    href: '#testimonials',
   },
   {
     key: 'faqs',
@@ -53,19 +53,19 @@ export const socialMediaLinks = [
   {
     key: 'tiktok',
     name: '@CryptoArchitect',
-    icon: 'TIKTOK_LOGO_FRAME.png',
+    icon: 'TIKTOK_LOGO.svg',
     href: '/',
   },
   {
     key: 'instagram',
     name: '@CryptoArchitect',
-    icon: 'INSTA_LOGO_FRAME.png',
+    icon: 'INSTA_LOGO.svg',
     href: '/',
   },
   {
     key: 'youtube',
     name: 'CryptoArchitect',
-    icon: 'YT_LOGO_FRAME.png',
+    icon: 'YT_LOGO.svg',
     href: '/',
   },
 ];

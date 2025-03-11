@@ -1,0 +1,17 @@
+{
+    "dashboard_title": "Dashboard",
+    "dashboard_transactionHistory": "Transaction History",
+    "dashboard_transactionHistoryEmpty": "No transactions found",
+    "dashboard_date": "Date",
+    "dashboard_tagName": "Tag Name",
+    "dashboard_type": "Type",
+    "dashboard_email": "Email",
+    "dashboard_expirationDate": "Expiration Date",
+    "dashboard_amount": "Amount",
+    "dashboard_status": "Status",
+    "dashboard_action": "Action",
+    "dashboard_next": "Next",
+    "dashboard_back": "Back",
+    "dashboard_downloadPdf": "Download PDF",
+    "dashboard_delete": "Delete"
+}
