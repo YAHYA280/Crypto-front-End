@@ -41,14 +41,16 @@ export default function ContactForm() {
           </div>
 
           {/* Submit button  */}
-          <MagicButton
-            href="/"
-            text={t('send_button')}
-            icon={ArrowUpRight}
-            className={cn('border border-own-primary-3 bg-gradient-to-r from-[#DDA909] to-[#332B00] w-56 mt-6')}
-            withAnimatedBorder={false}
-            withAnimatedBackground={true}
-          />
+          <div className="w-full flex justify-center md:justify-start">
+            <MagicButton
+              href="/"
+              text={t('send_button')}
+              icon={ArrowUpRight}
+              className={cn('border border-own-primary-3 bg-gradient-to-r from-[#DDA909] to-[#332B00] w-56 mt-6')}
+              withAnimatedBorder={false}
+              withAnimatedBackground={true}
+            />
+          </div>
         </form>
       </div>
     </div>
