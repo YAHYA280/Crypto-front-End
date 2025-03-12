@@ -6,7 +6,7 @@
     "socials": {
       "tiktok": "@CryptoArchitect",
       "instagram": "@CryptoArchitect",
-      "youtube": "CryptoArchitect"
+      "youtube": "@CryptoArchitect"
     }
   },
   "menu": {
@@ -15,6 +15,6 @@
   },
   "policies": {
     "title": "BELEID",
-    "items": ["Algemene voorwaarden", "Privacybeleid", "Cookiebeleid"]
+    "items": ["Algemene voorwaarden", "Privacybeleid"]
   }
 }

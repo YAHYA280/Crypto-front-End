@@ -35,45 +35,43 @@ function ReviewBox({ review }: ReviewBoxProps) {
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         // Full star
-        stars.push(<Star key={i} stroke="none" fill="#DDA909" className="h-5 w-5" />);
+        stars.push(<Star key={i} stroke="none" fill="#DDA909" className="h-4 w-4 md:h-5 md:w-5" />);
       } else if (i === fullStars && hasHalfStar) {
         // Half star
-        stars.push(<StarHalf key={i} stroke="none" fill="#DDA909" className=" h-5 w-5" />);
+        stars.push(<StarHalf key={i} stroke="none" fill="#DDA909" className="h-4 w-4 md:h-5 md:w-5" />);
       }
-      //  else {
-      //   // Empty or inactive star
-      //   stars.push(<Star key={i} stroke="none" fill="#FFFF" className="h-5 w-5" />);
-      // }
     }
 
     return stars;
   };
 
   return (
-    <div className="bg-black border min-w-[560px] h-[280px] p-6 shadow-lg transition-all duration-300 relative will-change-transform rounded-xl overflow-hidden">
+    <div className="bg-black border min-w-[280px] sm:min-w-[380px] md:min-w-[460px] lg:min-w-[560px] h-[220px] sm:h-[250px] md:h-[280px] p-4 md:p-6 shadow-lg transition-all duration-300 relative will-change-transform rounded-xl overflow-hidden">
       <BluredBox />
 
-      <div className="flex flex-col gap-2 w-[200px] sm:w-[500px] relative z-10">
+      <div className="flex flex-col gap-2 w-full relative z-10">
         {/* Stars and numeric rating */}
         <div className="flex items-center gap-2">
-          <div className="flex gap-2">{renderStars(review.rating)}</div>
-          <p className="text-white">{review.rating}</p>
+          <div className="flex gap-1 md:gap-2">{renderStars(review.rating)}</div>
+          <p className="text-white text-sm md:text-base">{review.rating}</p>
         </div>
 
         {/* Comment text */}
-        <p className="text-white/80 mb-4 line-clamp-4">{review.comment.substring(0, 250)}</p>
+        <p className="text-white/80 mb-2 md:mb-4 line-clamp-3 md:line-clamp-4 text-xs sm:text-sm md:text-base">
+          {review.comment.substring(0, 250)}
+        </p>
 
         {/* Name and profile image */}
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-3">
+        <div className="flex justify-between items-center mt-auto">
+          <div className="flex items-center gap-2 md:gap-3">
             <Image
               src={`/reviews-profiles/${review.image}`}
               height={40}
               width={40}
               alt="Profile Image"
-              className="h-10 w-10 rounded-full"
+              className="h-8 w-8 md:h-10 md:w-10 rounded-full"
             />
-            <h3 className="text-base font-medium text-white mb-2">{review.name}</h3>
+            <h3 className="text-sm md:text-base font-medium text-white">{review.name}</h3>
           </div>
         </div>
       </div>
@@ -171,12 +169,38 @@ export default function AnimatedReviews() {
     }
   };
 
+  // Adjust the number of reviews per row based on screen size
+  const getReviewsPerRow = () => {
+    // We'll use a smaller default number for mobile
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 640) return 2; // For very small screens
+      if (window.innerWidth < 1024) return 3; // For medium screens
+      return 5; // For large screens
+    }
+    return 5; // Default for SSR
+  };
+
+  const [reviewsPerRow, setReviewsPerRow] = useState(5);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setReviewsPerRow(getReviewsPerRow());
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add resize listener
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const renderReviewRow = (startIndex: number, rowIndex: number) => (
     <div
       ref={(el) => addRowRef(el, rowIndex)}
-      className={`review-row flex gap-3 will-change-transform ${rowIndex % 2 === 0 ? '' : 'flex-row-reverse'}`}
+      className={`review-row flex gap-2 md:gap-3 will-change-transform ${rowIndex % 2 === 0 ? '' : 'flex-row-reverse'}`}
     >
-      {randomizedReviews.slice(startIndex, startIndex + 5).map((review, index) => (
+      {randomizedReviews.slice(startIndex, startIndex + reviewsPerRow).map((review, index) => (
         <ReviewBox key={index} review={review} />
       ))}
     </div>
@@ -185,10 +209,10 @@ export default function AnimatedReviews() {
   return (
     <div ref={containerRef} className="bg-own-primary-5 overflow-hidden">
       {isVisible && (
-        <div className="h-[800px] rotate-[-5deg]">
+        <div className="h-[600px] sm:h-[700px] md:h-[800px] rotate-[-5deg]">
           {/* Apply transform-gpu for GPU acceleration and rotate-[-6deg] for the tilt to the left */}
-          <div ref={rowsContainerRef} className="rotate-[-5deg] relative transform-gpu -mt-20">
-            <div className="space-y-3">
+          <div ref={rowsContainerRef} className="rotate-[-5deg] relative transform-gpu -mt-10 md:-mt-20">
+            <div className="space-y-2 md:space-y-3">
               {renderReviewRow(0, 0)}
               {renderReviewRow(5, 1)}
               {renderReviewRow(10, 2)}

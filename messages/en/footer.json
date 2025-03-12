@@ -1,12 +1,12 @@
 {
   "brand": "Crypto Architect",
-  "copyright": "CryptoArchitect.nl is ontwikkeld door Achieve.nl © 2025.",
+  "copyright": "CryptoArchitect.nl is developed by Achieve.nl © 2025.",
   "follow_us": {
     "title": "FOLLOW US",
     "socials": {
       "tiktok": "@CryptoArchitect",
       "instagram": "@CryptoArchitect",
-      "youtube": "CryptoArchitect"
+      "youtube": "@CryptoArchitect"
     }
   },
   "menu": {
@@ -15,6 +15,6 @@
   },
   "policies": {
     "title": "POLICIES",
-    "items": ["Terms & conditions", "Privacy policy", "Cookie Policy"]
+    "items": ["Terms & conditions", "Privacy policy"]
   }
 }

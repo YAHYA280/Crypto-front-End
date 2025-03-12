@@ -42,11 +42,6 @@ export const companyLinks = [
     name: 'Privacy policy',
     href: '/',
   },
-  {
-    key: 'cookie_policy',
-    name: 'Cookie Policy',
-    href: '/',
-  },
 ];
 
 export const socialMediaLinks = [
@@ -54,18 +49,18 @@ export const socialMediaLinks = [
     key: 'tiktok',
     name: '@CryptoArchitect',
     icon: 'TIKTOK_LOGO.svg',
-    href: '/',
+    href: 'https://www.tiktok.com/@Cryptoarchitectt',
   },
   {
     key: 'instagram',
     name: '@CryptoArchitect',
     icon: 'INSTA_LOGO.svg',
-    href: '/',
+    href: 'https://www.instagram.com/cryptoarchitectt',
   },
   {
     key: 'youtube',
-    name: 'CryptoArchitect',
+    name: '@CryptoArchitect',
     icon: 'YT_LOGO.svg',
-    href: '/',
+    href: 'https://www.youtube.com/@cryptoarchitectt',
   },
 ];

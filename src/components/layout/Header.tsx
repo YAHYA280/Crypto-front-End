@@ -3,6 +3,7 @@
 import { ArrowUpRight, Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useState } from 'react';
 
 import MagicButton from '@/components/generated/MagicButton';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -12,10 +13,26 @@ import Logo from './Logo';
 
 function MobileNav() {
   const t = useTranslations('header');
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleNavClick = (key: string) => {
+    // First close the menu
+    setIsOpen(false);
+
+    // Use setTimeout to delay navigation until after sheet closes
+    setTimeout(() => {
+      // Get the element to scroll to
+      const element = document.getElementById(key);
+      if (element) {
+        // Scroll to the element with smooth behavior
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300); // Adjust timing to match your sheet closing animation duration
+  };
 
   return (
     <div className="flex lg:hidden">
-      <Sheet>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger className="hover:bg-foreground/10 flex items-center justify-center rounded-xl h-[30px] w-[30px]">
           <Menu />
         </SheetTrigger>
@@ -29,9 +46,12 @@ function MobileNav() {
           <ul className="flex flex-col mt-4 font-medium">
             {Object.keys(t.raw('nav')).map((key) => (
               <li key={key}>
-                <Link className="block py-2 px-3 text-foreground hover:text-own-primary-3" href={`#${key}`}>
+                <button
+                  className="block w-full text-left py-2 px-3 text-foreground hover:text-own-primary-3"
+                  onClick={() => handleNavClick(key)}
+                >
                   {t(`nav.${key}`)}
-                </Link>
+                </button>
               </li>
             ))}
           </ul>
