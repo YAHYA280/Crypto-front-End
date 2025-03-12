@@ -23,7 +23,7 @@ export default function LockIn() {
               </div>
             </div>
 
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center md:justify-start">
               <MagicButton
                 href="/"
                 text={t('hero_cta_button')}

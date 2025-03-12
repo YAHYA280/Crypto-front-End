@@ -113,9 +113,9 @@ export default function WhyChooseUs() {
               </div>
             </div>
 
-            <div className="w-full flex justify-center mt-4 sm:mt-6">
+            <div className="w-full flex justify-center md:justify-start mt-4 sm:mt-6">
               <MagicButton
-                href="/"
+                href="#packages"
                 text={t('whyUs_cta_button')}
                 icon={ArrowUpRight}
                 withAnimatedBorder={false}
