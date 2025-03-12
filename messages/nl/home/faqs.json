@@ -1,12 +1,12 @@
 {
   "faqs": {
     "faq1": {
-      "question": "Wat is het doel van de crypto-gemeenschappen die wij aanbieden?",
+      "question": "Wat is het doel van de crypto-community die wij aanbieden?",
       "answer": "Ons doel is om eerlijk en open te zijn, terwijl we ook realistisch blijven. De algemene gedachte dat men alleen maar kan winnen op de cryptomarkt is onjuist."
     },
     "faq2": {
-      "question": "Welke platform(en) gebruiken we voor onze gemeenschappen?",
-      "answer": "Onze gemeenschappen gebruiken Telegram."
+      "question": "Welke platform(en) gebruiken we voor onze community?",
+      "answer": "Onze community gebruiken Telegram."
     },
     "faq3": {
       "question": "Krijg ik toegang tot exclusieve informatie en kansen?",
@@ -41,8 +41,8 @@
       "answer": "We begonnen in de zomer van 2019 met handelen in cryptocurrency."
     },
     "faq11": {
-      "question": "Wanneer zijn jullie crypto-gemeenschappen gevormd?",
-      "answer": "Onze crypto-gemeenschappen zijn opgericht op 31 augustus 2022."
+      "question": "Wanneer zijn jullie crypto-community gevormd?",
+      "answer": "Onze crypto-community zijn opgericht op 31 augustus 2022."
     },
     "faq12": {
       "question": "Is Crypto Architect een investeerder of een handelaar?",
@@ -53,11 +53,11 @@
       "answer": "Kiezen voor Crypto Architect betekent kiezen voor realiteit. Wij laten je daadwerkelijk zien waar crypto voor staat, zonder de illusie van snel rijk worden. Bovendien laten we live zien hoe we handelen en delen we de resultaten."
     },
     "faq14": {
-      "question": "Waar kan ik klachten indienen over een van deze crypto-gemeenschappen?",
+      "question": "Waar kan ik klachten indienen over een van deze crypto-community?",
       "answer": "Het spijt ons dat iets niet naar wens is verlopen. Je kunt je klachten indienen door ze te mailen naar: Mrbtabusiness@gmail.com."
     }
   },
   "faqs_cta_button": "Meer bekijken",
-  "faqs_description": "Vind antwoorden op vaak gestelde vragen over de abonnementen, de gemeenschap, prijzen en meer.",
+  "faqs_description": "Vind antwoorden op vaak gestelde vragen over de abonnementen, de community, prijzen en meer.",
   "faqs_title": "Veelgestelde vragen"
 }

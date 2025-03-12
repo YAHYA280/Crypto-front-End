@@ -1,4 +1,18 @@
 {
+  "packages_advancePackage": {
+    "badge": "Exclusief",
+    "title": "Gevorderd",
+    "price": "€747",
+    "priceDuration": "levenslang",
+    "description": "Geniet van levenslange toegang en deskundige begeleiding van Crypto Architect om succesvol te worden in crypto.",
+    "benefits": [
+      "LEVENSLANG toegang!",
+      "Word lid van een actieve crypto community",
+      "Levenslang toegang tot educatieve video's",
+      "Ontvang belangrijk(e) nieuws/evenementen",
+      "Volg mijn tips / portfolio"
+    ]
+  },
   "packages_beginnerPackage": {
     "badge": "Essentieel",
     "title": "Beginner",
@@ -14,12 +28,16 @@
       "Aandachtspunten bij crypto-investeringen"
     ]
   },
+  "packages_cta_button": "Begin nu",
+  "packages_description": "Ontdek onze cryptopakketten en vind de perfecte optie om met vertrouwen en deskundige begeleiding te investeren.",
+  "packages_package": "Pakket",
+  "packages_payment_btn": "Ga door naar betaling",
   "packages_premiumPackage": {
     "badge": "Bestseller",
     "title": "Premium",
     "price": "€37",
     "priceDuration": "per maand",
-    "description": "Sluit je aan bij de gemeenschap en ontvang deskundige inzichten van Crypto Architect en andere leden.",
+    "description": "Sluit je aan bij de community en ontvang deskundige inzichten van Crypto Architect en andere leden.",
     "subscription_duration": "Duur (maanden)",
     "benefits": [
       "Kies de duur van jouw abonnement",
@@ -29,25 +47,7 @@
       "Volg mijn tips / portfolio"
     ]
   },
-  "packages_advancePackage": {
-    "badge": "Exclusief",
-    "title": "Gevorderd",
-    "price": "€747",
-    "priceDuration": "levenslang",
-    "description": "Geniet van levenslange toegang en deskundige begeleiding van Crypto Architect om succesvol te worden in crypto.",
-    "benefits": [
-      "LEVENSLANG toegang!",
-      "Word lid van een actieve crypto community",
-      "Levenslang toegang tot educatieve video's",
-      "Ontvang belangrijk(e) nieuws/evenementen",
-      "Volg mijn tips / portfolio"
-    ]
-  },
-  "packages_cta_button":"Begin nu",
-  "packages_description": "Ontdek onze cryptopakketten en vind de perfecte optie om met vertrouwen en deskundige begeleiding te investeren.",
-  "packages_title": "Kies jouw pakket",
-  "packages_selectedPackage" : "Geselecteerd pakket",
-  "packages_telegramTagName" : "Telegram gebruikersnaam",
-  "packages_payment_btn" : "Ga door naar betaling",
-  "packages_package" : "Pakket"
+  "packages_selectedPackage": "Geselecteerd pakket",
+  "packages_telegramTagName": "Telegram gebruikersnaam",
+  "packages_title": "Kies jouw pakket"
 }

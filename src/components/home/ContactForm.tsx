@@ -2,6 +2,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import MagicButton from '@/components/generated/MagicButton';
+import SectionTitle from '@/components/generated/SectionTitle';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -12,9 +13,10 @@ export default function ContactForm() {
   return (
     <div className="w-full flex justify-center" id="contact">
       <div className="max-w-[1240px] w-full flex flex-col gap-5 mb-10 px-4 sm:px-6 md:px-8">
+        <SectionTitle title={t('contact_form_title')} description={t('contact_form-description')} isCentered={true} />
         <form className="flex flex-col gap-4 w-full">
           <div className="grid w-full items-center gap-1.5">
-            <Label htmlFor="name" className="text-lg">
+            <Label htmlFor="name" className="text-lg ">
               {t('full_name')}
             </Label>
             <Input className="bg-white text-black h-[50px] rounded-lg" type="text" id="name" placeholder="Name" />

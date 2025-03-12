@@ -66,18 +66,18 @@ export default function Footer() {
             <h2 className="text-center md:text-start mb-6 font-semibold text-gray-900 uppercase dark:text-white">
               {t('follow_us.title')}
             </h2>
-            <ul className="flex flex-col gap-2 justify-center items-center md:justify-start md:items-start">
+            <ul className="flex flex-col gap-2">
               {socialMediaLinks.map((link) => (
                 <li key={link.key}>
-                  <Link href={link.href} className="flex items-center gap-4 justify-center rounded-full">
+                  <Link href={link.href} className="flex items-center gap-2 rounded-full hover:text-own-primary-3">
                     <Image
                       src={`/icons/${link.icon}`}
-                      height={1000}
-                      width={1000}
+                      height={20}
+                      width={20}
                       alt="Social media icon"
-                      className="h-[20px] w-auto"
+                      className="h-5 w-5"
                     />
-                    <p className="font-medium flex-1 hover:text-own-primary-3">{t(`follow_us.socials.${link.key}`)}</p>
+                    <span className="font-medium">{t(`follow_us.socials.${link.key}`)}</span>
                   </Link>
                 </li>
               ))}
@@ -88,7 +88,21 @@ export default function Footer() {
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
 
         {/* Copyright Section */}
-        <div className="w-full  text-center text-own-primary-3">{t('copyright')}</div>
+        <div className="w-full text-center">
+          {/* Split the copyright text around "Achieve.nl" */}
+          <span className="text-own-primary-3">
+            {t('copyright').split('Achieve.nl')[0]}
+            <a
+              href="https://achieve.nl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-own-primary-3 hover:underline"
+            >
+              Achieve.nl
+            </a>
+            {t('copyright').split('Achieve.nl')[1]}
+          </span>
+        </div>
       </div>
     </footer>
   );
