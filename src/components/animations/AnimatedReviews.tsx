@@ -35,10 +35,10 @@ function ReviewBox({ review }: ReviewBoxProps) {
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         // Full star
-        stars.push(<Star key={i} stroke="none" fill="#DDA909" className="h-4 w-4 md:h-5 md:w-5" />);
+        stars.push(<Star key={i} stroke="none" fill="#DDA909" className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />);
       } else if (i === fullStars && hasHalfStar) {
         // Half star
-        stars.push(<StarHalf key={i} stroke="none" fill="#DDA909" className="h-4 w-4 md:h-5 md:w-5" />);
+        stars.push(<StarHalf key={i} stroke="none" fill="#DDA909" className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />);
       }
     }
 
@@ -46,32 +46,32 @@ function ReviewBox({ review }: ReviewBoxProps) {
   };
 
   return (
-    <div className="bg-black border min-w-[280px] sm:min-w-[380px] md:min-w-[460px] lg:min-w-[560px] h-[220px] sm:h-[250px] md:h-[280px] p-4 md:p-6 shadow-lg transition-all duration-300 relative will-change-transform rounded-xl overflow-hidden">
+    <div className="bg-black border min-w-[200px] sm:min-w-[280px] md:min-w-[460px] lg:min-w-[560px] h-[180px] sm:h-[220px] md:h-[280px] p-2 sm:p-4 md:p-6 shadow-lg transition-all duration-300 relative will-change-transform rounded-xl overflow-hidden">
       <BluredBox />
 
-      <div className="flex flex-col gap-2 w-full relative z-10">
+      <div className="flex flex-col gap-1 sm:gap-2 w-full relative z-10">
         {/* Stars and numeric rating */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           <div className="flex gap-1 md:gap-2">{renderStars(review.rating)}</div>
-          <p className="text-white text-sm md:text-base">{review.rating}</p>
+          <p className="text-white text-xs sm:text-sm md:text-base">{review.rating}</p>
         </div>
 
         {/* Comment text */}
-        <p className="text-white/80 mb-2 md:mb-4 line-clamp-3 md:line-clamp-4 text-xs sm:text-sm md:text-base">
-          {review.comment.substring(0, 250)}
+        <p className="text-white/80 mb-1 sm:mb-2 md:mb-4 line-clamp-2 sm:line-clamp-3 md:line-clamp-4 text-xs sm:text-sm md:text-base">
+          {review.comment.substring(0, 150)}
         </p>
 
         {/* Name and profile image */}
         <div className="flex justify-between items-center mt-auto">
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="flex items-center gap-1 sm:gap-2 md:gap-3">
             <Image
               src={`/reviews-profiles/${review.image}`}
               height={40}
               width={40}
               alt="Profile Image"
-              className="h-8 w-8 md:h-10 md:w-10 rounded-full"
+              className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 rounded-full"
             />
-            <h3 className="text-sm md:text-base font-medium text-white">{review.name}</h3>
+            <h3 className="text-xs sm:text-sm md:text-base font-medium text-white">{review.name}</h3>
           </div>
         </div>
       </div>
@@ -173,9 +173,10 @@ export default function AnimatedReviews() {
   const getReviewsPerRow = () => {
     // We'll use a smaller default number for mobile
     if (typeof window !== 'undefined') {
-      if (window.innerWidth < 640) return 2; // For very small screens
-      if (window.innerWidth < 1024) return 3; // For medium screens
-      return 5; // For large screens
+      if (window.innerWidth < 480) return 3; // For very small screens
+      if (window.innerWidth < 640) return 4; // For small screens
+      if (window.innerWidth < 1024) return 5; // For medium screens
+      return 6; // For large screens
     }
     return 5; // Default for SSR
   };

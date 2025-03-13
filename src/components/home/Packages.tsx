@@ -143,12 +143,7 @@ function PackageBox({
           isLink={false}
           text={ctaButton}
           icon={ArrowUpRight}
-          className={cn(
-            'border-2  w-full transition-all',
-            hovered
-              ? 'bg-gradient-to-r from-[#DDA909] to-[#B28700] border-[#DDA909]'
-              : 'group-hover:bg-gradient-to-r group-hover:from-[#DDA909] group-hover:to-[#B28700] group-hover:border-[#DDA909]'
-          )}
+          className={cn(' w-full transition-all')}
           withAnimatedBorder={false}
           withAnimatedBackground={true}
           onClick={() => {
