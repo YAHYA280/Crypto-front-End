@@ -16,9 +16,10 @@ export default function WhyChooseUs() {
             <div className="h-full w-full">
               <Image
                 src="/backgrounds/why-invest-with-crypto-architect-video-banner.png"
-                className="rounded-xl object-cover"
                 alt="Why choose us image"
                 fill
+                style={{ objectFit: 'cover', objectPosition: '50% 15%' }}
+                className="rounded-xl"
               />
             </div>
           </div>

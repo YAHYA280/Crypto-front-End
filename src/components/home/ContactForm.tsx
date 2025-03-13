@@ -46,7 +46,7 @@ export default function ContactForm() {
               href="/"
               text={t('send_button')}
               icon={ArrowUpRight}
-              className={cn('border border-own-primary-3 bg-gradient-to-r from-[#DDA909] to-[#332B00] w-56 mt-6')}
+              className={cn('w-56 mt-6')}
               withAnimatedBorder={false}
               withAnimatedBackground={true}
             />

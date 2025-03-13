@@ -47,19 +47,19 @@ export const companyLinks = [
 export const socialMediaLinks = [
   {
     key: 'tiktok',
-    name: '@CryptoArchitect',
+    name: '@CryptoArchitectt',
     icon: 'TIKTOK_LOGO.svg',
     href: 'https://www.tiktok.com/@Cryptoarchitectt',
   },
   {
     key: 'instagram',
-    name: '@CryptoArchitect',
+    name: '@CryptoArchitectt',
     icon: 'INSTA_LOGO.svg',
     href: 'https://www.instagram.com/cryptoarchitectt',
   },
   {
     key: 'youtube',
-    name: '@CryptoArchitect',
+    name: '@CryptoArchitectt',
     icon: 'YT_LOGO.svg',
     href: 'https://www.youtube.com/@cryptoarchitectt',
   },

@@ -24,7 +24,7 @@ export default function Hero() {
         <div className="flex items-center flex-col md:flex-row gap-2 mt-8 md:mt-14">
           {/* Magic button  */}
           <MagicButton
-            href="/"
+            href="#packages"
             text={t('hero_cta_button')}
             icon={ArrowUpRight}
             withAnimatedBorder={false}
