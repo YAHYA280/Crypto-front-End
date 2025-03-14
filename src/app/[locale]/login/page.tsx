@@ -29,7 +29,13 @@ export default function LoginPage() {
       {/* Background pattern */}
       <div className="absolute inset-0 overflow-hidden z-1">
         <div className="w-full h-full opacity-1">
-          <Image src="/backgrounds/crypto-symbols.webp" alt="Crypto background" fill className="object-cover" />
+          <Image
+            src="/backgrounds/crypto-symbols.webp"
+            alt="Crypto background"
+            fill
+            className="object-cover"
+            unoptimized
+          />
         </div>
       </div>
 
