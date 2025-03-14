@@ -233,8 +233,8 @@ export default function Packages() {
 
   useEffect(() => {
     if (selectedPackage) {
-      setValue('plan', selectedPackage);
-      if (selectedPackage === t('packages_premiumPackage.title')) {
+      setValue('plan', selectedPackage.toUpperCase());
+      if (selectedPackage === t('packages_premiumPackage.title').toUpperCase()) {
         setValue('months', duration);
       } else {
         setValue('months', 1);
