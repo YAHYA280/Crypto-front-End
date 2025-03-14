@@ -1,6 +1,6 @@
 'use client';
 
-// import { useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -13,7 +13,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
-  // const t = useTranslations('global');
+  const t = useTranslations('loginTranslation');
 
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -47,20 +47,20 @@ export default function LoginPage() {
           <h1 className="text-2xl font-bold text-white">Crypto Architect</h1>
         </div>
 
-        <h2 className="text-xl mb-6 font-semibold text-center">Login to your account</h2>
-        <p className="text-sm text-gray-400 mb-6 text-center">Please enter your details below</p>
+        <h2 className="text-xl mb-6 font-semibold text-center">{t('login_title')}</h2>
+        <p className="text-sm text-gray-400 mb-6 text-center">{t('login_description')}</p>
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
             <label htmlFor="email" className="block text-base font-semibold text-white">
-              Email
+              {t('email_label')}
             </label>
             <Input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@gmail.com"
+              placeholder={t('email_placeholder')}
               className="bg-white text-black h-[50px] rounded-lg"
               required
             />
@@ -68,7 +68,7 @@ export default function LoginPage() {
 
           <div className="space-y-2">
             <label htmlFor="password" className="block text-base font-semibold text-white">
-              Password
+              {t('password_label')}
             </label>
             <div className="relative">
               <Input
@@ -107,7 +107,7 @@ export default function LoginPage() {
 
           <MagicButton
             href="/"
-            text={'Login'}
+            text={t('login_button')}
             className={cn('w-96 font-medium mt-10')}
             withAnimatedBorder={false}
             withAnimatedBackground={true}
@@ -116,10 +116,10 @@ export default function LoginPage() {
 
         <div className="mt-8 flex justify-between text-xs">
           <Link href="/terms_and_conditions" className="text-white hover:text-white underline hover:underline">
-            Terms & Conditions
+            {t('terms_conditions')}
           </Link>
           <Link href="/privacy_policy" className="text-white hover:text-white underline hover:underline">
-            Privacy Policy
+            {t('privacy_policy')}
           </Link>
         </div>
       </div>
