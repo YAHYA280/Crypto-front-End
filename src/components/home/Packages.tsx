@@ -116,7 +116,7 @@ function PackageBox({
           {hasSlider && setDuration && duration && (
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
-                <p className="text-base font-semibold text-[#696969]">Duration (months)</p>
+                <p className="text-base font-semibold text-[#696969]">Duration ({duration} months)</p>
               </div>
 
               <p className="text-base font-semibold">{totalPrice}</p>
@@ -234,7 +234,7 @@ export default function Packages() {
   useEffect(() => {
     if (selectedPackage) {
       setValue('plan', selectedPackage.toUpperCase());
-      if (selectedPackage === t('packages_premiumPackage.title').toUpperCase()) {
+      if (selectedPackage.toUpperCase() === t('packages_premiumPackage.title').toUpperCase()) {
         setValue('months', duration);
       } else {
         setValue('months', 1);
@@ -245,7 +245,6 @@ export default function Packages() {
   const onSubmit = async (data: SubscriptionFormData) => {
     setLoading(true);
     setStatusMessage(null);
-
     try {
       console.log('data', data);
       const response = await fetch(`${process.env.NEXT_PUBLIC_API}/subscription`, {
@@ -267,7 +266,7 @@ export default function Packages() {
       setStatusMessage({ type: 'error', text: 'Network error. Please try again later.' });
     } finally {
       setLoading(false);
-      reset({ name: '', email: '', plan: '', months: 1 });
+      // reset({ name: '', email: '', plan: '', months: 1 });
     }
   };
 
