@@ -1,11 +1,12 @@
 {
-    "login_title": "Log in op je account",
-    "login_description": "Voer hieronder je gegevens in",
-    "email_label": "E-mail",
-    "email_placeholder": "voorbeeld@gmail.com",
-    "password_label": "Wachtwoord",
-    "login_button": "Inloggen",
-    "terms_conditions": "Algemene Voorwaarden",
-    "privacy_policy": "Privacybeleid"
+  "email_label": "E-mail",
+  "email_placeholder": "voorbeeld@gmail.com",
+  "login_button": "Inloggen",
+  "login_description": "Voer hieronder je gegevens in",
+  "login_error": "Ongeldige inloggegevens. Controleer uw e-mail en wachtwoord.",
+  "login_loading": "Inloggen...",
+  "login_title": "Log in op je account",
+  "password_label": "Wachtwoord",
+  "privacy_policy": "Privacybeleid",
+  "terms_conditions": "Algemene Voorwaarden"
 }
-  

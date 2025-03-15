@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
 
 import UseThemeFromCookie from '@/components/shared/ChangeTheme';
+import ProtectedRoute from '@/components/shared/ProtectedRoute';
 import { routing } from '@/i18n/routing';
 import { ThemeProvider } from '@/providers/theme-provider';
 
@@ -33,7 +34,9 @@ export default async function DashboardLayout({ children, params }: Props) {
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
             <UseThemeFromCookie />
-            <div>{children}</div>
+            <ProtectedRoute>
+              <div>{children}</div>
+            </ProtectedRoute>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
