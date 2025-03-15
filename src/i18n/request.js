@@ -26,6 +26,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
   const privacyPolicyTranslation = (await import(`../../messages/${locale}/privacy_policy.json`)).default;
   const termsAndConditionsTranslation = (await import(`../../messages/${locale}/terms_and_conditions.json`)).default;
   const dashboardTranslation = (await import(`../../messages/${locale}/dashboard.json`)).default;
+  const loginTranslation = (await import(`../../messages/${locale}/login.json`)).default;
 
   // Home page components
   const homeHeroTranslation = (await import(`../../messages/${locale}/home/hero.json`)).default;
@@ -59,6 +60,9 @@ export default getRequestConfig(async ({ requestLocale }) => {
     dashboardTranslation: {
       ...dashboardTranslation,
     },
+    loginTranslation: {
+      ...loginTranslation,
+    },
 
     // Root Pages
     home: {
@@ -68,7 +72,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       ...homePackagesTranslation,
       ...homeTestimonialsTranslation,
       ...homeLockInTranslation,
-      ...homePortfolioTranslation,
+      ...homePortfolioTranslation
     },
   };
   // console.log(messages)

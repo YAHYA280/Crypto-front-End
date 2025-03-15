@@ -25,5 +25,7 @@
   "search": "Search...",
   "send_button": "Send",
   "source": "Source",
-  "stock": "Stock"
+  "stock": "Stock",
+  "packages_payment_btn" : "Proceed to Payment"
+
 }

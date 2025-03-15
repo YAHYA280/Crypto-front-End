@@ -1,0 +1,11 @@
+{
+    "login_title": "Login to your account",
+    "login_description": "Please enter your details below",
+    "email_label": "Email",
+    "email_placeholder": "example@gmail.com",
+    "password_label": "Password",
+    "login_button": "Login",
+    "terms_conditions": "Terms & Conditions",
+    "privacy_policy": "Privacy Policy"
+}
+  

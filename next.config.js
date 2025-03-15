@@ -10,12 +10,11 @@ const nextConfig = {
   },
   eslint: { ignoreDuringBuilds: true },
 
-  // ✅ Redirect from `/` to `/nl/home`
   async redirects() {
     return [
       {
         source: '/',
-        destination: '/nl/home',
+        destination: '/nl/login',
         permanent: false, // Use true if this is a permanent redirect
       },
     ];

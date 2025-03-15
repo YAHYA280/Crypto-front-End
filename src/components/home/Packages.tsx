@@ -1,9 +1,12 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowUpRight, Check } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import AnimatedBorderWrapper from '@/components/generated/AnimatedBorderWrapper';
 import MagicButton from '@/components/generated/MagicButton';
@@ -113,7 +116,7 @@ function PackageBox({
           {hasSlider && setDuration && duration && (
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
-                <p className="text-base font-semibold text-[#696969]">Duration (months)</p>
+                <p className="text-base font-semibold text-[#696969]">Duration ({duration} months)</p>
               </div>
 
               <p className="text-base font-semibold">{totalPrice}</p>
@@ -166,6 +169,21 @@ function PackageBox({
   );
 }
 
+type StatusMessage = {
+  type: 'success' | 'error';
+  text: string;
+};
+
+type SubscriptionFormData = z.infer<typeof subscriptionSchema>;
+
+// Schema validation with Zod
+const subscriptionSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters long'),
+  email: z.string().email('Invalid email address'),
+  plan: z.string(),
+  months: z.number().min(1, 'Minimum duration is 1 month').max(12, 'Maximum duration is 12 months'),
+});
+
 export default function Packages() {
   const t = useTranslations('home');
 
@@ -194,6 +212,62 @@ export default function Packages() {
 
     // if hoveredPackage == null => highlight the best seller
     return isBestSeller;
+  };
+
+  const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<StatusMessage | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(subscriptionSchema),
+    defaultValues: {
+      months: duration,
+      plan: '',
+    },
+  });
+
+  useEffect(() => {
+    if (selectedPackage) {
+      setValue('plan', selectedPackage.toUpperCase());
+      if (selectedPackage.toUpperCase() === t('packages_premiumPackage.title').toUpperCase()) {
+        setValue('months', duration);
+      } else {
+        setValue('months', 1);
+      }
+    }
+  }, [selectedPackage, duration, setValue]);
+
+  const onSubmit = async (data: SubscriptionFormData) => {
+    setLoading(true);
+    setStatusMessage(null);
+    try {
+      console.log('data', data);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/subscription`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      console.log('result', result);
+      if (response.ok) {
+        setStatusMessage({ type: 'success', text: 'Subscription successful!' });
+      } else {
+        setStatusMessage({ type: 'error', text: result.message || 'Something went wrong!' });
+      }
+    } catch (error) {
+      setStatusMessage({ type: 'error', text: 'Network error. Please try again later.' });
+    } finally {
+      setLoading(false);
+      // reset({ name: '', email: '', plan: '', months: 1 });
+    }
   };
 
   return (
@@ -284,35 +358,37 @@ export default function Packages() {
             <DialogDescription />
           </DialogHeader>
 
-          <div className="flex flex-col w-full gap-7">
+          <form className="flex flex-col w-full gap-7" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid w-full items-center gap-2.5">
               <Label htmlFor="name" className="text-lg font-medium mb-1">
                 {t('packages_telegramTagName')}
               </Label>
               <Input
                 className="bg-white text-black h-[55px] rounded-lg border-[#2A5738] 
-                           focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
-                           transition-all duration-300 px-4 text-base"
+                focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
+                transition-all duration-300 px-4 text-base"
                 type="text"
                 id="name"
                 placeholder={t('packages_telegramTagName')}
+                {...register('name')}
               />
+              {errors.name && <span className="text-red-500">{errors.name.message}</span>}
             </div>
-
             <div className="grid w-full items-center gap-2.5">
               <Label htmlFor="email" className="text-lg font-medium mb-1">
                 E-mail:
               </Label>
               <Input
                 className="bg-white text-black h-[55px] rounded-lg border-[#2A5738]
-                           focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
-                           transition-all duration-300 px-4 text-base"
-                type="text"
+                focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
+                transition-all duration-300 px-4 text-base"
+                type="email"
                 id="email"
                 placeholder="john@doe.com"
+                {...register('email')}
               />
+              {errors.email && <span className="text-red-500">{errors.email.message}</span>}
             </div>
-
             <div className="grid w-full items-center gap-2.5">
               <Label htmlFor="package" className="text-lg font-medium mb-1">
                 {t('packages_package')}:
@@ -325,7 +401,6 @@ export default function Packages() {
                 readOnly
               />
             </div>
-
             {/* Show duration & total price for Premium package */}
             {selectedPackage === t('packages_premiumPackage.title') && (
               <div className="grid w-full items-center gap-2.5">
@@ -341,17 +416,26 @@ export default function Packages() {
                 />
               </div>
             )}
-
             {/* Final CTA in dialog */}
             <MagicButton
-              isLink={false}
-              text={t('packages_payment_btn')}
+              type="submit"
+              text={loading ? 'Processing...' : t('packages_payment_btn')}
               icon={ArrowUpRight}
               className={cn('border-1 w-full mt-7')}
               withAnimatedBorder={false}
               withAnimatedBackground={true}
+              disabled={loading}
+              isLink={false}
             />
-          </div>
+            {/* Status Message */}
+            {statusMessage && (
+              <div
+                className={`mt-4 text-center ${statusMessage.type === 'success' ? 'text-green-600' : 'text-red-500'}`}
+              >
+                {statusMessage.text}
+              </div>
+            )}
+          </form>
         </DialogContent>
       </Dialog>
     </div>
