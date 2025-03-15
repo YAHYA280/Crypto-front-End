@@ -8,18 +8,37 @@ import MagicButton from '@/components/generated/MagicButton';
 import { Input } from '@/components/ui/input';
 import { Link, useRouter } from '@/i18n/routing';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/providers/auth-provider';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
   const router = useRouter();
   const t = useTranslations('loginTranslation');
+  const { login } = useAuth();
 
-  function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    localStorage.setItem('isAuthenticated', 'true');
-    router.push('/dashboard');
+    setLoading(true);
+    setError('');
+
+    try {
+      const success = await login(email, password);
+
+      if (success) {
+        router.push('/dashboard');
+      } else {
+        setError(t('login_error') || 'Invalid credentials');
+      }
+    } catch (error) {
+      setError(t('login_error') || 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -38,7 +57,7 @@ export default function LoginPage() {
       </div>
 
       {/* Login Form */}
-      <div className="max-w-md w-full bg-own-primary-1 p-8 rounded-lg border border-white z-10 relative">
+      <div className="max-w-md w-full bg-own-primary-5 p-8 rounded-lg border border-white z-10 relative">
         {/* Logo & Title */}
         <div className="flex flex-col items-center mb-6">
           <Image src="/icons/logo.png" height={80} width={80} alt="Crypto Architect Logo" className="mb-4" />
@@ -126,14 +145,21 @@ export default function LoginPage() {
               </button>
             </div>
           </div>
+          {/* Show error message if login fails */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-500/20 border border-red-500 rounded-md text-red-500 text-sm text-center">
+              {error}
+            </div>
+          )}
 
           <MagicButton
             type="submit"
             isLink={false}
-            text={t('login_button')}
-            className={cn('w-96 font-medium mt-10')}
+            text={loading ? t('login_loading') : t('login_button')}
+            className={cn('w-96 font-medium mt-3', { 'opacity-70': loading })}
             withAnimatedBorder={false}
             withAnimatedBackground={true}
+            disabled={loading}
           />
         </form>
 

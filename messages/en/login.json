@@ -1,11 +1,12 @@
 {
-    "login_title": "Login to your account",
-    "login_description": "Please enter your details below",
-    "email_label": "Email",
-    "email_placeholder": "example@gmail.com",
-    "password_label": "Password",
-    "login_button": "Login",
-    "terms_conditions": "Terms & Conditions",
-    "privacy_policy": "Privacy Policy"
+  "email_label": "Email",
+  "email_placeholder": "example@gmail.com",
+  "login_button": "Login",
+  "login_description": "Please enter your details below",
+  "login_error": "Invalid login details. Please check your email and password.",
+  "login_loading": "Login...",
+  "login_title": "Login to your account",
+  "password_label": "Password",
+  "privacy_policy": "Privacy Policy",
+  "terms_conditions": "Terms & Conditions"
 }
-  

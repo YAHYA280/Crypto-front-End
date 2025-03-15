@@ -1,9 +1,10 @@
 'use client';
 
 import { Clock10, LayoutDashboard, LogOut, X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
-import { Link, useRouter } from '@/i18n/routing';
+import { Link } from '@/i18n/routing';
+import { useAuth } from '@/providers/auth-provider';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -11,10 +12,12 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
-  const router = useRouter();
   const t = useTranslations('global');
+  const { logout } = useAuth();
+  const locale = useLocale();
+
   function handleLogout() {
-    router.push('/login');
+    logout();
   }
 
   return (
@@ -44,11 +47,14 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         </div>
 
         <nav className="flex flex-col gap-4 flex-1">
-          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 bg-[#DDA909] text-white rounded-md">
+          <Link
+            href={`/${locale}/dashboard`}
+            className="flex items-center gap-3 px-4 py-3 bg-[#DDA909] text-white rounded-md"
+          >
             <LayoutDashboard size={20} /> Dashboard
           </Link>
           <Link
-            href="/dashboard"
+            href={`/${locale}/dashboard`}
             className="flex items-center gap-3 px-4 py-3 bg-[#4B6547] text-white rounded-md hover:bg-[#DDA909] transition"
           >
             <Clock10 size={20} /> Coming soon
