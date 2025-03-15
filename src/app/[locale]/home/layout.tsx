@@ -71,7 +71,7 @@ building your crypto future
 today!"
         />
         <meta property="og:description" content={meta_description} />
-        <meta property="og:image" content="https://cryptoarchitect.nl/backgrounds/embed_img.png" />
+        <meta property="og:image" content="https://crypto-front-end-eta.vercel.app/backgrounds/embed_img.png" />
 
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://cryptoarchitect.nl/" />
@@ -82,7 +82,7 @@ building your crypto future
 today!"
         />
         <meta property="twitter:description" content={meta_description} />
-        <meta property="twitter:image" content="https://cryptoarchitect.nl/backgrounds/embed_img.png" />
+        <meta property="twitter:image" content="https://crypto-front-end-eta.vercel.app/backgrounds/embed_img.png" />
       </head>
       <body className={clsx(inter.className, 'flex h-full flex-col')}>
         <NextIntlClientProvider messages={messages}>
