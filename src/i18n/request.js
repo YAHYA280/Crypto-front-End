@@ -72,7 +72,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       ...homePackagesTranslation,
       ...homeTestimonialsTranslation,
       ...homeLockInTranslation,
-      ...homePortfolioTranslation
+      ...homePortfolioTranslation,
     },
   };
   // console.log(messages)
