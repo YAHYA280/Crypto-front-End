@@ -6,7 +6,6 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Define an interface for the animation config
 interface GsapAnimationConfig {
   scrollTrigger?: {
     [key: string]: any;

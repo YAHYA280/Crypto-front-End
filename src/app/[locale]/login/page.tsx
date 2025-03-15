@@ -43,7 +43,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-own-primary-5">
-      {/* Background pattern */}
       <div className="absolute inset-0 overflow-hidden z-1">
         <div className="w-full h-full opacity-1">
           <Image
@@ -56,9 +55,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Login Form */}
       <div className="max-w-md w-full bg-own-primary-5 p-8 rounded-lg border border-white z-10 relative">
-        {/* Logo & Title */}
         <div className="flex flex-col items-center mb-6">
           <Image src="/icons/logo.png" height={80} width={80} alt="Crypto Architect Logo" className="mb-4" />
           <h1 className="text-2xl font-bold text-white">Crypto Architect</h1>
@@ -97,14 +94,12 @@ export default function LoginPage() {
                 className="bg-white text-black h-[50px] rounded-lg pr-10"
                 required
               />
-              {/* Eye button */}
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2"
               >
                 {!showPassword ? (
-                  // Open eye icon
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-gray-500"
@@ -126,7 +121,6 @@ export default function LoginPage() {
                     />
                   </svg>
                 ) : (
-                  // Closed eye icon
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-gray-500"
@@ -145,7 +139,6 @@ export default function LoginPage() {
               </button>
             </div>
           </div>
-          {/* Show error message if login fails */}
           {error && (
             <div className="mb-4 p-3 bg-red-500/20 border border-red-500 rounded-md text-red-500 text-sm text-center">
               {error}

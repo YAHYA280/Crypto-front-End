@@ -116,7 +116,7 @@ export default function ContactForm() {
           <div className="w-full flex justify-center md:justify-start">
             <MagicButton
               type="submit"
-              text={loading ? 'Processing...' : t('packages_payment_btn')}
+              text={loading ? 'Processing...' : t('send_button')}
               icon={ArrowUpRight}
               className={cn('w-56 mt-6', { 'opacity-50': loading })}
               withAnimatedBorder={false}

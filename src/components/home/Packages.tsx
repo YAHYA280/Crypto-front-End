@@ -240,7 +240,7 @@ export default function Packages() {
         setValue('months', 1);
       }
     }
-  }, [selectedPackage, duration, setValue]);
+  }, [selectedPackage, duration, setValue, t]);
 
   const onSubmit = async (data: SubscriptionFormData) => {
     setLoading(true);
@@ -266,7 +266,7 @@ export default function Packages() {
       setStatusMessage({ type: 'error', text: 'Network error. Please try again later.' });
     } finally {
       setLoading(false);
-      // reset({ name: '', email: '', plan: '', months: 1 });
+      reset({ name: '', email: '', plan: '', months: 1 });
     }
   };
 

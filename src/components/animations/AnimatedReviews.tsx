@@ -26,10 +26,9 @@ function BluredBox() {
 }
 
 function ReviewBox({ review }: ReviewBoxProps) {
-  // Helper function to render stars based on rating
   const renderStars = (rating: number) => {
-    const fullStars = Math.floor(rating); // number of full stars
-    const hasHalfStar = rating - fullStars >= 0.5; // check if there's a half star
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating - fullStars >= 0.5;
     const stars = [];
 
     for (let i = 0; i < 5; i++) {
@@ -79,12 +78,11 @@ function ReviewBox({ review }: ReviewBoxProps) {
   );
 }
 
-// Fisher-Yates (Knuth) shuffle algorithm
 function shuffleArray<T>(array: T[]): T[] {
-  const newArray = [...array]; // Create a copy to avoid mutating the original
+  const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Swap elements
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
   }
   return newArray;
 }
@@ -93,13 +91,10 @@ export default function AnimatedReviews() {
   const containerRef = useRef<HTMLDivElement>(null);
   const rowsContainerRef = useRef<HTMLDivElement>(null);
   const rowsRef = useRef<HTMLDivElement[]>([]);
-  // Use state to control rendering for better performance
   const [isVisible, setIsVisible] = useState(false);
-  // Randomize the reviews array once when the component mounts
   const [randomizedReviews] = useState(() => shuffleArray(reviews));
 
   useEffect(() => {
-    // Set up IntersectionObserver to detect when reviews are in view
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -121,29 +116,25 @@ export default function AnimatedReviews() {
     };
   }, []);
 
-  // Set up GSAP animations after component is visible
   useEffect(() => {
     if (!isVisible || !rowsRef.current.length) return;
 
-    // First, ensure each row has a different starting position
     rowsRef.current.forEach((row, index) => {
-      // Alternating starting positions for each row
       const initialOffset = index % 2 === 0 ? '5%' : '-5%';
       gsap.set(row, { x: initialOffset });
     });
 
-    // Create optimized animations for each row
     const animations = rowsRef.current.map((row, index) => {
       const direction = index % 2 === 0 ? 1 : -1;
 
       return gsap.to(row, {
-        x: `-=${direction * 15}%`, // Use relative value with -= or += to ensure proper movement
+        x: `-=${direction * 15}%`,
         ease: 'none',
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 0.5, // Smoother scrubbing
+          scrub: 0.5,
           fastScrollEnd: true,
           preventOverlaps: true,
         },
@@ -151,7 +142,6 @@ export default function AnimatedReviews() {
     });
 
     return () => {
-      // Clean up animations
       animations.forEach((anim) => {
         if (anim.scrollTrigger) {
           anim.scrollTrigger.kill();
@@ -162,23 +152,20 @@ export default function AnimatedReviews() {
     };
   }, [isVisible]);
 
-  // Add a row to the refs
   const addRowRef = (el: HTMLDivElement | null, index: number) => {
     if (el && !rowsRef.current[index]) {
       rowsRef.current[index] = el;
     }
   };
 
-  // Adjust the number of reviews per row based on screen size
   const getReviewsPerRow = () => {
-    // We'll use a smaller default number for mobile
     if (typeof window !== 'undefined') {
-      if (window.innerWidth < 480) return 3; // For very small screens
-      if (window.innerWidth < 640) return 4; // For small screens
-      if (window.innerWidth < 1024) return 5; // For medium screens
-      return 6; // For large screens
+      if (window.innerWidth < 480) return 3;
+      if (window.innerWidth < 640) return 4;
+      if (window.innerWidth < 1024) return 5;
+      return 6;
     }
-    return 5; // Default for SSR
+    return 5;
   };
 
   const [reviewsPerRow, setReviewsPerRow] = useState(5);
@@ -188,10 +175,8 @@ export default function AnimatedReviews() {
       setReviewsPerRow(getReviewsPerRow());
     };
 
-    // Set initial value
     handleResize();
 
-    // Add resize listener
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -211,7 +196,6 @@ export default function AnimatedReviews() {
     <div ref={containerRef} className="bg-own-primary-5 overflow-hidden">
       {isVisible && (
         <div className="h-[600px] sm:h-[700px] md:h-[800px] rotate-[-5deg]">
-          {/* Apply transform-gpu for GPU acceleration and rotate-[-6deg] for the tilt to the left */}
           <div ref={rowsContainerRef} className="rotate-[-5deg] relative transform-gpu -mt-10 md:-mt-20">
             <div className="space-y-2 md:space-y-3">
               {renderReviewRow(0, 0)}

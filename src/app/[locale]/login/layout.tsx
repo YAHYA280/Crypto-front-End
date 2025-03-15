@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
+import { getMessages } from 'next-intl/server';
 import { Inter } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import React, { ReactNode } from 'react';
@@ -10,7 +10,7 @@ import { routing } from '@/i18n/routing';
 import { ThemeProvider } from '@/providers/theme-provider';
 
 interface LoginLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   params: Promise<{ locale: string }>;
 }
 
