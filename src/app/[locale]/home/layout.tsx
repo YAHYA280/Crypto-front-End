@@ -29,7 +29,8 @@ export async function generateMetadata(props: Omit<Props, 'children'>) {
   const t = await getTranslations({ locale, namespace: 'global' });
 
   return {
-    title: t('title'),
+    meta_title: t('meta_title'),
+    meta_description: t('meta_description'),
   };
 }
 
@@ -47,9 +48,42 @@ export default async function LocaleLayout({ children, params }: Props) {
   // Providing all messages to the client
   // side is the easiest way to get started
   const messages = await getMessages();
+  const { meta_title, meta_description } = await generateMetadata({ params });
 
   return (
     <html className="h-full" lang={locale} suppressHydrationWarning>
+      <head>
+        <title>{meta_title}</title>
+        <meta
+          name="title"
+          content="Join Crypto Architect and start
+                building your crypto future
+                today!"
+        />
+        <meta name="description" content={meta_description} />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://cryptoarchitect.nl/" />
+        <meta
+          property="og:title"
+          content="Join Crypto Architect and start
+building your crypto future
+today!"
+        />
+        <meta property="og:description" content={meta_description} />
+        <meta property="og:image" content="https://cryptoarchitect.nl/backgrounds/embed_img.png" />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://cryptoarchitect.nl/" />
+        <meta
+          property="twitter:title"
+          content="Join Crypto Architect and start
+building your crypto future
+today!"
+        />
+        <meta property="twitter:description" content={meta_description} />
+        <meta property="twitter:image" content="https://cryptoarchitect.nl/backgrounds/embed_img.png" />
+      </head>
       <body className={clsx(inter.className, 'flex h-full flex-col')}>
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>

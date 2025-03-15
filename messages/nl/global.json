@@ -1,13 +1,15 @@
 {
-    "title":"Crypto Architect",
-    "read_more": "Read more",
-    "more_details": "More details",
-    "next": "Volgende",
-    "back": "Terug",
-    "logout": "Uitloggen",
-    "LocaleSwitcher": {
-        "label": "Change language",
-        "locale": "{locale, select, de {🇳🇱 NL} en {🇬🇧 EN} other {🇳🇱 NL}}"
-    }
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, de {🇳🇱 NL} en {🇬🇧 EN} other {🇳🇱 NL}}"
+  },
 
+  "back": "Terug",
+  "logout": "Uitloggen",
+  "meta_description": "Onze community bestaat sinds 2022 en we zijn hier niet voor de korte termijn. Dit is geen tijdelijk product, maar een plek waar kennis, ervaring en strategieën worden gedeeld om je te helpen gedijen in een snel veranderende markt. We bouwen een community voor de lange termijn, een plek die blijft evolueren zodat jij, als lid, altijd een stap voor blijft.",
+  "meta_title": "Word lid van Crypto Architect en begin vandaag nog met het opbouwen van je crypto toekomst!",
+  "more_details": "More details",
+  "next": "Volgende",
+  "read_more": "Read more",
+  "title": "Crypto Architect"
 }
