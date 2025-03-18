@@ -10,7 +10,7 @@ export default function WhyChooseUs() {
 
   return (
     <section id="why_us">
-      <div className="mx-auto max-w-screen-xl px-4 py-2 sm:py-6 md:py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-screen-xl px-4 py-1 sm:py-6 md:py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-4 sm:gap-6 md:gap-8 md:grid-cols-2">
           <div className="relative min-h-[200px] sm:min-h-[300px] md:h-full">
             <div className="h-full w-full">

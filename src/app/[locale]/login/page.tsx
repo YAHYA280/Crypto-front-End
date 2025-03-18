@@ -46,7 +46,7 @@ export default function LoginPage() {
       <div className="absolute inset-0 overflow-hidden z-1">
         <div className="w-full h-full opacity-1">
           <Image
-            src="/backgrounds/crypto-symbols.webp"
+            src="/backgrounds/matrix-background.webp"
             alt="Crypto background"
             fill
             className="object-cover"
@@ -57,7 +57,13 @@ export default function LoginPage() {
 
       <div className="max-w-md w-full bg-own-primary-5 p-8 rounded-2xl border border-white z-10 relative">
         <div className="flex flex-col items-center mb-6">
-          <Image src="/icons/logo.png" height={80} width={80} alt="Crypto Architect Logo" className="mb-4" />
+          <Image
+            src="/icons/CryptoArchitectLogo.svg"
+            height={80}
+            width={80}
+            alt="Crypto Architect Logo"
+            className="mb-4"
+          />
           <h1 className="text-2xl font-bold text-white">Crypto Architect</h1>
         </div>
 

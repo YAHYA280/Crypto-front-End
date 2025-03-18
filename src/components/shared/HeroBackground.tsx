@@ -7,7 +7,7 @@ export default function HeroBackground() {
     <div className="w-full h-full absolute top-0 left-0 z-[1] opacity-50">
       <div className="relative w-full h-full">
         <Image
-          src="/backgrounds/crypto-symbols.webp"
+          src="/backgrounds/matrix-background.webp"
           alt="Crypto symbols background"
           fill
           quality={90}
