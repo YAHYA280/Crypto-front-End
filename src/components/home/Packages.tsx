@@ -247,7 +247,7 @@ export default function Packages() {
     setStatusMessage(null);
     try {
       console.log('data', data);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/subscription`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subscription`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
