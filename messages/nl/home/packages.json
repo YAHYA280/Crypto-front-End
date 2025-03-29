@@ -2,7 +2,7 @@
   "packages_advancePackage": {
     "badge": "Exclusief",
     "title": "Gevorderd",
-    "price": "€747",
+    "price": "€547",
     "priceDuration": "levenslang",
     "description": "Geniet van levenslange toegang en deskundige begeleiding van Crypto Architect om succesvol te worden in crypto.",
     "benefits": [
@@ -16,7 +16,7 @@
   "packages_beginnerPackage": {
     "badge": "Essentieel",
     "title": "Beginner",
-    "price": "€27",
+    "price": "Gratis",
     "priceDuration": "eenmalige 30 min sessie",
     "description": "Ontgrendel de wereld van crypto: Een sessie van 30 minuten om slim en veilig te investeren.",
     "benefits": [
@@ -35,8 +35,9 @@
   "packages_premiumPackage": {
     "badge": "Bestseller",
     "title": "Premium",
-    "price": "€37",
+    "price": "€27",
     "priceDuration": "per maand",
+    "Month": "maanden",
     "description": "Sluit je aan bij de community en ontvang deskundige inzichten van Crypto Architect en andere leden.",
     "subscription_duration": "Duur (maanden)",
     "benefits": [

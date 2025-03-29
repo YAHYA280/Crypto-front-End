@@ -30,6 +30,7 @@ interface PackageItem {
   icon: string;
   hasSlider?: boolean;
   basePrice?: number;
+  Month?: string;
 }
 
 // Define the props for PackageBox
@@ -55,7 +56,7 @@ function PackageBox({
   onMouseEnter,
   onMouseLeave,
 }: PackageBoxProps) {
-  const { title, description, badge, price, priceDuration, benefits, ctaButton, icon, hasSlider, basePrice } =
+  const { title, description, badge, price, priceDuration, benefits, ctaButton, icon, hasSlider, basePrice, Month } =
     packageData;
 
   // Calculate total price if this package has a duration slider
@@ -115,11 +116,10 @@ function PackageBox({
           {/* Duration Slider for packages with hasSlider=true */}
           {hasSlider && setDuration && duration && (
             <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <p className="text-base font-semibold text-[#696969]">Duration ({duration} months)</p>
-              </div>
-
-              <p className="text-base font-semibold">{totalPrice}</p>
+              <div className="flex items-center justify-between"></div>
+              <p className="text-base font-semibold">
+                {totalPrice} ( {duration} {Month})
+              </p>
 
               <div className="px-1">
                 <Slider
@@ -197,12 +197,12 @@ export default function Packages() {
 
   // For premium slider
   const [duration, setDuration] = useState(1);
-  const [totalAmount, setTotalAmount] = useState(37);
+  const [totalAmount, setTotalAmount] = useState(27);
 
   // Update total amount whenever duration changes
   const handleDurationChange = (value: number) => {
     setDuration(value);
-    setTotalAmount(37 * value);
+    setTotalAmount(27 * value);
   };
 
   // Helper to see if a given package is in "hover" style
@@ -210,7 +210,6 @@ export default function Packages() {
     // if the user is hovering a specific package, highlight *that* one
     if (hoveredPackage) return hoveredPackage === title;
 
-    // if hoveredPackage == null => highlight the best seller
     return isBestSeller;
   };
 
@@ -231,16 +230,30 @@ export default function Packages() {
     },
   });
 
+  const getApiPackageName = (uiPackageName: string): string => {
+    // Match the Dutch titles to their English API equivalents
+    if (uiPackageName === 'Gevorderd') {
+      return 'ADVANCED';
+    } else if (uiPackageName === 'Premium') {
+      return 'PREMIUM';
+    } else if (uiPackageName === 'Beginner') {
+      return 'BEGINNER';
+    }
+    // For English titles, just convert to uppercase
+    return uiPackageName.toUpperCase();
+  };
+
   useEffect(() => {
     if (selectedPackage) {
-      setValue('plan', selectedPackage.toUpperCase());
-      if (selectedPackage.toUpperCase() === t('packages_premiumPackage.title').toUpperCase()) {
+      const apiPackageName = getApiPackageName(selectedPackage);
+      setValue('plan', apiPackageName);
+      if (apiPackageName === 'PREMIUM') {
         setValue('months', duration);
       } else {
         setValue('months', 1);
       }
     }
-  }, [selectedPackage, duration, setValue, t]);
+  }, [selectedPackage, duration, setValue]);
 
   const onSubmit = async (data: SubscriptionFormData) => {
     setLoading(true);
@@ -258,7 +271,12 @@ export default function Packages() {
       const result = await response.json();
       console.log('result', result);
       if (response.ok) {
-        setStatusMessage({ type: 'success', text: 'Subscription successful!' });
+        if (result.url) {
+          window.location.href = result.url;
+        } else {
+          setStatusMessage({ type: 'success', text: 'Subscription successful!' });
+          reset({ name: '', email: '', plan: '', months: 1 });
+        }
       } else {
         setStatusMessage({ type: 'error', text: result.message || 'Something went wrong!' });
       }
@@ -274,12 +292,6 @@ export default function Packages() {
     <div className="flex flex-col gap-10 max-width" id="packages">
       <SectionTitle title={t('packages_title')} description={t('packages_description')} isCentered={true} />
 
-      {/* 
-        Wrap the packages in a container. 
-        We'll attach onMouseLeave here, so that when the user leaves 
-        the entire grid, we revert `hoveredPackage` to null 
-        => best seller returns to gold 
-      */}
       <div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
         onMouseLeave={() => setHoveredPackage(null)}
@@ -313,6 +325,7 @@ export default function Packages() {
           duration={duration}
           packageData={{
             title: t('packages_premiumPackage.title'),
+            Month: t('packages_premiumPackage.Month'),
             description: t('packages_premiumPackage.description'),
             badge: t('packages_premiumPackage.badge'),
             price: t('packages_premiumPackage.price'),
@@ -322,7 +335,7 @@ export default function Packages() {
             isBestSeller: true, // Premium is the best seller
             icon: 'radix-icons_rocket.png',
             hasSlider: true,
-            basePrice: 37,
+            basePrice: 27,
           }}
           hovered={isHovered(t('packages_premiumPackage.title'), true)}
           onMouseEnter={(title) => setHoveredPackage(title)}
@@ -352,63 +365,71 @@ export default function Packages() {
 
       {/* Dialog for user inputs */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="bg-[#091E06] border-[#a3a3a3] w-[580px] p-8 rounded-xl">
-          <DialogHeader className="mb-6">
-            <DialogTitle className="text-center text-3xl font-semibold">{t('packages_selectedPackage')}</DialogTitle>
+        <DialogContent className="bg-[#091E06] border-[#a3a3a3] w-[90%] max-w-[580px] p-4 sm:p-8 rounded-xl mx-auto">
+          <DialogHeader className="mb-4 sm:mb-6">
+            <DialogTitle className="text-center text-xl sm:text-2xl md:text-3xl font-semibold">
+              {t('packages_selectedPackage')}
+            </DialogTitle>
             <DialogDescription />
           </DialogHeader>
 
-          <form className="flex flex-col w-full gap-7" onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid w-full items-center gap-2.5">
-              <Label htmlFor="name" className="text-lg font-medium mb-1">
+          <form className="flex flex-col w-full gap-4 sm:gap-7" onSubmit={handleSubmit(onSubmit)}>
+            {/* Form inputs with responsive adjustments */}
+            <div className="grid w-full items-center gap-2">
+              <Label htmlFor="name" className="text-base sm:text-lg font-medium mb-1">
                 {t('packages_telegramTagName')}
               </Label>
               <Input
-                className="bg-white text-black h-[55px] rounded-lg border-[#2A5738] 
-                focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
-                transition-all duration-300 px-4 text-base"
+                className="bg-white text-black h-[45px] sm:h-[55px] rounded-lg border-[#2A5738] 
+          focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
+          transition-all duration-300 px-4 text-sm sm:text-base"
                 type="text"
                 id="name"
                 placeholder={t('packages_telegramTagName')}
                 {...register('name')}
               />
-              {errors.name && <span className="text-red-500">{errors.name.message}</span>}
+              {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
             </div>
-            <div className="grid w-full items-center gap-2.5">
-              <Label htmlFor="email" className="text-lg font-medium mb-1">
+
+            {/* Email input with similar responsive adjustments */}
+            <div className="grid w-full items-center gap-2">
+              <Label htmlFor="email" className="text-base sm:text-lg font-medium mb-1">
                 E-mail:
               </Label>
               <Input
-                className="bg-white text-black h-[55px] rounded-lg border-[#2A5738]
-                focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
-                transition-all duration-300 px-4 text-base"
+                className="bg-white text-black h-[45px] sm:h-[55px] rounded-lg border-[#2A5738]
+          focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
+          transition-all duration-300 px-4 text-sm sm:text-base"
                 type="email"
                 id="email"
                 placeholder="john@doe.com"
                 {...register('email')}
               />
-              {errors.email && <span className="text-red-500">{errors.email.message}</span>}
+              {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
             </div>
-            <div className="grid w-full items-center gap-2.5">
-              <Label htmlFor="package" className="text-lg font-medium mb-1">
+
+            {/* Package input with similar responsive adjustments */}
+            <div className="grid w-full items-center gap-2">
+              <Label htmlFor="package" className="text-base sm:text-lg font-medium mb-1">
                 {t('packages_package')}:
               </Label>
               <Input
-                className="bg-white text-black h-[55px] rounded-lg border-[#2A5738] px-4 text-base"
+                className="bg-white text-black h-[45px] sm:h-[55px] rounded-lg border-[#2A5738] px-4 text-sm sm:text-base"
                 type="text"
                 id="package"
                 value={selectedPackage}
                 readOnly
               />
             </div>
-            {/* Show duration & total price for Premium package */}
+
+            {/* Conditional duration field with responsive adjustments */}
             {selectedPackage === t('packages_premiumPackage.title') && (
-              <div className="grid w-full items-center gap-2.5">
-                <Label htmlFor="duration" className="text-lg font-medium mb-1">
+              <div className="grid w-full items-center gap-2">
+                <Label htmlFor="duration" className="text-base sm:text-lg font-medium mb-1">
                   Duration:
                 </Label>
                 <Input
-                  className="bg-white text-black h-[55px] rounded-lg border-[#2A5738] px-4 text-base"
+                  className="bg-white text-black h-[45px] sm:h-[55px] rounded-lg border-[#2A5738] px-4 text-sm sm:text-base"
                   type="text"
                   id="duration"
                   value={`${duration} months (Total: €${totalAmount.toFixed(2)})`}
@@ -416,21 +437,23 @@ export default function Packages() {
                 />
               </div>
             )}
-            {/* Final CTA in dialog */}
+
+            {/* Submit button with responsive adjustments */}
             <MagicButton
               type="submit"
               text={loading ? 'Processing...' : t('packages_payment_btn')}
               icon={ArrowUpRight}
-              className={cn('border-1 w-full mt-7')}
+              className={cn('border-1 w-full mt-4 sm:mt-7')}
               withAnimatedBorder={false}
               withAnimatedBackground={true}
               disabled={loading}
               isLink={false}
             />
-            {/* Status Message */}
+
+            {/* Status message */}
             {statusMessage && (
               <div
-                className={`mt-4 text-center ${statusMessage.type === 'success' ? 'text-green-600' : 'text-red-500'}`}
+                className={`mt-3 sm:mt-4 text-center ${statusMessage.type === 'success' ? 'text-green-600' : 'text-red-500'}`}
               >
                 {statusMessage.text}
               </div>

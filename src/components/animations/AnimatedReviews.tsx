@@ -57,7 +57,7 @@ function ReviewBox({ review }: ReviewBoxProps) {
 
         {/* Comment text */}
         <p className="text-white/80 mb-1 sm:mb-2 md:mb-4 line-clamp-2 sm:line-clamp-3 md:line-clamp-4 text-xs sm:text-sm md:text-base">
-          {review.comment.substring(0, 150)}
+          {review.comment.substring(0, 310)}
         </p>
 
         {/* Name and profile image */}
