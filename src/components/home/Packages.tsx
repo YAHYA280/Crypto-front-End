@@ -17,7 +17,6 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/Slider';
 import { cn } from '@/lib/utils';
 
-// Define the type for an individual package
 interface PackageItem {
   title: string;
   description: string;
@@ -33,14 +32,12 @@ interface PackageItem {
   Month?: string;
 }
 
-// Define the props for PackageBox
 interface PackageBoxProps {
   packageData: PackageItem;
   setState: (value: string) => void;
   setOpenState: (value: boolean) => void;
   setDuration?: (value: number) => void;
   duration?: number;
-  // new props for "controlled hover"
   hovered: boolean;
   onMouseEnter: (title: string) => void;
   onMouseLeave: () => void;
@@ -59,7 +56,6 @@ function PackageBox({
   const { title, description, badge, price, priceDuration, benefits, ctaButton, icon, hasSlider, basePrice, Month } =
     packageData;
 
-  // Calculate total price if this package has a duration slider
   const totalPrice = hasSlider && basePrice && duration ? `€${(basePrice * duration).toFixed(2)}` : price;
 
   return (
@@ -69,11 +65,7 @@ function PackageBox({
         onMouseLeave={onMouseLeave}
         className={cn(
           'bg-own-primary-5 h-full border-2 p-8 rounded-xl flex flex-col gap-8 w-full transition-all duration-300 group',
-          hovered
-            ? // If hovered, show gold style
-              'border-[#DDA909]'
-            : // Otherwise show normal border
-              'border-own-primary-6 hover:border-[#DDA909]'
+          hovered ? 'border-[#DDA909]' : 'border-own-primary-6 hover:border-[#DDA909]'
         )}
       >
         {/* Header Section */}
@@ -92,7 +84,6 @@ function PackageBox({
           <p
             className={cn(
               'bg-gradient-to-r from-[#193B18] to-[#476246] h-fit font-medium shadow-lg p-1 px-4 border border-own-primary-1 rounded-md transition-all duration-300',
-              // Show gold on "hovered" or fallback to normal
               hovered
                 ? 'bg-gradient-to-r from-[#DDA909] to-[#B28700] border-[#DDA909]'
                 : 'group-hover:bg-gradient-to-r group-hover:from-[#DDA909] group-hover:to-[#B28700] group-hover:border-[#DDA909]'
@@ -113,14 +104,12 @@ function PackageBox({
 
           <p className="text-base">{description}</p>
 
-          {/* Duration Slider for packages with hasSlider=true */}
+          {/* Duration Slider if needed */}
           {hasSlider && setDuration && duration && (
             <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between"></div>
               <p className="text-base font-semibold">
                 {totalPrice} ( {duration} {Month})
               </p>
-
               <div className="px-1">
                 <Slider
                   defaultValue={[1]}
@@ -169,6 +158,14 @@ function PackageBox({
   );
 }
 
+const subscriptionSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters long'),
+  email: z.string().email('Invalid email address'),
+  plan: z.string(),
+  months: z.number().min(1, 'Minimum duration is 1 month').max(12, 'Maximum duration is 12 months'),
+  bookCall: z.boolean().optional(), // For the Beginner plan only
+});
+
 type StatusMessage = {
   type: 'success' | 'error';
   text: string;
@@ -176,40 +173,23 @@ type StatusMessage = {
 
 type SubscriptionFormData = z.infer<typeof subscriptionSchema>;
 
-// Schema validation with Zod
-const subscriptionSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters long'),
-  email: z.string().email('Invalid email address'),
-  plan: z.string(),
-  months: z.number().min(1, 'Minimum duration is 1 month').max(12, 'Maximum duration is 12 months'),
-});
-
 export default function Packages() {
   const t = useTranslations('home');
 
-  // Which package is the user *actually* hovering right now?
-  // If null => we consider the best-seller hovered by default
   const [hoveredPackage, setHoveredPackage] = useState<string | null>(null);
-
-  // For the dialog
   const [selectedPackage, setSelectedPackage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  // For premium slider
   const [duration, setDuration] = useState(1);
   const [totalAmount, setTotalAmount] = useState(27);
 
-  // Update total amount whenever duration changes
   const handleDurationChange = (value: number) => {
     setDuration(value);
     setTotalAmount(27 * value);
   };
 
-  // Helper to see if a given package is in "hover" style
   const isHovered = (title: string, isBestSeller: boolean) => {
-    // if the user is hovering a specific package, highlight *that* one
     if (hoveredPackage) return hoveredPackage === title;
-
     return isBestSeller;
   };
 
@@ -220,13 +200,15 @@ export default function Packages() {
     register,
     handleSubmit,
     setValue,
+
     reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<SubscriptionFormData>({
     resolver: zodResolver(subscriptionSchema),
     defaultValues: {
       months: duration,
       plan: '',
+      bookCall: false,
     },
   });
 
@@ -245,6 +227,7 @@ export default function Packages() {
     if (selectedPackage) {
       const apiPackageName = getApiPackageName(selectedPackage);
       setValue('plan', apiPackageName);
+
       if (apiPackageName === 'PREMIUM') {
         setValue('months', duration);
       } else {
@@ -256,6 +239,7 @@ export default function Packages() {
   const onSubmit = async (data: SubscriptionFormData) => {
     setLoading(true);
     setStatusMessage(null);
+
     try {
       console.log('data', data);
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subscription`, {
@@ -268,21 +252,46 @@ export default function Packages() {
 
       const result = await response.json();
       console.log('result', result);
+
       if (response.ok) {
-        if (result.url) {
-          window.location.href = result.url;
+        if (data.plan === 'BEGINNER') {
+          if (data.bookCall && result.link) {
+            window.location.href = result.link;
+          } else {
+            setStatusMessage({
+              type: 'success',
+              text: result.message || 'Subscribed successfully!',
+            });
+          }
         } else {
-          setStatusMessage({ type: 'success', text: 'Subscription successful!' });
-          reset({ name: '', email: '', plan: '', months: 1 });
+          if (result.url) {
+            window.location.href = result.url;
+          } else if (result.link) {
+            window.location.href = result.link;
+          } else {
+            setStatusMessage({
+              type: 'success',
+              text: result.message || 'Subscription successful!',
+            });
+          }
         }
+
+        reset({ name: '', email: '', plan: '', months: 1, bookCall: false });
       } else {
-        setStatusMessage({ type: 'error', text: result.message || 'Something went wrong!' });
+        // Error from server
+        setStatusMessage({
+          type: 'error',
+          text: result.message || 'Something went wrong!',
+        });
       }
     } catch (error) {
-      setStatusMessage({ type: 'error', text: 'Network error. Please try again later.' });
+      // Network error
+      setStatusMessage({
+        type: 'error',
+        text: 'Network error. Please try again later.',
+      });
     } finally {
       setLoading(false);
-      reset({ name: '', email: '', plan: '', months: 1 });
     }
   };
 
@@ -294,7 +303,7 @@ export default function Packages() {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
         onMouseLeave={() => setHoveredPackage(null)}
       >
-        {/* Beginner Package */}
+        {/* BEGINNER Package */}
         <PackageBox
           setState={setSelectedPackage}
           setOpenState={setIsOpen}
@@ -309,13 +318,12 @@ export default function Packages() {
             isBestSeller: false,
             icon: 'carbon_user-data.png',
           }}
-          // "hover" logic
           hovered={isHovered(t('packages_beginnerPackage.title'), false)}
           onMouseEnter={(title) => setHoveredPackage(title)}
           onMouseLeave={() => setHoveredPackage(null)}
         />
 
-        {/* Premium (Best Seller) Package */}
+        {/* PREMIUM (Best Seller) */}
         <PackageBox
           setState={setSelectedPackage}
           setOpenState={setIsOpen}
@@ -330,7 +338,7 @@ export default function Packages() {
             priceDuration: t('packages_premiumPackage.priceDuration'),
             benefits: t.raw('packages_premiumPackage.benefits'),
             ctaButton: t('packages_cta_button'),
-            isBestSeller: true, // Premium is the best seller
+            isBestSeller: true,
             icon: 'radix-icons_rocket.png',
             hasSlider: true,
             basePrice: 27,
@@ -340,7 +348,7 @@ export default function Packages() {
           onMouseLeave={() => setHoveredPackage(null)}
         />
 
-        {/* Advance Package */}
+        {/* ADVANCED Package */}
         <PackageBox
           setState={setSelectedPackage}
           setOpenState={setIsOpen}
@@ -372,15 +380,15 @@ export default function Packages() {
           </DialogHeader>
 
           <form className="flex flex-col w-full gap-4 sm:gap-7" onSubmit={handleSubmit(onSubmit)}>
-            {/* Form inputs with responsive adjustments */}
+            {/* Name */}
             <div className="grid w-full items-center gap-2">
               <Label htmlFor="name" className="text-base sm:text-lg font-medium mb-1">
                 {t('packages_telegramTagName')}
               </Label>
               <Input
                 className="bg-white text-black h-[45px] sm:h-[55px] rounded-lg border-[#2A5738] 
-          focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
-          transition-all duration-300 px-4 text-sm sm:text-base"
+                focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
+                transition-all duration-300 px-4 text-sm sm:text-base"
                 type="text"
                 id="name"
                 placeholder={t('packages_telegramTagName')}
@@ -389,15 +397,15 @@ export default function Packages() {
               {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
             </div>
 
-            {/* Email input with similar responsive adjustments */}
+            {/* Email */}
             <div className="grid w-full items-center gap-2">
               <Label htmlFor="email" className="text-base sm:text-lg font-medium mb-1">
                 E-mail:
               </Label>
               <Input
                 className="bg-white text-black h-[45px] sm:h-[55px] rounded-lg border-[#2A5738]
-          focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
-          transition-all duration-300 px-4 text-sm sm:text-base"
+                focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
+                transition-all duration-300 px-4 text-sm sm:text-base"
                 type="email"
                 id="email"
                 placeholder="john@doe.com"
@@ -406,7 +414,7 @@ export default function Packages() {
               {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
             </div>
 
-            {/* Package input with similar responsive adjustments */}
+            {/* Package */}
             <div className="grid w-full items-center gap-2">
               <Label htmlFor="package" className="text-base sm:text-lg font-medium mb-1">
                 {t('packages_package')}:
@@ -420,7 +428,22 @@ export default function Packages() {
               />
             </div>
 
-            {/* Conditional duration field with responsive adjustments */}
+            {/* If the plan is "Beginner," show a checkbox for 30-min call */}
+            {selectedPackage === t('packages_beginnerPackage.title') && (
+              <div className="flex items-center gap-2">
+                <input
+                  id="bookCall"
+                  type="checkbox"
+                  className="h-5 w-5 accent-[#DDA909] cursor-pointer"
+                  {...register('bookCall')}
+                />
+                <Label htmlFor="bookCall" className="text-base sm:text-lg">
+                  I want a 30-minute call
+                </Label>
+              </div>
+            )}
+
+            {/* If the plan is Premium, show the Duration info */}
             {selectedPackage === t('packages_premiumPackage.title') && (
               <div className="grid w-full items-center gap-2">
                 <Label htmlFor="duration" className="text-base sm:text-lg font-medium mb-1">
@@ -436,7 +459,7 @@ export default function Packages() {
               </div>
             )}
 
-            {/* Submit button with responsive adjustments */}
+            {/* Submit Button */}
             <MagicButton
               type="submit"
               text={loading ? 'Processing...' : t('packages_payment_btn')}
@@ -451,7 +474,9 @@ export default function Packages() {
             {/* Status message */}
             {statusMessage && (
               <div
-                className={`mt-3 sm:mt-4 text-center ${statusMessage.type === 'success' ? 'text-green-600' : 'text-red-500'}`}
+                className={`mt-3 sm:mt-4 text-center ${
+                  statusMessage.type === 'success' ? 'text-green-600' : 'text-red-500'
+                }`}
               >
                 {statusMessage.text}
               </div>
