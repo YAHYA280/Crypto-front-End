@@ -231,7 +231,6 @@ export default function Packages() {
   });
 
   const getApiPackageName = (uiPackageName: string): string => {
-    // Match the Dutch titles to their English API equivalents
     if (uiPackageName === 'Gevorderd') {
       return 'ADVANCED';
     } else if (uiPackageName === 'Premium') {
@@ -239,7 +238,6 @@ export default function Packages() {
     } else if (uiPackageName === 'Beginner') {
       return 'BEGINNER';
     }
-    // For English titles, just convert to uppercase
     return uiPackageName.toUpperCase();
   };
 
