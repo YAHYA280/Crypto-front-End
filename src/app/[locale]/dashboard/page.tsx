@@ -1,3 +1,4 @@
+// Updated src/app/[locale]/dashboard/page.tsx
 'use client';
 
 import Cookies from 'js-cookie';
@@ -54,6 +55,11 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const transactionsPerPage = 8;
 
+  // State for date filters
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+  const [isFiltering, setIsFiltering] = useState(false);
+
   // Helper function to get all the cookies
   const getAllCookies = () => {
     const cookies: Record<string, string> = {};
@@ -68,6 +74,180 @@ export default function Dashboard() {
     }
 
     return cookies;
+  };
+
+  // Function to download invoice PDF
+  const downloadInvoice = async (transactionId: number) => {
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+      const sessionToken = Cookies.get('session_token');
+
+      if (!sessionToken) {
+        console.error('No authentication token found');
+        return;
+      }
+
+      const url = `${apiUrl}/subscription/invoice2/${transactionId}`;
+      console.log('Download invoice URL:', url);
+
+      // Create a hidden anchor element to trigger the download
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.download = `invoice-${transactionId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Failed to download invoice:', error);
+    }
+  };
+
+  // Helper function to format dates for API
+  const formatDateForAPI = (dateString: string) => {
+    // Ensure we're sending the date in the correct format (YYYY-MM-DD)
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  };
+
+  // Function to fetch invoices by date range
+  const fetchInvoicesByDateRange = async () => {
+    if (!startDate || !endDate) {
+      return; // Don't proceed if dates are not set
+    }
+
+    setIsFiltering(true);
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+      const sessionToken = Cookies.get('session_token');
+
+      if (!sessionToken) {
+        setError('No authentication token found. Please log in again.');
+        setIsLoading(false);
+        setIsFiltering(false);
+        return;
+      }
+
+      // Validate that start date is before or equal to end date
+      const startDateObj = new Date(startDate);
+      const endDateObj = new Date(endDate);
+
+      if (startDateObj > endDateObj) {
+        setError('Start date must be before or equal to end date');
+        setIsLoading(false);
+        setIsFiltering(false);
+        return;
+      }
+
+      // Format dates properly for API
+      const formattedStartDate = formatDateForAPI(startDate);
+      const formattedEndDate = formatDateForAPI(endDate);
+
+      // Changed to use the general subscription endpoint with query params
+      const url = `${apiUrl}/subscription?start=${formattedStartDate}&end=${formattedEndDate}`;
+      console.log('Filtering transactions URL:', url);
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error('Authentication error. Please try refreshing the page or login again.');
+        }
+        throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log('Filtered transactions data:', data);
+
+      if (!data.result || !Array.isArray(data.result)) {
+        console.error('Unexpected API response format:', data);
+        throw new Error('Unexpected API response format');
+      }
+
+      // Format the transactions for display
+      const formattedTransactions: DisplayTransaction[] = data.result.map((item: ApiTransaction) => ({
+        id: item.id,
+        date: new Date(item.created_at).toLocaleDateString(),
+        tagName: item.plan,
+        type: item.subscriptionId ? 'Subscription' : 'One-time',
+        email: `Client #${item.clientId}`,
+        expiration: item.endDate ? new Date(item.endDate).toLocaleDateString() : 'N/A',
+        amount: `${parseFloat(item.amount || '0').toFixed(2)}`,
+        status: item.status || (parseFloat(item.amount || '0') === 0 ? 'Free' : 'Completed'),
+      }));
+
+      setTransactions(formattedTransactions);
+      setTotalCount(data.count || formattedTransactions.length);
+    } catch (error: any) {
+      console.error('Failed to fetch filtered transactions:', error);
+      setError(error.message || 'Failed to filter transactions. Please try again.');
+      setTransactions([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Clear filters and reset to normal view
+  const clearFilters = () => {
+    setStartDate('');
+    setEndDate('');
+    setIsFiltering(false);
+    fetchTransactions(currentPage);
+  };
+
+  // Download all invoices for the filtered date range
+  const downloadFilteredInvoices = async () => {
+    if (!startDate || !endDate) {
+      setError('Please select both start and end dates to download invoices');
+      return;
+    }
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+      const sessionToken = Cookies.get('session_token');
+
+      if (!sessionToken) {
+        setError('No authentication token found. Please log in again.');
+        return;
+      }
+
+      // Validate that start date is before or equal to end date
+      const startDateObj = new Date(startDate);
+      const endDateObj = new Date(endDate);
+
+      if (startDateObj > endDateObj) {
+        setError('Start date must be before or equal to end date');
+        return;
+      }
+
+      // Format dates properly for API
+      const formattedStartDate = formatDateForAPI(startDate);
+      const formattedEndDate = formatDateForAPI(endDate);
+
+      const url = `${apiUrl}/subscription/invoice?start=${formattedStartDate}&end=${formattedEndDate}`;
+      console.log('Download invoices URL:', url);
+
+      // Create a hidden anchor element to trigger the download
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.download = `invoices-${formattedStartDate}-to-${formattedEndDate}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error: any) {
+      console.error('Failed to download invoices:', error);
+      setError(error.message || 'Failed to download invoices. Please try again.');
+    }
   };
 
   // Fetch transactions from the subscription endpoint
@@ -155,8 +335,18 @@ export default function Dashboard() {
 
   // Effect for normal operation
   useEffect(() => {
-    fetchTransactions(currentPage);
+    // Only fetch if we're not currently filtering by date
+    if (!isFiltering) {
+      fetchTransactions(currentPage);
+    }
   }, [currentPage]);
+
+  // Monitor isFiltering state and update data accordingly
+  useEffect(() => {
+    if (isFiltering && startDate && endDate) {
+      fetchInvoicesByDateRange();
+    }
+  }, [isFiltering]);
 
   // Use the transactions directly from the API
   const currentTransactions = transactions;
@@ -166,13 +356,39 @@ export default function Dashboard() {
   };
 
   const handleRefresh = () => {
-    fetchTransactions(currentPage);
+    setError(null); // Clear any previous errors
+    if (isFiltering && startDate && endDate) {
+      fetchInvoicesByDateRange();
+    } else {
+      fetchTransactions(currentPage);
+    }
   };
 
   // Handle page change
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
     setSelectedTransaction(null); // Reset selected transaction when changing page
+  };
+
+  // Handle date input changes
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStartDate(e.target.value);
+    setError(null); // Clear any previous errors
+  };
+
+  const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEndDate(e.target.value);
+    setError(null); // Clear any previous errors
+  };
+
+  // Apply date filters
+  const handleApplyFilters = () => {
+    if (startDate && endDate) {
+      console.log('Applying filters for date range:', startDate, 'to', endDate);
+      setIsFiltering(true);
+    } else {
+      setError('Please select both start and end dates');
+    }
   };
 
   return (
@@ -198,25 +414,61 @@ export default function Dashboard() {
           )}
 
           {/* Filters */}
-          <div className="flex flex-col md:flex-row md:justify-end items-center mb-4 gap-3">
-            <div className="flex gap-2 w-full md:w-auto flex-col md:flex-row">
-              <Input
-                type="date"
-                className="bg-gray-800 text-white px-2 py-1 rounded border border-gray-900 w-full md:w-auto text-sm"
-                placeholder="Start date"
-              />
-              <Input
-                type="date"
-                className="bg-gray-800 text-white px-2 py-1 rounded border border-gray-900 w-full md:w-auto text-sm"
-                placeholder="End date"
-              />
+          <div className="flex flex-col md:flex-row md:justify-between items-center mb-6 gap-3">
+            <div className="flex gap-3 w-full md:w-auto flex-col md:flex-row items-center">
+              <div className="relative w-full md:w-auto">
+                <label htmlFor="startDate" className="block text-xs text-gray-400 mb-1 ml-1">
+                  {t('dashboard_startDate')}
+                </label>
+                <Input
+                  id="startDate"
+                  type="date"
+                  className="bg-[#182915] text-white px-3 py-2 rounded-lg border border-gray-700 w-full md:w-auto text-sm focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909] h-[45px]"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                />
+              </div>
+              <div className="relative w-full md:w-auto">
+                <label htmlFor="endDate" className="block text-xs text-gray-400 mb-1 ml-1">
+                  {t('dashboard_endDate')}
+                </label>
+                <Input
+                  id="endDate"
+                  type="date"
+                  className="bg-[#182915] text-white px-3 py-2 rounded-lg border border-gray-700 w-full md:w-auto text-sm focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909] h-[45px]"
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                />
+              </div>
+              <div className="flex gap-2 mt-4 md:mt-6 w-full md:w-auto">
+                <Button
+                  variant="outline"
+                  className="bg-[#DDA909] hover:bg-[#B28700] text-white border-none px-3 py-2 flex items-center gap-2 w-full md:w-auto text-sm h-[45px]"
+                  onClick={handleApplyFilters}
+                  disabled={isLoading}
+                >
+                  {t('dashboard_applyFilters')}
+                </Button>
+                {(startDate || endDate) && (
+                  <Button
+                    variant="outline"
+                    className="bg-[#4B6547] hover:bg-[#3D5138] text-white border-none px-3 py-2 flex items-center gap-2 w-full md:w-auto text-sm h-[45px]"
+                    onClick={clearFilters}
+                    disabled={isLoading}
+                  >
+                    {t('dashboard_clearFilters')}
+                  </Button>
+                )}
+              </div>
             </div>
             <Button
               variant="outline"
-              className="bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 flex items-center gap-2 w-full md:w-auto text-sm"
+              className="bg-[#182915] hover:bg-[#263D22] text-white px-4 py-2 flex items-center gap-2 w-full md:w-auto text-sm border border-gray-700 h-[45px] mt-2 md:mt-6"
+              onClick={downloadFilteredInvoices}
+              disabled={isLoading || !startDate || !endDate}
             >
               <Download size={16} />
-              <span>Download</span>
+              <span>{t('dashboard_downloadAll')}</span>
             </Button>
           </div>
 
@@ -289,7 +541,10 @@ export default function Dashboard() {
                                 align="end"
                                 className="bg-gray-800 border rounded-md shadow-lg text-xs"
                               >
-                                <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 cursor-pointer px-2 py-2">
+                                <DropdownMenuItem
+                                  className="flex items-center gap-2 hover:bg-gray-700 cursor-pointer px-2 py-2"
+                                  onClick={() => downloadInvoice(transaction.id)}
+                                >
                                   <Download size={16} className="text-gray-300" /> {t('dashboard_downloadPdf')}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 text-red-500 cursor-pointer px-2 py-2">
@@ -357,9 +612,7 @@ export default function Dashboard() {
                         <div className="flex gap-2">
                           <Button
                             className="p-2 flex items-center gap-1 bg-blue-600 hover:bg-blue-700 rounded-md text-xs"
-                            onClick={() => {
-                              /* Download logic */
-                            }}
+                            onClick={() => downloadInvoice(selectedTransaction.id)}
                           >
                             <Download size={14} className="text-white" />
                             <span>PDF</span>
