@@ -102,7 +102,7 @@ function PackageBox({
             <p className="pb-2">/{priceDuration}</p>
           </div>
 
-          <p className="text-base">{description}</p>
+          <p className="text-base  whitespace-pre-line">{description}</p>
 
           {/* Duration Slider if needed */}
           {hasSlider && setDuration && duration && (
