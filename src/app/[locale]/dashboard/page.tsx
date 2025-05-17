@@ -1,4 +1,3 @@
-// Updated src/app/[locale]/dashboard/page.tsx
 'use client';
 
 import Cookies from 'js-cookie';
@@ -29,6 +28,8 @@ interface ApiTransaction {
   endDate: string | null;
   amount: string;
   paymentId: string | null;
+  name: string;
+  email: string;
 }
 
 // Display Transaction interface for UI
@@ -146,7 +147,7 @@ export default function Dashboard() {
       const formattedStartDate = formatDateForAPI(startDate);
       const formattedEndDate = formatDateForAPI(endDate);
 
-      // Changed to use the general subscription endpoint with query params
+      // Use the date filter parameters directly in the API request
       const url = `${apiUrl}/subscription?start=${formattedStartDate}&end=${formattedEndDate}`;
       console.log('Filtering transactions URL:', url);
 
@@ -173,15 +174,15 @@ export default function Dashboard() {
         throw new Error('Unexpected API response format');
       }
 
-      // Format the transactions for display
+      // Format the transactions for display with the updated field mapping
       const formattedTransactions: DisplayTransaction[] = data.result.map((item: ApiTransaction) => ({
         id: item.id,
         date: new Date(item.created_at).toLocaleDateString(),
-        tagName: item.plan,
-        type: item.subscriptionId ? 'Subscription' : 'One-time',
-        email: `Client #${item.clientId}`,
+        tagName: item.name || `User #${item.clientId}`, // Use name instead of plan
+        type: item.plan, // Use plan for type
+        email: item.email || `Client #${item.clientId}`, // Use actual email
         expiration: item.endDate ? new Date(item.endDate).toLocaleDateString() : 'N/A',
-        amount: `${parseFloat(item.amount || '0').toFixed(2)}`,
+        amount: `€${parseFloat(item.amount || '0').toFixed(2)}`,
         status: item.status || (parseFloat(item.amount || '0') === 0 ? 'Free' : 'Completed'),
       }));
 
@@ -310,14 +311,15 @@ export default function Dashboard() {
         throw new Error('Unexpected API response format');
       }
 
+      // Updated mapping to use new API fields
       const formattedTransactions: DisplayTransaction[] = data.result.map((item: ApiTransaction) => ({
         id: item.id,
         date: new Date(item.created_at).toLocaleDateString(),
-        tagName: item.plan,
-        type: item.subscriptionId ? 'Subscription' : 'One-time',
-        email: `Client #${item.clientId}`,
+        tagName: item.name || `User #${item.clientId}`, // Now uses name from API
+        type: item.plan, // Now uses plan from API (e.g., "PREMIUM", "BEGINNER")
+        email: item.email || `Client #${item.clientId}`, // Now uses actual email
         expiration: item.endDate ? new Date(item.endDate).toLocaleDateString() : 'N/A',
-        amount: `$${parseFloat(item.amount || '0').toFixed(2)}`,
+        amount: `€${parseFloat(item.amount || '0').toFixed(2)}`,
         status: item.status || (parseFloat(item.amount || '0') === 0 ? 'Free' : 'Completed'),
       }));
 
