@@ -13,6 +13,7 @@
       "Volg mijn tips / portfolio"
     ]
   },
+  "packages_apply": "Toepassen",
   "packages_beginnerPackage": {
     "badge": "Essentieel",
     "title": "Beginner",
@@ -28,8 +29,11 @@
       "Aandachtspunten bij crypto-investeringen"
     ]
   },
+  "packages_couponCode": "Kortingscode",
+  "packages_couponCodePlaceholder": "Voer hier uw kortingscode in",
   "packages_cta_button": "Begin nu",
   "packages_description": "Ontdek onze cryptopakketten en vind de perfecte optie om met vertrouwen en deskundige begeleiding te investeren.",
+  "packages_invalidCode": "Ongeldige kortingscode",
   "packages_package": "Pakket",
   "packages_payment_btn": "Ga door naar betaling",
   "packages_premiumPackage": {
@@ -50,5 +54,6 @@
   },
   "packages_selectedPackage": "Geselecteerd pakket",
   "packages_telegramTagName": "Telegram gebruikersnaam",
-  "packages_title": "Kies jouw pakket"
+  "packages_title": "Kies jouw pakket",
+  "packages_validCode": "Kortingscode succesvol toegepast!"
 }

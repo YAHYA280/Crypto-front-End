@@ -163,11 +163,17 @@ const subscriptionSchema = z.object({
   email: z.string().email('Invalid email address'),
   plan: z.string(),
   months: z.number().min(1, 'Minimum duration is 1 month').max(12, 'Maximum duration is 12 months'),
+  discountCode: z.string().optional(),
   bookCall: z.boolean().optional(), // For the Beginner plan only
 });
 
 type StatusMessage = {
   type: 'success' | 'error';
+  text: string;
+};
+
+type DiscountStatus = {
+  type: 'success' | 'error' | 'none';
   text: string;
 };
 
@@ -182,6 +188,14 @@ export default function Packages() {
 
   const [duration, setDuration] = useState(1);
   const [totalAmount, setTotalAmount] = useState(27);
+
+  // New states for discount code
+  const [discountCode, setDiscountCode] = useState('');
+  const [isValidatingCode, setIsValidatingCode] = useState(false);
+  const [discountStatus, setDiscountStatus] = useState<DiscountStatus>({
+    type: 'none',
+    text: '',
+  });
 
   const handleDurationChange = (value: number) => {
     setDuration(value);
@@ -200,7 +214,7 @@ export default function Packages() {
     register,
     handleSubmit,
     setValue,
-
+    watch,
     reset,
     formState: { errors },
   } = useForm<SubscriptionFormData>({
@@ -209,8 +223,75 @@ export default function Packages() {
       months: duration,
       plan: '',
       bookCall: false,
+      discountCode: '',
     },
   });
+
+  const watchedPlan = watch('plan');
+
+  // Check if the selected package is Premium or Advanced (discount eligible)
+  const isDiscountEligible = (plan: string) => {
+    return plan === 'PREMIUM' || plan === 'ADVANCED';
+  };
+
+  const validateDiscountCode = async () => {
+    if (!discountCode.trim()) {
+      return;
+    }
+
+    // Only validate if package is eligible
+    if (!isDiscountEligible(watchedPlan)) {
+      setDiscountStatus({
+        type: 'error',
+        text: t('packages_invalidCode'),
+      });
+      return;
+    }
+
+    setIsValidatingCode(true);
+    setDiscountStatus({
+      type: 'none',
+      text: '',
+    });
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+      const response = await fetch(`${apiUrl}/subscription/discount?code=${discountCode}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const result = await response.json();
+      console.log('result is this', result);
+
+      if (response.ok) {
+        setDiscountStatus({
+          type: 'success',
+          text: t('packages_validCode'),
+        });
+        // Set the validated discount code in the form
+        setValue('discountCode', discountCode);
+      } else {
+        setDiscountStatus({
+          type: 'error',
+          text: t('packages_invalidCode'),
+        });
+        // Clear the discount code in the form
+        setValue('discountCode', '');
+      }
+    } catch (error) {
+      console.error('Error validating discount code:', error);
+      setDiscountStatus({
+        type: 'error',
+        text: t('packages_invalidCode'),
+      });
+      setValue('discountCode', '');
+    } finally {
+      setIsValidatingCode(false);
+    }
+  };
 
   const getApiPackageName = (uiPackageName: string): string => {
     if (uiPackageName === 'Gevorderd') {
@@ -233,6 +314,11 @@ export default function Packages() {
       } else {
         setValue('months', 1);
       }
+
+      // Reset discount code when package changes
+      setDiscountCode('');
+      setValue('discountCode', '');
+      setDiscountStatus({ type: 'none', text: '' });
     }
   }, [selectedPackage, duration, setValue]);
 
@@ -242,12 +328,20 @@ export default function Packages() {
 
     try {
       console.log('data', data);
+
+      // Only include discountCode if it's valid and the package is eligible
+      const formData = {
+        ...data,
+        discountCode:
+          isDiscountEligible(data.plan) && discountStatus.type === 'success' ? data.discountCode : undefined,
+      };
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subscription`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
       });
 
       const result = await response.json();
@@ -276,7 +370,9 @@ export default function Packages() {
           }
         }
 
-        reset({ name: '', email: '', plan: '', months: 1, bookCall: false });
+        reset({ name: '', email: '', plan: '', months: 1, bookCall: false, discountCode: '' });
+        setDiscountCode('');
+        setDiscountStatus({ type: 'none', text: '' });
       } else {
         // Error from server
         setStatusMessage({
@@ -284,7 +380,7 @@ export default function Packages() {
           text: result.message || 'Something went wrong!',
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       // Network error
       setStatusMessage({
         type: 'error',
@@ -456,6 +552,42 @@ export default function Packages() {
                   value={`${duration} months (Total: €${totalAmount.toFixed(2)})`}
                   readOnly
                 />
+              </div>
+            )}
+
+            {/* Discount Code (Only show for Premium and Advanced packages) */}
+            {(selectedPackage === t('packages_premiumPackage.title') ||
+              selectedPackage === t('packages_advancePackage.title')) && (
+              <div className="grid w-full items-center gap-2">
+                <Label htmlFor="discountCode" className="text-base sm:text-lg font-medium mb-1">
+                  {t('packages_couponCode')}:
+                </Label>
+                <div className="flex gap-2">
+                  <Input
+                    className="bg-white text-black h-[45px] sm:h-[55px] rounded-lg border-[#2A5738]
+                    focus:border-[#DDA909] focus:ring-1 focus:ring-[#DDA909]
+                    transition-all duration-300 px-4 text-sm sm:text-base flex-1"
+                    type="text"
+                    id="discountCode"
+                    placeholder={t('packages_couponCodePlaceholder')}
+                    value={discountCode}
+                    onChange={(e) => setDiscountCode(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="bg-[#DDA909] hover:bg-[#B28700] text-white border-none px-3 py-2 
+                    flex items-center h-[45px] sm:h-[55px] rounded-lg font-medium transition-colors"
+                    onClick={validateDiscountCode}
+                    disabled={isValidatingCode || !discountCode.trim()}
+                  >
+                    {isValidatingCode ? '...' : t('packages_apply')}
+                  </button>
+                </div>
+                {discountStatus.type !== 'none' && (
+                  <span className={`text-sm ${discountStatus.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                    {discountStatus.text}
+                  </span>
+                )}
               </div>
             )}
 

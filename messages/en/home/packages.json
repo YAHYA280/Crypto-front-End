@@ -13,6 +13,7 @@
     ],
     "price": "€547"
   },
+  "packages_apply": "Apply",
   "packages_beginnerPackage": {
     "badge": "Essential",
     "title": "Beginner",
@@ -28,8 +29,11 @@
     ],
     "price": "Free"
   },
+  "packages_couponCode": "Discount Code",
+  "packages_couponCodePlaceholder": "Enter coupon code here",
   "packages_cta_button": "Get started",
   "packages_description": "Explore our crypto packages and find the perfect fit to start your investment journey with confidence and expert guidance.",
+  "packages_invalidCode": "Invalid discount code",
   "packages_package": "Package",
   "packages_payment_btn": "Proceed to Payment",
   "packages_premiumPackage": {
@@ -49,5 +53,6 @@
   },
   "packages_selectedPackage": "Selected Package",
   "packages_telegramTagName": "Telegram username",
-  "packages_title": "Choose your package"
+  "packages_title": "Choose your package",
+  "packages_validCode": "Discount code applied successfully!"
 }
