@@ -53,7 +53,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const transactionsPerPage = 8;
+  const transactionsPerPage = 10;
 
   // State for date filters
   const [startDate, setStartDate] = useState<string>('');
