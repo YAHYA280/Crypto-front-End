@@ -3,9 +3,17 @@
   "dashboard_amount": "Bedrag",
   "dashboard_applyFilters": "Filters Toepassen",
   "dashboard_back": "Terug",
+  "dashboard_cancel": "Annuleren",
+  "dashboard_cantDelete": "Dit abonnement kan niet worden verwijderd.",
+  "dashboard_cantDeleteActive": "Actieve abonnementen kunnen niet worden verwijderd.",
+  "dashboard_cantDeleteAdvanced": "Gevorderde abonnementen kunnen niet worden verwijderd.",
+  "dashboard_cantDeleteNotExpired": "Abonnementen kunnen alleen worden verwijderd nadat ze zijn verlopen.",
+
   "dashboard_clearFilters": "Filters Wissen",
+  "dashboard_confirmDelete": "Bevestig Verwijdering",
   "dashboard_date": "Datum",
   "dashboard_delete": "Verwijderen",
+  "dashboard_deleteWarning": "Weet je zeker dat je dit abonnement wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
   "dashboard_downloadAll": "Alles Downloaden",
   "dashboard_downloadPdf": "Download PDF",
   "dashboard_email": "E-mail",
@@ -18,5 +26,13 @@
   "dashboard_title": "Dashboard",
   "dashboard_transactionHistory": "Transactiegeschiedenis",
   "dashboard_transactionHistoryEmpty": "Geen transacties gevonden",
-  "dashboard_type": "Type"
+  "dashboard_type": "Type",
+
+  "status_active": "Actief",
+  "status_completed": "Voltooid",
+
+  "status_free": "Gratis",
+  "type_advanced": "Gevorderd",
+  "type_beginner": "Beginner",
+  "type_premium": "Premium"
 }

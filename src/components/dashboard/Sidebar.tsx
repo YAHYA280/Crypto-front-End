@@ -1,3 +1,4 @@
+// src/components/dashboard/Sidebar.tsx
 'use client';
 
 import { Clock10, LayoutDashboard, LogOut, X } from 'lucide-react';
@@ -57,7 +58,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             href={`/${locale}/dashboard`}
             className="flex items-center gap-3 px-4 py-3 bg-[#4B6547] text-white rounded-md hover:bg-[#DDA909] transition"
           >
-            <Clock10 size={20} /> Coming soon
+            <Clock10 size={20} /> {locale === 'nl' ? 'Komt binnenkort' : 'Coming soon'}
           </Link>
         </nav>
 

@@ -3,9 +3,17 @@
   "dashboard_amount": "Amount",
   "dashboard_applyFilters": "Apply Filters",
   "dashboard_back": "Back",
+  "dashboard_cancel": "Cancel",
+  "dashboard_cantDelete": "This subscription cannot be deleted.",
+  "dashboard_cantDeleteActive": "Active subscriptions cannot be deleted.",
+  "dashboard_cantDeleteAdvanced": "Advanced subscriptions cannot be deleted.",
+  "dashboard_cantDeleteNotExpired": "Subscriptions can only be deleted after they have expired.",
+
   "dashboard_clearFilters": "Clear Filters",
+  "dashboard_confirmDelete": "Confirm Deletion",
   "dashboard_date": "Date",
   "dashboard_delete": "Delete",
+  "dashboard_deleteWarning": "Are you sure you want to delete this subscription? This action cannot be undone.",
   "dashboard_downloadAll": "Download All",
   "dashboard_downloadPdf": "Download PDF",
   "dashboard_email": "Email",
@@ -18,5 +26,13 @@
   "dashboard_title": "Dashboard",
   "dashboard_transactionHistory": "Transaction History",
   "dashboard_transactionHistoryEmpty": "No transactions found",
-  "dashboard_type": "Type"
+  "dashboard_type": "Type",
+
+  "status_active": "Active",
+  "status_completed": "Completed",
+
+  "status_free": "Free",
+  "type_advanced": "Advanced",
+  "type_beginner": "Beginner",
+  "type_premium": "Premium"
 }

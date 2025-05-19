@@ -8,6 +8,16 @@ import { useEffect, useState } from 'react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import Pagination from '@/components/dashboard/Pagination';
 import Sidebar from '@/components/dashboard/Sidebar';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/DropdownMenu';
 import { Input } from '@/components/ui/input';
@@ -42,6 +52,8 @@ interface DisplayTransaction {
   expiration: string;
   amount: string;
   status: string;
+  originalStatus: string; // Added for status badge styling
+  originalType?: string; // Optional, for future use
 }
 
 export default function Dashboard() {
@@ -55,6 +67,10 @@ export default function Dashboard() {
   const [totalCount, setTotalCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const transactionsPerPage = 10;
+
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [subscriptionToDelete, setSubscriptionToDelete] = useState<number | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   // State for date filters
   const [startDate, setStartDate] = useState<string>('');
@@ -75,6 +91,41 @@ export default function Dashboard() {
     }
 
     return cookies;
+  };
+
+  // Function to format status with first letter capitalized
+
+  const formatStatus = (status: string): string => {
+    // First, normalize the status to lowercase
+    const normalizedStatus = status.toLowerCase();
+
+    // Then use translations if available or capitalize first letter
+    if (normalizedStatus === 'active') {
+      return t('status_active');
+    } else if (normalizedStatus === 'free') {
+      return t('status_free');
+    } else if (normalizedStatus === 'completed') {
+      return t('status_completed');
+    } else {
+      // For any other status, just capitalize the first letter
+      return normalizedStatus.charAt(0).toUpperCase() + normalizedStatus.slice(1);
+    }
+  };
+
+  // Function to format type with proper translation
+  const formatType = (type: string): string => {
+    const normalizedType = type.toLowerCase();
+
+    if (normalizedType === 'beginner') {
+      return t('type_beginner');
+    } else if (normalizedType === 'premium') {
+      return t('type_premium');
+    } else if (normalizedType === 'advanced' || normalizedType === 'gevorderd') {
+      return t('type_advanced');
+    } else {
+      // For other types, just capitalize the first letter
+      return normalizedType.charAt(0).toUpperCase() + normalizedType.slice(1);
+    }
   };
 
   // Function to download invoice PDF
@@ -175,16 +226,25 @@ export default function Dashboard() {
       }
 
       // Format the transactions for display with the updated field mapping
-      const formattedTransactions: DisplayTransaction[] = data.result.map((item: ApiTransaction) => ({
-        id: item.id,
-        date: new Date(item.created_at).toLocaleDateString(),
-        tagName: item.name || `User #${item.clientId}`, // Use name instead of plan
-        type: item.plan, // Use plan for type
-        email: item.email || `Client #${item.clientId}`, // Use actual email
-        expiration: item.endDate ? new Date(item.endDate).toLocaleDateString() : 'N/A',
-        amount: `€${parseFloat(item.amount || '0').toFixed(2)}`,
-        status: item.status || (parseFloat(item.amount || '0') === 0 ? 'Free' : 'Completed'),
-      }));
+      const formattedTransactions: DisplayTransaction[] = data.result.map((item: ApiTransaction) => {
+        const status = item.status || (parseFloat(item.amount || '0') === 0 ? 'Free' : 'Completed');
+        const normalizedStatus = status.toLowerCase();
+        const type = item.plan || (item.subscriptionId ? 'Premium' : 'Beginner');
+        const normalizedType = type.toLowerCase();
+
+        return {
+          id: item.id,
+          date: new Date(item.created_at).toLocaleDateString(),
+          tagName: item.name || `User #${item.clientId}`,
+          type: formatType(type),
+          email: item.email || `Client #${item.clientId}`,
+          expiration: item.endDate ? new Date(item.endDate).toLocaleDateString() : 'N/A',
+          amount: `€${parseFloat(item.amount || '0').toFixed(2)}`,
+          status: formatStatus(status),
+          originalStatus: normalizedStatus, // Store original for the status badge styling
+          originalType: normalizedType, // Store original for potential future use
+        };
+      });
 
       setTransactions(formattedTransactions);
       setTotalCount(data.count || formattedTransactions.length);
@@ -315,7 +375,7 @@ export default function Dashboard() {
       const formattedTransactions: DisplayTransaction[] = data.result.map((item: ApiTransaction) => ({
         id: item.id,
         date: new Date(item.created_at).toLocaleDateString(),
-        tagName: item.name || `User #${item.clientId}`, // Now uses name from API
+        tagName: item.name || `User #${item.clientId}`,
         type: item.plan, // Now uses plan from API (e.g., "PREMIUM", "BEGINNER")
         email: item.email || `Client #${item.clientId}`, // Now uses actual email
         expiration: item.endDate ? new Date(item.endDate).toLocaleDateString() : 'N/A',
@@ -390,6 +450,92 @@ export default function Dashboard() {
       setIsFiltering(true);
     } else {
       setError('Please select both start and end dates');
+    }
+  };
+
+  // fucntion to handle delete verification and execution
+
+  const canDeleteSubscription = (transaction: DisplayTransaction) => {
+    const status = transaction.status.toLowerCase();
+    const isAdvanced = transaction.type.toLowerCase() === 'advanced' || transaction.type.toLowerCase() === 'gevorderd';
+
+    const endDateIsValid = transaction.expiration && transaction.expiration !== 'N/A';
+    const endDateExpired = endDateIsValid && new Date(transaction.expiration) < new Date();
+
+    return status !== 'active' && !isAdvanced && endDateExpired;
+  };
+
+  const handleDeleteClick = (transaction: DisplayTransaction) => {
+    if (canDeleteSubscription(transaction)) {
+      setSubscriptionToDelete(transaction.id);
+      setShowDeleteDialog(true);
+      setDeleteError(null);
+    } else {
+      // Show error message explaining why it can't be deleted
+      let errorMessage = t('dashboard_cantDelete');
+      if (transaction.status.toLowerCase() === 'active') {
+        errorMessage = t('dashboard_cantDeleteActive');
+      } else if (transaction.type.toLowerCase() === 'advanced' || transaction.type.toLowerCase() === 'gevorderd') {
+        errorMessage = t('dashboard_cantDeleteAdvanced');
+      } else {
+        errorMessage = t('dashboard_cantDeleteNotExpired');
+      }
+      setDeleteError(errorMessage);
+      // Show the error for a few seconds
+      setTimeout(() => setDeleteError(null), 5000);
+    }
+  };
+
+  const executeDelete = async () => {
+    if (!subscriptionToDelete) return;
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '';
+      const sessionToken = Cookies.get('session_token');
+
+      if (!sessionToken) {
+        setError('No authentication token found. Please log in again.');
+        return;
+      }
+
+      console.log(`Attempting to delete subscription ID: ${subscriptionToDelete}`);
+      console.log(`API URL: ${apiUrl}/subscription/${subscriptionToDelete}`);
+
+      const response = await fetch(`${apiUrl}/subscription/${subscriptionToDelete}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionToken}`,
+        },
+        credentials: 'include',
+      });
+
+      console.log(`Delete response status: ${response.status}`);
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('Subscription not found. It may have been already deleted.');
+        } else {
+          // Try to get more details about the error
+          const errorText = await response.text();
+          console.error('Delete error details:', errorText);
+          throw new Error(`Server returned ${response.status}: ${response.statusText || errorText}`);
+        }
+      }
+
+      // Refresh the transaction list
+      if (isFiltering && startDate && endDate) {
+        fetchInvoicesByDateRange();
+      } else {
+        fetchTransactions(currentPage);
+      }
+
+      // Close the dialog and reset state
+      setShowDeleteDialog(false);
+      setSubscriptionToDelete(null);
+    } catch (error: any) {
+      console.error('Failed to delete subscription:', error);
+      setDeleteError(error.message || 'Failed to delete subscription. Please try again.');
     }
   };
 
@@ -526,7 +672,10 @@ export default function Dashboard() {
                           <TableCell className="p-3 relative">{transaction.expiration}</TableCell>
                           <TableCell className="p-3 relative">{transaction.amount}</TableCell>
                           <TableCell className="p-3 relative">
-                            <StatusBadge status={transaction.status} />
+                            <StatusBadge
+                              status={transaction.status}
+                              originalStatus={transaction.status.toLowerCase()}
+                            />
                           </TableCell>
 
                           <TableCell className="p-3 relative">
@@ -549,7 +698,10 @@ export default function Dashboard() {
                                 >
                                   <Download size={16} className="text-gray-300" /> {t('dashboard_downloadPdf')}
                                 </DropdownMenuItem>
-                                <DropdownMenuItem className="flex items-center gap-2 hover:bg-gray-700 text-red-500 cursor-pointer px-2 py-2">
+                                <DropdownMenuItem
+                                  className="flex items-center gap-2 hover:bg-gray-700 text-red-500 cursor-pointer px-2 py-2"
+                                  onClick={() => handleDeleteClick(transaction)}
+                                >
                                   <Trash2 size={16} /> {t('dashboard_delete')}
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
@@ -560,7 +712,7 @@ export default function Dashboard() {
                     ) : (
                       <TableRow>
                         <TableCell colSpan={8} className="text-center py-8">
-                          No transactions found
+                          {t('dashboard_transactionHistoryEmpty')}
                         </TableCell>
                       </TableRow>
                     )}
@@ -605,7 +757,10 @@ export default function Dashboard() {
                       <hr className="border-gray-700" />
                       <div className="flex justify-between items-center">
                         <span className="font-semibold text-sm">{t('dashboard_status')}:</span>
-                        <StatusBadge status={selectedTransaction.status} />
+                        <StatusBadge
+                          status={selectedTransaction.status}
+                          originalStatus={selectedTransaction.status.toLowerCase()}
+                        />
                       </div>
                       <hr className="border-gray-700" />
 
@@ -621,12 +776,10 @@ export default function Dashboard() {
                           </Button>
                           <Button
                             className="p-2 flex items-center gap-1 bg-red-600 hover:bg-red-700 rounded-md text-xs"
-                            onClick={() => {
-                              /* Delete logic */
-                            }}
+                            onClick={() => handleDeleteClick(selectedTransaction)}
                           >
                             <Trash2 size={14} />
-                            <span>Delete</span>
+                            <span>{t('dashboard_delete')}</span>
                           </Button>
                         </div>
                       </div>
@@ -658,11 +811,16 @@ export default function Dashboard() {
                         </div>
                       ))
                     ) : (
-                      <div className="text-center py-8 text-sm">No transactions found</div>
+                      <div className="text-center py-8 text-sm">{t('dashboard_transactionHistoryEmpty')}</div>
                     )}
                   </div>
                 )}
               </div>
+            </div>
+          )}
+          {deleteError && (
+            <div className="fixed bottom-4 right-4 bg-red-600 text-white p-3 rounded-md shadow-lg z-50 max-w-md">
+              {deleteError}
             </div>
           )}
 
@@ -681,6 +839,22 @@ export default function Dashboard() {
           )}
         </div>
       </div>
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent className="bg-[#091E06] border-[#a3a3a3] w-[90%] max-w-[480px] p-4 sm:p-6 rounded-xl mx-auto text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-xl font-semibold">{t('dashboard_confirmDelete')}</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-300">{t('dashboard_deleteWarning')}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex flex-col sm:flex-row gap-2 mt-4">
+            <AlertDialogCancel className="bg-[#182915] text-white border-gray-600 hover:bg-[#263D22]">
+              {t('dashboard_cancel')}
+            </AlertDialogCancel>
+            <AlertDialogAction className="bg-red-600 hover:bg-red-700 text-white" onClick={executeDelete}>
+              {t('dashboard_delete')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
