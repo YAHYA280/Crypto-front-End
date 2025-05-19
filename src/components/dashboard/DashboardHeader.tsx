@@ -12,27 +12,30 @@ interface DashboardHeaderProps {
 
 export default function DashboardHeader({ title, onRefresh, onToggleSidebar }: DashboardHeaderProps) {
   return (
-    <div className="flex justify-between items-center w-full p-4 rounded-md ">
-      {/* Left side: Hamburger Menu + Title */}
-      <div className="flex items-center gap-3">
-        {/* Sidebar Toggle (Hamburger button) */}
-        <button className="md:hidden p-2 text-white" onClick={onToggleSidebar} aria-label="Toggle sidebar">
-          <Menu size={24} />
+    <div className="flex justify-between items-center w-full p-2 sm:p-3 md:p-4 rounded-md">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <button
+          className="md:hidden flex items-center justify-center w-10 h-10 rounded-md hover:bg-gray-800/50 text-white"
+          onClick={onToggleSidebar}
+          aria-label="Toggle sidebar"
+        >
+          <Menu size={22} />
         </button>
 
-        {/* Title */}
-        <h1 className="text-2xl font-bold text-white">{title}</h1>
+        <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white truncate max-w-[180px] sm:max-w-none">
+          {title}
+        </h1>
+
         <button
           onClick={onRefresh}
-          className="p-1  hover:bg-gray-600 rounded-md flex items-center justify-center"
+          className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 hover:bg-gray-800/50 rounded-md"
           aria-label="Refresh"
         >
-          <RefreshCw size={18} />
+          <RefreshCw size={16} className="text-gray-300" />
         </button>
       </div>
 
-      {/* Right side: Refresh & Locale Switcher */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center">
         <LocaleSwitcher />
       </div>
     </div>

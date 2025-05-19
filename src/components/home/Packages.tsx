@@ -534,7 +534,7 @@ export default function Packages() {
                   {...register('bookCall')}
                 />
                 <Label htmlFor="bookCall" className="text-base sm:text-lg">
-                  I want a 30-minute call
+                  {t('packages_wantCall')}
                 </Label>
               </div>
             )}

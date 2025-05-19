@@ -54,5 +54,6 @@
   "packages_selectedPackage": "Selected Package",
   "packages_telegramTagName": "Telegram username",
   "packages_title": "Choose your package",
-  "packages_validCode": "Discount code applied successfully!"
+  "packages_validCode": "Discount code applied successfully!",
+  "packages_wantCall": "I want a 30-minute call"
 }

@@ -372,16 +372,26 @@ export default function Dashboard() {
       }
 
       // Updated mapping to use new API fields
-      const formattedTransactions: DisplayTransaction[] = data.result.map((item: ApiTransaction) => ({
-        id: item.id,
-        date: new Date(item.created_at).toLocaleDateString(),
-        tagName: item.name || `User #${item.clientId}`,
-        type: item.plan, // Now uses plan from API (e.g., "PREMIUM", "BEGINNER")
-        email: item.email || `Client #${item.clientId}`, // Now uses actual email
-        expiration: item.endDate ? new Date(item.endDate).toLocaleDateString() : 'N/A',
-        amount: `€${parseFloat(item.amount || '0').toFixed(2)}`,
-        status: item.status || (parseFloat(item.amount || '0') === 0 ? 'Free' : 'Completed'),
-      }));
+      // Updated mapping to use formatStatus and formatType functions
+      const formattedTransactions: DisplayTransaction[] = data.result.map((item: ApiTransaction) => {
+        const status = item.status || (parseFloat(item.amount || '0') === 0 ? 'Free' : 'Completed');
+        const normalizedStatus = status.toLowerCase();
+        const type = item.plan || (item.subscriptionId ? 'Premium' : 'Beginner');
+        const normalizedType = type.toLowerCase();
+
+        return {
+          id: item.id,
+          date: new Date(item.created_at).toLocaleDateString(),
+          tagName: item.name || `User #${item.clientId}`,
+          type: formatType(type),
+          email: item.email || `Client #${item.clientId}`,
+          expiration: item.endDate ? new Date(item.endDate).toLocaleDateString() : 'N/A',
+          amount: `€${parseFloat(item.amount || '0').toFixed(2)}`,
+          status: formatStatus(status),
+          originalStatus: normalizedStatus,
+          originalType: normalizedType,
+        };
+      });
 
       console.log('Transactions processed:', formattedTransactions.length);
       setTransactions(formattedTransactions);
@@ -672,10 +682,7 @@ export default function Dashboard() {
                           <TableCell className="p-3 relative">{transaction.expiration}</TableCell>
                           <TableCell className="p-3 relative">{transaction.amount}</TableCell>
                           <TableCell className="p-3 relative">
-                            <StatusBadge
-                              status={transaction.status}
-                              originalStatus={transaction.status.toLowerCase()}
-                            />
+                            <StatusBadge status={transaction.status} originalStatus={transaction.originalStatus} />
                           </TableCell>
 
                           <TableCell className="p-3 relative">
@@ -759,7 +766,7 @@ export default function Dashboard() {
                         <span className="font-semibold text-sm">{t('dashboard_status')}:</span>
                         <StatusBadge
                           status={selectedTransaction.status}
-                          originalStatus={selectedTransaction.status.toLowerCase()}
+                          originalStatus={selectedTransaction.originalStatus}
                         />
                       </div>
                       <hr className="border-gray-700" />

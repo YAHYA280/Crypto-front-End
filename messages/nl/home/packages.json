@@ -55,5 +55,6 @@
   "packages_selectedPackage": "Geselecteerd pakket",
   "packages_telegramTagName": "Telegram gebruikersnaam",
   "packages_title": "Kies jouw pakket",
-  "packages_validCode": "Kortingscode succesvol toegepast!"
+  "packages_validCode": "Kortingscode succesvol toegepast!",
+  "packages_wantCall": "Ik wil een 30-minuten gesprek"
 }
